@@ -9,18 +9,20 @@
     },
     "default_locale": "zh_TW",
     "background": {
-        "scripts": [
-            "scripts/chromereload.js",
-            "scripts/background.js"
-        ]
+        "page": "background.html"
     },
-  "browser_action": {
-    "default_icon": {
-      "19": "images/icon-19.png",
-      "38": "images/icon-38.png"
+    "browser_action": {
+        "default_icon": {
+            "19": "images/icon-19.png",
+            "38": "images/icon-38.png"
+        },
+        "default_title": "Express+",
+        "default_popup": "popup.html"
     },
-    "default_title": "Express+",
-    "default_popup": "popup.html"
-  },
-  "options_page": "options.html"
+    "options_page": "options.html",
+    "permissions": [
+        "notifications",
+        "alarms",
+        "http://*/*"
+    ]
 }

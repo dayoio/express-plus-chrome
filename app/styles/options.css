@@ -1,0 +1,93 @@
+
+
+.container {
+    width: 780px;
+    background-color: #eee;
+}
+
+h1, h2, h3, h4 {
+    margin: 0px;
+}
+
+#options-head {
+    border-bottom: solid 1px #eee;
+    margin-bottom: 10px;
+}
+
+#options-head span {
+    font-size: 12px;
+    color: #999;
+    padding-left: 5px;
+}
+
+#options-wrapper {
+    border:solid 1px #aaa;
+    background-color: #fff;
+    padding: 10px;
+    height: 520px;
+    border-radius: 0 0 4px 4px;
+}
+
+#settings-wrapper #button-wrapper {
+    margin-top: 40px;
+    text-align: center;
+}
+
+#button-wrapper button {
+    width: 100px;
+}
+
+#subs-wrapper {
+    border-left: solid 1px #eee;
+    height: 430px;
+}
+
+#subs-wrapper #subs-list {
+    border: solid 1px #eee;
+    overflow: auto;
+    max-height: 382px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.list-group {
+    margin-bottom: 0px;
+}
+
+.list-group-item:first-child, .list-group-item:last-child {
+    border-radius: 0px;
+}
+
+.list-group-item .item-heading {
+    margin-bottom: 5px;
+}
+
+.list-group-item .item-msg {
+    padding-left: 5px;
+    font-size: 13px;
+}
+
+.list-group-item .item-msg .msg-time {
+    color: #999;
+}
+
+.list-group-item .item-msg .msg-text {
+    color: #333
+}
+
+.list-group-item .item-buttons {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+}
+
+.copyright {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+}
+
+.copyright a {
+    text-decoration: none;
+}

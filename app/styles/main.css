@@ -1,3 +1,85 @@
 body {
-    padding: 20px;
+    padding: 10px;
+    width: 400px;
+}
+
+h1, h2, h3, h4 {
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+}
+
+#input-wrapper {
+    margin-bottom: 10px;
+}
+
+#result-wrapper {
+    position: relative;
+    border: solid 1px #bfbfbf;
+    border-radius: 2px;
+    max-height: 500px;
+    overflow: auto;
+}
+
+#result-wrapper .table {
+    margin-bottom: 0px;
+}
+
+#result-wrapper .table tbody {
+    font-size: 13px;
+}
+
+#result-wrapper .table thead {
+    background-color: #eee;
+    color: #999;
+}
+
+/**/
+#postid-wrapper {
+    padding: 15px 10px 10px 10px;
+    border-bottom: solid 1px #eee;
+}
+
+#postid-wrapper .rss-button {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+#postid-wrapper .comCode, #postid-wrapper .pTime {
+    font-size: 12px;
+    color: #999;
+    padding-left: 2px;
+}
+
+#postid-wrapper .postId {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+#loading-wrapper #error-wrapper{
+    color: #666;
+    padding-left: 10px;
+}
+
+#result-nothing {
+    color: #666;
+    padding-left: 10px;
+}
+
+.copyright {
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    color: #999;
+    border-top: solid 1px #eee;
+}
+
+.copyright a {
+    text-decoration: none;
 }

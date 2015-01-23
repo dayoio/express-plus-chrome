@@ -12,4 +12,4 @@ package
 .jshintrc
 .yo-rc.json
 test/
-
+.idea/
