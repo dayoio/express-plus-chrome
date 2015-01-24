@@ -29,26 +29,26 @@
 
         <form id="input-wrapper" name="postIdForm" role="form" ng-submit="query()">
             <div class="input-group">
-            <input id="postId-input" ng-minlength="6" ng-pattern="/^[0-9a-zA-Z]+$/" ng-model="postId" type="text" placeholder="輸入快遞單號..." class="form-control" required>
+            <input id="postId-input" ng-minlength="6" ng-pattern="/^[0-9a-zA-Z]+$/" ng-model="postId" type="text" placeholder="Type your post id..." class="form-control" required>
                 <span class="input-group-btn">
-                    <button ng-disabled="!postIdForm.$valid" type="submit" class="btn btn-info" >查詢</button>
+                    <button ng-disabled="!postIdForm.$valid" type="submit" class="btn btn-info" >Query</button>
                 </span>
             </div>
         </form>
 
-        <div id="loading-wrapper" ng-show="status == Status.loading" class="ng-binding ng-hide">請稍等，查詢中...</div>
-        <div id="result-wrapper" ng-show="status == Status.ready" class="ng-hide">
+        <div id="loading-wrapper" ng-show="loading" class="ng-hide">請稍等，查詢中...</div>
+        <div id="result-wrapper" ng-show="post.status == '200'" class="ng-hide">
             <div id="postid-wrapper">
                 <h2 class="postId" >{{post.id}}</h2>
-                <div class="comCode">公司：{{post.com}}</div>
-                <div class="pTime">歷時：{{post.totaltime | spendTime }}</div>
+                <div class="comCode">Company：{{post.com}}</div>
+                <div class="pTime">Time：{{post.totaltime | spendTime }}</div>
                 <a class="rss-button" ng-click="makerss()" title="訂閱">
                     <span ng-if="subed" class="glyphicon glyphicon-star"></span>
                     <span ng-if="!subed" class="glyphicon glyphicon-star-empty"></span>
                 </a>
             </div>
-            <div id="result-nothing" ng-if="nothing">{{post.message}}</div>
-            <table id="result-table" ng-if="!nothing" class="table table-striped">
+            <div id="result-nothing" ng-if="post.data.length == 0">{{post.message}}</div>
+            <table id="result-table" ng-if="post.data.length > 0" class="table table-striped">
                 <thead>
                     <tr>
                         <th>更新時間</th>
@@ -57,7 +57,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="p in post.steps" ng-class="{danger: $first&&!post.check, success: $first&&post.check}">
+                    <tr ng-repeat="p in post.data" ng-class="{danger: $first&&!(post.ischeck=='1'), success: $first&&(post.ischeck=='1')}">
                         <td>{{p.time}}</td>
                         <td><span class="glyphicon glyphicon-map-marker"></span></td>
                         <td>{{p.context}}</td>
@@ -68,7 +68,7 @@
                 ©2015 Powered by <a href="http://www.kuaidi100.com/" target="_blank">kuaidi100</a>
             </div>
         </div>
-        <div id="error-wrapper" ng-show="status == Status.error" class="ng-binding ng-hide">
+        <div id="error-wrapper" ng-show="post.status == '400' || post.status == '503'" class="ng-hide">
             <p>{{post.message}}</p>
         </div>
         <!-- build:js scripts/popup.js -->

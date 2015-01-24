@@ -62,7 +62,7 @@ h1, h2, h3, h4 {
     margin-bottom: 2px;
 }
 
-#loading-wrapper #error-wrapper{
+#loading-wrapper, #error-wrapper{
     color: #666;
     padding-left: 10px;
 }
