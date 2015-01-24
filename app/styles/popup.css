@@ -1,0 +1,75 @@
+body {
+    padding: 10px;
+    width: 400px;
+}
+
+#input-wrapper {
+    margin-bottom: 10px;
+}
+
+#result-wrapper {
+    position: relative;
+    border: solid 1px #bfbfbf;
+    border-radius: 2px;
+    max-height: 500px;
+    overflow: auto;
+}
+
+#result-wrapper .table {
+    margin-bottom: 0px;
+}
+
+#result-wrapper .table tbody {
+    font-size: 13px;
+}
+
+#result-wrapper .table thead {
+    background-color: #eee;
+    color: #999;
+}
+
+/**/
+#postid-wrapper {
+    padding: 15px 10px 10px 10px;
+    border-bottom: solid 1px #eee;
+}
+
+#postid-wrapper .mark-button {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+#postid-wrapper .info {
+    font-size: 12px;
+    color: #999;
+    padding-left: 2px;
+}
+
+#postid-wrapper .post-id {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.post-time {
+    width: 100px;
+}
+
+#loading-wrapper, #error-wrapper{
+    color: #666;
+    padding-left: 10px;
+}
+
+#result-nothing {
+    color: #666;
+    padding-left: 10px;
+}
+
+.copyright {
+    border-top: solid 1px #eee;
+}

@@ -9,7 +9,8 @@
  }
  });*/
 
-angular.module('explus', ['ngResource'])
+
+angular.module('explus', ['ngResource', 'ngStorage'])
     .factory('Post', function ($q) {
 
         var Post = function (id, com) {
@@ -20,42 +21,50 @@ angular.module('explus', ['ngResource'])
             setData: function (d) {
                 angular.extend(this, d);
                 /*this.check = (d['ischeck'] === '1')
-                this.steps = d['data'] || [];
+                 this.steps = d['data'] || [];
                  this.status = d['status'];
                  */
-                if(d.data& d.data.length>0) {
+                if (this.isOk()) {
                     var a = new Date(d.data[d.data.length - 1].time)
                     var b = new Date(d.data[0].time);
                     this.totaltime = (b.getTime() - a.getTime());
                 }
             },
-            toSimple: function(){
+            toSimple: function () {
                 var sp = {};
-                sp.id = this.id;
                 sp.com = this.com;
-                sp.last = this.data[0].context;
+                sp.text = this.data[0].context;
                 sp.time = this.data[0].time;
                 sp.check = (this.ischeck === '1');
                 return sp;
+            },
+            isOk: function () {
+                if (this.data && this.data.length > 0) {
+                    return true;
+                }
+                return false;
             }
         }
 
         return Post;
     })
-    .factory('postsService', function ($q, $resource, $window, $rootScope, Post) {
-        var postsService;
+    .factory('postsService', function ($q, $resource, $window, $rootScope, $localStorage, Post) {
         var _Auto = $resource('http://www.kuaidi100.com/autonumber/auto?num=:postid', {postid: '@id'});
         var _Query = $resource('http://www.kuaidi100.com/query?type=:type&postid=:postid', {
             type: '@type',
             postid: '@id'
         });
 
-        angular.element($window).on('storage', function(event){
-           if(event.key === 'marks'){
-               $rootScope.$apply();
-           }
-        });
+        $rootScope.$storage = $localStorage.$default(
+            {
+                check: true,
+                notification: true,
+                auto: true,
+                delay: 30,
+                marks: {}
+            });
 
+        var postsService;
         postsService = {
             _posts: {},
             _retrieve: function (id, com) {
@@ -76,55 +85,108 @@ angular.module('explus', ['ngResource'])
                 var defer = $q.defer();
                 var post = this._search(id);
                 if (post) {
+                    console.log('define: cache');
                     defer.resolve(post);
                 } else {
-                    _Auto.query({postid: id}, function (data) {
-                            console.log(data);
-                            if (data.length > 0) {
-                                var post = scope._retrieve(id, data[0].comCode);
-                                return defer.resolve(post);
-                            } else {
-                                return defer.reject({status:'400', message:'Is not a valid post id.'});
-                            }
-                        },
-                        function (error) {
-                            defer.reject({status:'400', message: 'Is not a valid post id.', error: error});
-                            return;
-                        });
+                    var mark = this.searchMark(id);
+                    if(mark){
+                        console.log('define: mark');
+                        post = scope._retrieve(id, mark.com);
+                        defer.resolve(post);
+                    }else {
+                        console.log('define: auto')
+                        _Auto.query({postid: id}, function (data) {
+                                console.log(data);
+                                if (data.length > 0) {
+                                    var post = scope._retrieve(id, data[0].comCode);
+                                    return defer.resolve(post);
+                                } else {
+                                    return defer.reject({status: '400', message: 'Is not a valid post id.'});
+                                }
+                            },
+                            function (error) {
+                                defer.reject({status: '400', message: 'Is not a valid post id.', error: error});
+                                return;
+                            });
+                    }
                 }
                 return defer.promise;
             },
             update: function (post) {
+                console.log('update post');
                 var defer = $q.defer();
                 _Query.get({type: post.com, postid: post.id},
                     function (data) {
+                        if (data.data == undefined && data.data.length == 0){
+                            post.message = 'Data not found!! Please try again later.'
+                        }else{
+                            delete post.message;
+                        }
                         post.setData(data);
-                        if(!data.data) post.message = 'Data not found!! Please try again later.'
                         defer.resolve(post);
                     },
                     function (error) {
-                        defer.reject({status:'400', message:'', error: error});
+                        defer.reject({status: '400', message: '', error: error});
                     });
                 return defer.promise;
             },
             getPost: function (id) {
                 return this._define(id)
             },
-            saveMark: function(id){
+            searchMark: function(id){
+                return $rootScope.$storage.marks[id] || undefined;
+            },
+            saveMark: function (id) {
                 var post = this._search(id);
                 if(post){
-                    //
-                }else{
-
+                    if($rootScope.$storage.marks[id] === undefined)
+                    {
+                        $rootScope.$storage.marks[id] = post.toSimple();
+                        return true;
+                    }/*else{
+                        delete $rootScope.$storage.marks[id];
+                        return false;
+                    }*/
                 }
+                return false;
             },
-            removeMark: function(id){
-
+            removeMark: function (id) {
+                delete $rootScope.$storage.marks[id];
             },
-            getAllMarks: function(){
-
+            updateMark: function(id) {
+                var mark = this.searchMark(id);
+                var post = this._retrieve(id, mark.com);
+                this.update(post).then(function(post){
+                    try {
+                        mark.text = post.data[0].context;
+                        mark.time = post.data[0].time;
+                        mark.check = (post.ischeck === '1');
+                    }catch (err){}
+                })
             }
+            /*state: function (name, value) {
+                var getValue;
+                if (arguments.length === 1) {
+                    getValue = function (key) {
+                        try {
+                            return JSON.parse(localStorage[prefix + key]);
+                            //return JSON.parse(localStorageService.get(key));
+                        } catch (_error) {
+                        }
+                    };
+                    if (Array.isArray(name)) {
+                        return $q.when(name.map(getValue));
+                    } else {
+                        value = getValue(name);
+                    }
+                } else {
+                    localStorage[prefix + name] = JSON.stringify(value);
+                    //localStorageService.set(name, JSON.stringify(value));
+                }
+                return $q.when(value);
+            }*/
         }
+
 
         return postsService;
     })

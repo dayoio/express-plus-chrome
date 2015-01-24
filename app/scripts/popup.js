@@ -10,10 +10,11 @@ angular.module('popupApp', ['explus']).controller('MainController', function ($s
     $scope.loading = false;
 
     //查詢方法
-    $scope.query = function () {
+    $scope.query = function (id) {
         $scope.loading = true;
         $scope.post = {}
-        postsService.getPost($scope.postId).then(postsService.update).then(
+        $scope.marked = postsService.searchMark(id)
+        postsService.getPost(id).then(postsService.update).then(
             function (post) {
                 console.log(post);
                 $scope.post = post;
@@ -25,13 +26,17 @@ angular.module('popupApp', ['explus']).controller('MainController', function ($s
             })
     };
 
-    $scope.mark = function () {
-
+    $scope.mark = function (id) {
+        $scope.marked = !$scope.marked;
+        if($scope.marked)
+            postsService.saveMark(id);
+        else
+            postsService.removeMark(id);
     };
 
 }).filter('spendTime', function () {
     return function (value) {
-        if (!value) "0天";
+        if (!value) "0 hour(s)";
         value = Math.abs(value);
 
         var res = "";
@@ -39,9 +44,9 @@ angular.module('popupApp', ['explus']).controller('MainController', function ($s
         if (hh >= 24) {
             var dd = Math.floor(hh / 24);
             hh -= dd * 24;
-            res = dd + '天';
+            res = dd + ' day(s) ';
         }
-        res += hh + '小時';
+        res += hh + ' hour(s)';
         return res;
     }
 })

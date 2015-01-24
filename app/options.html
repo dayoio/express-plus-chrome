@@ -7,9 +7,10 @@
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
         <!-- endbower -->
-        <!-- endbuild -->
         <link rel="stylesheet" href="styles/angular-csp.css">
+        <!-- endbuild -->
         <!-- build:css styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css"/>
         <link href="styles/options.css" rel="stylesheet">
         <!-- endbuild -->
 
@@ -18,63 +19,60 @@
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+        <script src="bower_components/ngstorage/ngStorage.js"></script>
         <!-- endbower -->
-        <script src="scripts/services.js"></script>
+        <script src="scripts/explus.js"></script>
         <!-- endbuild -->
 
     </head>
-    <body ng-controller="optionController" class="container">
+    <body ng-controller="optionController as op" class="container">
             <div id="options-wrapper" class="row">
                 <div id="options-head" class="col-md-12">
-                  <h1>Du.Express</h1><span>Easily manage your express mail.</span>
+                  <h1>Express+</h1><span>Easily manage your express mail.</span>
                 </div>
-                <div id='settings-wrapper' class="col-md-3">
-                    <div class="option-head"><h3>設置</h3></div>
+                <div id='settings-wrapper' class="col-md-4">
+                    <div class="option-head"><h3>Settings</h3></div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-model="notification">
-                            <span>開啓桌面提醒</span>
+                            <input type="checkbox" ng-model="$storage.notification">
+                            <span>Enable the desktop notification</span>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-disabled="!notification" ng-model="check">
-                            <span>只提醒已收貨單號</span>
+                            <input type="checkbox" ng-disabled="!$storage.notification" ng-model="$storage.check">
+                            <span> - checked only</span>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-model="auto">
-                            <span>自動查詢</span>
+                            <input type="checkbox" ng-model="$storage.auto">
+                            <span>Enable auto query.</span>
                         </label>
                     </div>
                     <div class="form-group">
-                        <label for="auto-query">查詢間隔</label>
-                        <select ng-disabled="!auto" id="auto-query" ng-model="delay" class="form-control" ng-options="op +' Min' for op in delay_options">
+                        <label for="auto-query">Query interval</label>
+                        <select ng-disabled="!$storage.auto" id="auto-query" ng-model="$storage.delay" class="form-control" ng-options="op +' Min' for op in delay_options">
                         </select>
                     </div>
-                    <div id="button-wrapper">
-                        <button class="btn btn-success" ng-click="saveOptions()">保  存</button>
-                    </div>
                 </div>
-                <div id='subs-wrapper' class="col-md-9">
-                    <div class="option-head"><h3>訂閱列表</h3></div>
+                <div id='subs-wrapper' class="col-md-8">
+                    <div class="option-head"><h3>Marks List</h3></div>
                     <div id="subs-list">
                         <ul class="list-group">
-                            <li ng-repeat="s in subs" ng-class="{'list-group-item-success': s.check}" class="list-group-item" >
-                                <div class="item-heading"><h4>{{s.id}} <small><span class="label label-default">{{s.com}}</span></small></h4></div>
-                                <div class="item-msg"><span class="msg-time">{{s.last}}</span> : <span title="{{s.text}}" class="msg-text">{{s.text|cut:20:'...'}}</span></div>
+                            <li ng-repeat="(key, val) in $storage.marks" multiple="true" ng-class="{'list-group-item-success': val.check}" class="list-group-item" >
+                                <div class="item-heading"><h4>{{key}} <small><span class="label label-default">{{val.com}}</span></small></h4></div>
+                                <div class="item-msg"><span class="msg-time">{{val.time}}</span> : <span title="{{val.text}}" class="msg-text">{{val.text|cut:20:'...'}}</span></div>
                                 <div class="item-buttons">
-                                    <button title="立即更新" ng-click="doQuery(s.id)" ng-disabled="true" class="btn btn-info"><span class="glyphicon glyphicon-refresh"></span></button>
-                                    <button title="取消訂閱" ng-click="removeSub(s.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button title="update" ng-click="updateMark(key)" ng-disabled="val.check" class="btn btn-info"><span class="glyphicon glyphicon-refresh"></span></button>
+                                    <button title="remove" ng-click="removeMark(key)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-12 copyright">
-                    ©2015 Powered by <a href="http://www.kuaidi100.com/">kuaidi100</a>
+                    &copy;2015 Powered by <a href="http://www.kuaidi100.com/">kuaidi100</a>
                 </div>
             </div>
             <!-- build:js scripts/options.js -->
