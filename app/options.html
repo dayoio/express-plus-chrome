@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="optionApp" ng-csp class="ng-scope">
+<html ng-app="optionApp" ng-csp>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,8 +11,8 @@
         <!-- endbuild -->
         <!-- build:css styles/main.css -->
         <link rel="stylesheet" href="styles/main.css"/>
-        <link href="styles/options.css" rel="stylesheet">
         <!-- endbuild -->
+        <link href="styles/options.css" rel="stylesheet">
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
@@ -34,37 +34,37 @@
                     <div class="option-head"><h3>Settings</h3></div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-model="$storage.notification">
+                            <input type="checkbox" ng-model="$storage.notification" ng-change="onChange('notification')">
                             <span>Enable the desktop notification</span>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-disabled="!$storage.notification" ng-model="$storage.check">
+                            <input type="checkbox" ng-disabled="!$storage.notification" ng-model="$storage.check" ng-change="onChange('check')">
                             <span> - checked only</span>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-model="$storage.auto">
+                            <input type="checkbox" ng-model="$storage.auto" ng-change="onChange('auto')">
                             <span>Enable auto query.</span>
                         </label>
                     </div>
                     <div class="form-group">
                         <label for="auto-query">Query interval</label>
-                        <select ng-disabled="!$storage.auto" id="auto-query" ng-model="$storage.delay" class="form-control" ng-options="op +' Min' for op in delay_options">
+                        <select ng-disabled="!$storage.auto" id="auto-query" ng-change="onChange('auto')" ng-model="$storage.delay" class="form-control" ng-options="op +' Min' for op in delay_options">
                         </select>
                     </div>
                 </div>
-                <div id='subs-wrapper' class="col-md-8">
-                    <div class="option-head"><h3>Marks List</h3></div>
-                    <div id="subs-list">
+                <div id='marks-wrapper' class="col-md-8">
+                    <div class="option-head"><h3>Marks list</h3></div>
+                    <div id="marks-list">
                         <ul class="list-group">
                             <li ng-repeat="(key, val) in $storage.marks" multiple="true" ng-class="{'list-group-item-success': val.check}" class="list-group-item" >
                                 <div class="item-heading"><h4>{{key}} <small><span class="label label-default">{{val.com}}</span></small></h4></div>
-                                <div class="item-msg"><span class="msg-time">{{val.time}}</span> : <span title="{{val.text}}" class="msg-text">{{val.text|cut:20:'...'}}</span></div>
+                                <div class="item-msg"><span class="msg-time">{{val.time}}</span> : <span title="{{val.text}}" class="msg-text">{{val.text|cut:18:'...'}}</span></div>
                                 <div class="item-buttons">
-                                    <button title="update" ng-click="updateMark(key)" ng-disabled="val.check" class="btn btn-info"><span class="glyphicon glyphicon-refresh"></span></button>
+                                    <button title="update" ng-click="updateMark(key)" ng-disabled="val.check" class="btn btn-info"><span ng-class="{rotate: val.loading}" class="glyphicon glyphicon-refresh"></span></button>
                                     <button title="remove" ng-click="removeMark(key)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                                 </div>
                             </li>

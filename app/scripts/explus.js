@@ -117,6 +117,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 var defer = $q.defer();
                 _Query.get({type: post.com, postid: post.id},
                     function (data) {
+                        console.log('update complete');
                         if (data.data == undefined && data.data.length == 0){
                             post.message = 'Data not found!! Please try again later.'
                         }else{
@@ -155,38 +156,32 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             },
             updateMark: function(id) {
                 var mark = this.searchMark(id);
+                mark.loading = true;
                 var post = this._retrieve(id, mark.com);
+                var defer = $q.defer();
                 this.update(post).then(function(post){
+                    delete mark.loading;
                     try {
                         mark.text = post.data[0].context;
                         mark.time = post.data[0].time;
                         mark.check = (post.ischeck === '1');
-                    }catch (err){}
+                        defer.resolve(mark);
+                    }catch (err){defer.reject(mark)}
                 })
-            }
-            /*state: function (name, value) {
-                var getValue;
-                if (arguments.length === 1) {
-                    getValue = function (key) {
-                        try {
-                            return JSON.parse(localStorage[prefix + key]);
-                            //return JSON.parse(localStorageService.get(key));
-                        } catch (_error) {
-                        }
-                    };
-                    if (Array.isArray(name)) {
-                        return $q.when(name.map(getValue));
-                    } else {
-                        value = getValue(name);
+                return defer.promise;
+            },
+            getAllMarkId: function(uncheck){
+                var ids = [];
+                angular.forEach($rootScope.$storage.marks, function(key, val){
+                    if(uncheck && val.check){
+                        ids.push(key);
+                    }else{
+                        ids.push(key);
                     }
-                } else {
-                    localStorage[prefix + name] = JSON.stringify(value);
-                    //localStorageService.set(name, JSON.stringify(value));
-                }
-                return $q.when(value);
-            }*/
+                });
+                return ids;
+            }
         }
-
 
         return postsService;
     })
