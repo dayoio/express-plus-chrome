@@ -64,6 +64,10 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 marks: {}
             });
 
+        $rootScope.i18n = function(msg){
+            return chrome.i18n.getMessage(msg);
+        }
+
         var postsService;
         postsService = {
             _posts: {},
@@ -181,6 +185,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 });
                 return ids;
             }
+
         }
 
         return postsService;

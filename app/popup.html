@@ -32,7 +32,7 @@
             <div class="input-group">
             <input id="postId-input" ng-minlength="6" ng-pattern="/^[0-9a-zA-Z]+$/" ng-model="postId" type="text" placeholder="Type your post id..." class="form-control" required>
                 <span class="input-group-btn">
-                    <button ng-disabled="!postIdForm.$valid" type="submit" class="btn btn-info" >Query</button>
+                    <button ng-disabled="!postIdForm.$valid" type="submit" class="btn btn-info" >{{i18n('queryName')}}</button>
                 </span>
             </div>
         </form>
@@ -41,10 +41,10 @@
         <div id="result-wrapper" ng-show="post.status == '200'" class="ng-hide">
             <div id="postid-wrapper">
                 <h2 class="post-id" >{{post.id}}</h2>
-                <div class="info">Company：{{post.com}}</div>
-                <div class="info">Time：{{post.totaltime | spendTime }}</div>
+                <div class="info">{{i18n('company')}}：{{post.com}}</div>
+                <div class="info">{{i18n('totalTime')}}：{{post.totaltime | spendTime }}</div>
                 <div class="info" ng-if="post.destination">dest: {{post.destination}}</div>
-                <a class="mark-button" ng-click="mark(post.id)" title="訂閱">
+                <a class="mark-button" ng-click="mark(post.id)" title="mark">
                     <span ng-if="marked" class="glyphicon glyphicon-star"></span>
                     <span ng-if="!marked" class="glyphicon glyphicon-star-empty"></span>
                 </a>
@@ -53,9 +53,9 @@
             <table id="result-table" ng-if="post.isOk()" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>更新時間</th>
+                        <th>{{i18n('updateTime')}}</th>
                         <th></th>
-                        <th>內容</th>
+                        <th>{{i18n('updateContext')}}</th>
                     </tr>
                 </thead>
                 <tbody>

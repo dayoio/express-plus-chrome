@@ -1,0 +1,58 @@
+{
+    "appName": {
+        "message": "快递助手",
+        "description": "应用名称"
+    },
+    "appDescription": {
+        "message": "轻松管理你的快递。",
+        "description": ""
+    },
+    "queryName": {
+        "message": "查询",
+        "description": "查询按钮名字"
+    },
+    "searchTip": {
+        "message": "输入你的快递单号...",
+        "description": "单号输入框提示"
+    },
+    "optionNotification": {
+        "message": "开启桌面通知",
+        "description": ""
+    },
+    "optionCheck": {
+        "message": "只提示已收货单号",
+        "description": ""
+    },
+    "optionAuto": {
+        "message": "开启自动查询",
+        "description": ""
+    },
+    "optionDelay": {
+        "message": "查询间隔",
+        "description": ""
+    },
+    "optionSettings": {
+        "message": "设置",
+        "description": ""
+    },
+    "optionList": {
+        "message": "订阅列表",
+        "description": ""
+    },
+    "company": {
+        "message": "公司",
+        "description": ""
+    },
+    "totalTime": {
+        "message": "历时",
+        "description": ""
+    },
+    "updateTime": {
+        "message": "更新时间",
+        "description": ""
+    },
+    "updateContext": {
+        "message": "内容",
+        "description": ""
+    }
+}

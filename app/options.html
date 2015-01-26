@@ -31,33 +31,33 @@
                   <h1>Express+</h1><span>Easily manage your express mail.</span>
                 </div>
                 <div id='settings-wrapper' class="col-md-4">
-                    <div class="option-head"><h3>Settings</h3></div>
+                    <div class="option-head"><h3>{{i18n('optionSettings')}}</h3></div>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" ng-model="$storage.notification" ng-change="onChange('notification')">
-                            <span>Enable the desktop notification</span>
+                            <span>{{i18n('optionNotification')}}</span>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" ng-disabled="!$storage.notification" ng-model="$storage.check" ng-change="onChange('check')">
-                            <span> - checked only</span>
+                            <span> {{i18n('optionCheck')}}</span>
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" ng-model="$storage.auto" ng-change="onChange('auto')">
-                            <span>Enable auto query.</span>
+                            <span>{{i18n('optionAuto')}}</span>
                         </label>
                     </div>
                     <div class="form-group">
-                        <label for="auto-query">Query interval</label>
+                        <label for="auto-query">{{i18n('optionDelay')}}</label>
                         <select ng-disabled="!$storage.auto" id="auto-query" ng-change="onChange('auto')" ng-model="$storage.delay" class="form-control" ng-options="op +' Min' for op in delay_options">
                         </select>
                     </div>
                 </div>
                 <div id='marks-wrapper' class="col-md-8">
-                    <div class="option-head"><h3>Marks list</h3></div>
+                    <div class="option-head"><h3>{{i18n('optionList')}}</h3></div>
                     <div id="marks-list">
                         <ul class="list-group">
                             <li ng-repeat="(key, val) in $storage.marks" multiple="true" ng-class="{'list-group-item-success': val.check}" class="list-group-item" >

@@ -29,7 +29,7 @@ function autoCheck(){
                 type: "list",
                 title: "A new update",
                 message: "A new update to display",
-                iconUrl: "images/icon-38.png",
+                iconUrl: "images/icon-64.png",
                 items: msgs
             }
             chrome.notifications.create('update', opt, function(){
