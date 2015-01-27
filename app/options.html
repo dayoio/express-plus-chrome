@@ -1,82 +1,95 @@
 <!doctype html>
-<html ng-app="optionApp" ng-csp>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- build:css styles/vendor.css -->
-        <!-- bower:css -->
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-        <!-- endbower -->
-        <link rel="stylesheet" href="styles/angular-csp.css">
-        <!-- endbuild -->
-        <!-- build:css styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css"/>
-        <!-- endbuild -->
-        <link href="styles/options.css" rel="stylesheet">
+<html ng-app="optionApp" ng-controller="optionController" ng-csp>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <!-- endbower -->
+    <link rel="stylesheet" href="styles/angular-csp.css">
+    <!-- endbuild -->
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css"/>
+    <!-- endbuild -->
+    <link href="styles/options.css" rel="stylesheet">
 
-        <!-- build:js scripts/vendor.js -->
-        <!-- bower:js -->
-        <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/ngstorage/ngStorage.js"></script>
-        <!-- endbower -->
-        <script src="scripts/explus.js"></script>
-        <!-- endbuild -->
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <!-- endbower -->
+    <script src="scripts/explus.js"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/options.js -->
+    <script src="scripts/options.js"></script>
+    <!-- endbuild -->
 
-    </head>
-    <body ng-controller="optionController as op" class="container">
-            <div id="options-wrapper" class="row">
-                <div id="options-head" class="col-md-12">
-                  <h1>Express+</h1><span>Easily manage your express mail.</span>
-                </div>
-                <div id='settings-wrapper' class="col-md-4">
-                    <div class="option-head"><h3>{{i18n('optionSettings')}}</h3></div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="$storage.notification" ng-change="onChange('notification')">
-                            <span>{{i18n('optionNotification')}}</span>
-                        </label>
+</head>
+<body class="container">
+<div id="options-wrapper" class="row">
+    <div id="options-head" class="col-md-12">
+        <h1>Express+</h1><span>Easily manage your express mail.</span>
+    </div>
+    <div id='settings-wrapper' class="col-md-4">
+        <div class="option-head"><h3>{{i18n('optionSettings')}}</h3></div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="$storage.notification" ng-change="onChange('notification')">
+                <span>{{i18n('optionNotification')}}</span>
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-disabled="!$storage.notification" ng-model="$storage.check"
+                       ng-change="onChange('check')">
+                <span> {{i18n('optionCheck')}}</span>
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="$storage.auto" ng-change="onChange('auto')">
+                <span>{{i18n('optionAuto')}}</span>
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="auto-query">{{i18n('optionDelay')}}</label>
+            <select ng-disabled="!$storage.auto" id="auto-query" ng-change="onChange('auto')" ng-model="$storage.delay"
+                    class="form-control" ng-options="op +' Min' for op in delay_options">
+            </select>
+        </div>
+    </div>
+    <div id='marks-wrapper' class="col-md-8">
+        <div class="option-head"><h3>{{i18n('optionList')}}</h3></div>
+        <div id="marks-list">
+            <ul class="list-group">
+                <li ng-repeat="(key, val) in $storage.marks" multiple="true"
+                    ng-class="{'list-group-item-success': val.check}" class="list-group-item">
+                    <div class="item-heading">
+                        <h4>{{key}}
+                            <small><span class="label label-default">{{val.com}}</span></small>
+                        </h4>
                     </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-disabled="!$storage.notification" ng-model="$storage.check" ng-change="onChange('check')">
-                            <span> {{i18n('optionCheck')}}</span>
-                        </label>
+                    <div class="item-msg"><span class="msg-time">{{val.time}}</span> : <span title="{{val.text}}"
+                                                                                             class="msg-text">{{val.text|cut:18:'...'}}</span>
                     </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="$storage.auto" ng-change="onChange('auto')">
-                            <span>{{i18n('optionAuto')}}</span>
-                        </label>
+                    <div class="item-buttons">
+                        <button title="update" ng-click="updateMark(key)" ng-disabled="val.check" class="btn btn-info">
+                            <span ng-class="{rotate: val.loading}" class="glyphicon glyphicon-refresh"></span></button>
+                        <button title="remove" ng-click="removeMark(key)" class="btn btn-danger"><span
+                            class="glyphicon glyphicon-trash"></span></button>
                     </div>
-                    <div class="form-group">
-                        <label for="auto-query">{{i18n('optionDelay')}}</label>
-                        <select ng-disabled="!$storage.auto" id="auto-query" ng-change="onChange('auto')" ng-model="$storage.delay" class="form-control" ng-options="op +' Min' for op in delay_options">
-                        </select>
-                    </div>
-                </div>
-                <div id='marks-wrapper' class="col-md-8">
-                    <div class="option-head"><h3>{{i18n('optionList')}}</h3></div>
-                    <div id="marks-list">
-                        <ul class="list-group">
-                            <li ng-repeat="(key, val) in $storage.marks" multiple="true" ng-class="{'list-group-item-success': val.check}" class="list-group-item" >
-                                <div class="item-heading"><h4>{{key}} <small><span class="label label-default">{{val.com}}</span></small></h4></div>
-                                <div class="item-msg"><span class="msg-time">{{val.time}}</span> : <span title="{{val.text}}" class="msg-text">{{val.text|cut:18:'...'}}</span></div>
-                                <div class="item-buttons">
-                                    <button title="update" ng-click="updateMark(key)" ng-disabled="val.check" class="btn btn-info"><span ng-class="{rotate: val.loading}" class="glyphicon glyphicon-refresh"></span></button>
-                                    <button title="remove" ng-click="removeMark(key)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-12 copyright">
-                    &copy;2015 Powered by <a href="http://www.kuaidi100.com/">kuaidi100</a>
-                </div>
-            </div>
-            <!-- build:js scripts/options.js -->
-            <script src="scripts/options.js"></script>
-            <!-- endbuild -->
-    </body>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-12 copyright">
+        &copy;2015 Powered by <a href="http://www.kuaidi100.com/">kuaidi100</a>
+    </div>
+</div>
+
+
+</body>
 </html>

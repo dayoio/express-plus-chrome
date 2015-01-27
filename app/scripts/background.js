@@ -1,7 +1,7 @@
 'use strict';
 
 
-var service, uncheck, notification=true, onlycheck=true, auto=true, delay=30,msgs;
+var service, uncheck, notification=true, onlycheck=true, auto=true, delay=30, msgs;
 
 function onInit(){
     service = angular.injector(['explus', 'ng']).get('postsService');

@@ -20,10 +20,6 @@ angular.module('explus', ['ngResource', 'ngStorage'])
         Post.prototype = {
             setData: function (d) {
                 angular.extend(this, d);
-                /*this.check = (d['ischeck'] === '1')
-                 this.steps = d['data'] || [];
-                 this.status = d['status'];
-                 */
                 if (this.isOk()) {
                     var a = new Date(d.data[d.data.length - 1].time)
                     var b = new Date(d.data[0].time);
@@ -70,7 +66,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
 
         var postsService;
         postsService = {
-            _posts: {},
+            /*_posts: {},
             _retrieve: function (id, com) {
                 var post = this._posts[id];
                 if (post) {
@@ -83,46 +79,34 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             },
             _search: function (id) {
                 return this._posts[id];
-            },
-            _define: function (id) {
-                var scope = this;
+            },*/
+            define: function (id) {
                 var defer = $q.defer();
-                var post = this._search(id);
-                if (post) {
-                    console.log('define: cache');
-                    defer.resolve(post);
-                } else {
-                    var mark = this.searchMark(id);
-                    if(mark){
-                        console.log('define: mark');
-                        post = scope._retrieve(id, mark.com);
-                        defer.resolve(post);
-                    }else {
-                        console.log('define: auto')
-                        _Auto.query({postid: id}, function (data) {
-                                console.log(data);
-                                if (data.length > 0) {
-                                    var post = scope._retrieve(id, data[0].comCode);
-                                    return defer.resolve(post);
-                                } else {
-                                    return defer.reject({status: '400', message: 'Is not a valid post id.'});
-                                }
-                            },
-                            function (error) {
-                                defer.reject({status: '400', message: 'Is not a valid post id.', error: error});
-                                return;
-                            });
-                    }
+                var mark = this.searchMark(id);
+                if(mark){
+                    console.log('define: mark');
+                    defer.resolve([mark.com]);
+                }else {
+                    console.log('define: auto')
+                    _Auto.query({postid: id}, function (data) {
+                            var coms = data.length>0?data.map(function(d){return d.comCode;}):[];
+                            return defer.resolve(coms);
+                        },
+                        function (error) {
+                            defer.reject({status: '400', message: 'Is not a valid post id.', error: error});
+                            return;
+                        });
                 }
                 return defer.promise;
             },
-            update: function (post) {
+            update: function (id, com) {
                 console.log('update post');
                 var defer = $q.defer();
-                _Query.get({type: post.com, postid: post.id},
+                _Query.get({type: com, postid: id},
                     function (data) {
                         console.log('update complete');
-                        if (data.data == undefined && data.data.length == 0){
+                        var post = new Post(id, com);
+                        if (data.data == undefined || data.data.length == 0){
                             post.message = 'Data not found!! Please try again later.'
                         }else{
                             delete post.message;
@@ -131,27 +115,20 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                         defer.resolve(post);
                     },
                     function (error) {
-                        defer.reject({status: '400', message: '', error: error});
+                        defer.reject({status: '400', message: 'Data not found!! Please try again later.', error: error});
                     });
                 return defer.promise;
-            },
-            getPost: function (id) {
-                return this._define(id)
             },
             searchMark: function(id){
                 return $rootScope.$storage.marks[id] || undefined;
             },
-            saveMark: function (id) {
-                var post = this._search(id);
+            saveMark: function (post) {
                 if(post){
-                    if($rootScope.$storage.marks[id] === undefined)
+                    if($rootScope.$storage.marks[post.id] === undefined)
                     {
-                        $rootScope.$storage.marks[id] = post.toSimple();
+                        $rootScope.$storage.marks[post.id] = post.toSimple();
                         return true;
-                    }/*else{
-                        delete $rootScope.$storage.marks[id];
-                        return false;
-                    }*/
+                    }
                 }
                 return false;
             },

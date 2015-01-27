@@ -7,12 +7,31 @@ body {
     margin-bottom: 10px;
 }
 
+#input-wrapper ul{
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#input-wrapper ul li {
+    float: left;
+    padding: 2px;
+    cursor: pointer;
+}
+
+#input-wrapper ul li>span{
+    font-size: 12px;
+}
+
 #result-wrapper {
     position: relative;
     border: solid 1px #bfbfbf;
     border-radius: 2px;
     max-height: 500px;
     overflow: auto;
+    float: left;
+    margin-top: 3px;
+    width: 100%;
 }
 
 #result-wrapper .table {
@@ -62,7 +81,9 @@ body {
 
 #loading-wrapper, #error-wrapper{
     color: #666;
-    padding-left: 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+    float: left;
 }
 
 #result-nothing {

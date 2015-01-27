@@ -5,33 +5,61 @@
  * 彈出窗口模塊
  */
 
-angular.module('popupApp', ['explus']).controller('MainController', function ($scope, postsService) {
+angular.module('popupApp', ['ui.bootstrap', 'explus']).controller('MainController', function ($scope, postsService) {
 
+    $scope.postId = undefined;
+    $scope.codes = [];
+
+    $scope.$watch('postId', function(newVal, oldVal){
+        if(newVal == undefined || newVal.length == 0){
+            $scope.codes = [];
+            return;
+        }
+        postsService.define(newVal).then(function (data) {
+            $scope.codes = data;
+            if($scope.loading && $scope.codes.length > 0){
+                updatePost($scope.postId, $scope.codes[0]);
+            }
+        })
+    })
+
+    var spans = ['default','danger','info','primary', 'success', 'warning'];
+    $scope.getRandomSpan = function(){
+        return spans[Math.floor(Math.random()*6)];
+    }
     $scope.loading = false;
 
     //查詢方法
-    $scope.query = function (id) {
+    $scope.query = function (com) {
         $scope.loading = true;
         $scope.post = {}
-        $scope.marked = postsService.searchMark(id)
-        postsService.getPost(id).then(postsService.update).then(
-            function (post) {
-                console.log(post);
-                $scope.post = post;
-                $scope.loading = false;
-            }, function (error) {
-                console.log(error);
-                $scope.post = error;
-                $scope.loading = false;
-            })
+        $scope.marked = postsService.searchMark($scope.postId)
+
+        if(!com && $scope.codes.length > 0)
+            com = $scope.codes[0];
+        if(com){
+            updatePost($scope.postId, com);
+        }
     };
 
-    $scope.mark = function (id) {
+    var updatePost = function(id, com){
+        postsService.update(id, com).then(function (post) {
+            console.log(post);
+            $scope.post = post;
+            $scope.loading = false;
+        }, function (error) {
+            console.log(error);
+            $scope.post = error;
+            $scope.loading = false;
+        });
+    }
+
+    $scope.mark = function () {
         $scope.marked = !$scope.marked;
         if($scope.marked)
-            postsService.saveMark(id);
+            postsService.saveMark($scope.post);
         else
-            postsService.removeMark(id);
+            postsService.removeMark($scope.post.id);
     };
 
 }).filter('spendTime', function () {
