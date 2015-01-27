@@ -1,14 +1,4 @@
-/**
- * Created by minos on 23/1/15.
- */
 'use strict';
-
-/*angular.element($window).on('storage', function(event) {
- if (event.key === 'my-storage') {
- $rootScope.$apply();
- }
- });*/
-
 
 angular.module('explus', ['ngResource', 'ngStorage'])
     .factory('Post', function ($q) {
@@ -45,11 +35,11 @@ angular.module('explus', ['ngResource', 'ngStorage'])
         return Post;
     })
     .factory('postsService', function ($q, $resource, $window, $rootScope, $localStorage, Post) {
-        var _Auto = $resource('http://www.kuaidi100.com/autonumber/auto?num=:postid', {postid: '@id'});
+        var _Auto = $resource('http://www.kuaidi100.com/autonumber/auto?num=:postid', {postid: '@id'}, {timeout: 10000});
         var _Query = $resource('http://www.kuaidi100.com/query?type=:type&postid=:postid', {
             type: '@type',
             postid: '@id'
-        });
+        }, {timeout: 10000});
 
         $rootScope.$storage = $localStorage.$default(
             {
@@ -60,41 +50,46 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 marks: {}
             });
 
-        $rootScope.i18n = function(msg){
+        $rootScope.i18n = function (msg) {
             return chrome.i18n.getMessage(msg);
         }
 
         var postsService;
         postsService = {
             /*_posts: {},
-            _retrieve: function (id, com) {
-                var post = this._posts[id];
-                if (post) {
-                    post.com = com;
-                } else {
-                    post = new Post(id, com);
-                    this._posts[id] = post;
-                }
-                return post;
-            },
-            _search: function (id) {
-                return this._posts[id];
-            },*/
+             _retrieve: function (id, com) {
+             var post = this._posts[id];
+             if (post) {
+             post.com = com;
+             } else {
+             post = new Post(id, com);
+             this._posts[id] = post;
+             }
+             return post;
+             },
+             _search: function (id) {
+             return this._posts[id];
+             },*/
             define: function (id) {
                 var defer = $q.defer();
                 var mark = this.searchMark(id);
-                if(mark){
+                if (mark) {
                     console.log('define: mark');
                     defer.resolve([mark.com]);
-                }else {
+                } else {
                     console.log('define: auto')
                     _Auto.query({postid: id}, function (data) {
-                            var coms = data.length>0?data.map(function(d){return d.comCode;}):[];
+                            var coms = data.length > 0 ? data.map(function (d) {
+                                return d.comCode;
+                            }) : [];
                             return defer.resolve(coms);
                         },
                         function (error) {
-                            defer.reject({status: '400', message: 'Is not a valid post id.', error: error});
-                            return;
+                            console.log(error);
+                            return defer.reject({
+                                status: '503',
+                                message: 'Data not found!! Please try again later.'
+                            });
                         });
                 }
                 return defer.promise;
@@ -106,26 +101,28 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                     function (data) {
                         console.log('update complete');
                         var post = new Post(id, com);
-                        if (data.data == undefined || data.data.length == 0){
+                        if (data.data === undefined || data.data.length === 0) {
                             post.message = 'Data not found!! Please try again later.'
-                        }else{
+                        } else {
                             delete post.message;
                         }
                         post.setData(data);
                         defer.resolve(post);
                     },
                     function (error) {
-                        defer.reject({status: '400', message: 'Data not found!! Please try again later.', error: error});
+                        return defer.reject({
+                            status: '503',
+                            message: 'Data not found!! Please try again later.'
+                        });
                     });
                 return defer.promise;
             },
-            searchMark: function(id){
+            searchMark: function (id) {
                 return $rootScope.$storage.marks[id] || undefined;
             },
             saveMark: function (post) {
-                if(post){
-                    if($rootScope.$storage.marks[post.id] === undefined)
-                    {
+                if (post) {
+                    if ($rootScope.$storage.marks[post.id] === undefined) {
                         $rootScope.$storage.marks[post.id] = post.toSimple();
                         return true;
                     }
@@ -135,28 +132,30 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             removeMark: function (id) {
                 delete $rootScope.$storage.marks[id];
             },
-            updateMark: function(id) {
+            updateMark: function (id) {
                 var mark = this.searchMark(id);
                 mark.loading = true;
                 var post = this._retrieve(id, mark.com);
                 var defer = $q.defer();
-                this.update(post).then(function(post){
+                this.update(post).then(function (post) {
                     delete mark.loading;
                     try {
                         mark.text = post.data[0].context;
                         mark.time = post.data[0].time;
                         mark.check = (post.ischeck === '1');
                         defer.resolve(mark);
-                    }catch (err){defer.reject(mark)}
+                    } catch (err) {
+                        defer.reject(mark)
+                    }
                 })
                 return defer.promise;
             },
-            getAllMarkId: function(uncheck){
+            getAllMarkId: function (uncheck) {
                 var ids = [];
-                angular.forEach($rootScope.$storage.marks, function(key, val){
-                    if(uncheck && val.check){
+                angular.forEach($rootScope.$storage.marks, function (key, val) {
+                    if (uncheck && val.check) {
                         ids.push(key);
-                    }else{
+                    } else {
                         ids.push(key);
                     }
                 });

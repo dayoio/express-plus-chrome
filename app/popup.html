@@ -40,9 +40,10 @@
                     </button>
                 </span>
     </div>
-    <div ng-if="!loading && codes.length>0">
+    <div ng-if="codes.length>0">
         <ul>
-            <li ng-repeat="code in codes | limitTo: 5 track by $index" ng-click="query(code)"><span class="label label-{{getRandomSpan()}}">{{code}}</span></li>
+            <li ng-repeat="code in codes | limitTo: 5 track by $index" ng-click="query(code)"><span class="label"
+                ng-random-class ng-classes="tagclasses">{{code}}</span></li>
         </ul>
     </div>
 </form>
@@ -82,8 +83,12 @@
         &copy;2015 Powered by <a href="http://www.kuaidi100.com/" target="_blank">kuaidi100</a>
     </div>
 </div>
-<div id="error-wrapper" ng-show="post.status == '201' || post.status == '400' || post.status == '500'" class="ng-hide">
+<div id="error-wrapper"
+     ng-show="post.status == '201' || post.status == '400' || post.status == '500' || post.status == '503'"
+     class="ng-hide">
     <p>{{post.message}}</p>
+
+    <p ng-if="post.error">{{post.error}}</p>
 </div>
 
 </body>

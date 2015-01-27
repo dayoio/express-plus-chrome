@@ -21,7 +21,7 @@ angular.module('optionApp', ['explus']).controller('optionController', function(
 
     $scope.onChange = function(t){
         var cmd;
-        if(t == 'auto')
+        if(t === 'auto')
             cmd = {'act':'auto', 'value': $scope.$storage.auto, 'delay': $scope.$storage.delay };
         else if( t==='check' || t==='notification')
             cmd = {'act': t, 'value': $scope.$storage[t]};

@@ -84,6 +84,7 @@ body {
     margin-top: 10px;
     margin-left: 10px;
     float: left;
+    width: 100%;
 }
 
 #result-nothing {

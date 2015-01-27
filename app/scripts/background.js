@@ -10,7 +10,7 @@ function onInit(){
 
 function onAlarm(alarm){
     //
-    if( alarm && alarm.name == 'auto')
+    if( alarm && alarm.name === 'auto')
     {
         if(service)
         {
@@ -22,7 +22,7 @@ function onAlarm(alarm){
 }
 
 function autoCheck(){
-    if(!uncheck || uncheck.length == 0 ){
+    if(!uncheck || uncheck.length === 0 ){
         if(notification && msgs.length > 0)
         {
             var opt = {
@@ -53,16 +53,16 @@ function autoCheck(){
 }
 
 function onMessage(res){
-    if(res.act == 'auto'){
+    if(res.act === 'auto'){
         if(res.value === true){
             chrome.alarms.create('auto', {'delayInMinutes':res.delay});
         }else{
             chrome.alarms.clear('auto');
         }
-    }else if(res.act =='notification')
+    }else if(res.act ==='notification')
     {
         notification = res.value;
-    }else if(res.act =='check'){
+    }else if(res.act ==='check'){
         onlycheck = res.value;
     }
 }

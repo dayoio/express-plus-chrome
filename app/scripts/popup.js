@@ -5,29 +5,51 @@
  * 彈出窗口模塊
  */
 
-angular.module('popupApp', ['ui.bootstrap', 'explus']).controller('MainController', function ($scope, postsService) {
+angular.module('popupApp', ['ui.bootstrap', 'explus'])
+    .directive('ngRandomClass', function(){
+        return {
+            restrict: 'EA',
+            replace: false,
+            scope: {
+                ngClasses: "="
+            },
+            link: function (scope, elem, attr) {
+                elem.addClass(scope.ngClasses[Math.floor(Math.random() * (scope.ngClasses.length))]);
+            }
+        }
+    })
+    .controller('MainController', function ($scope, postsService) {
 
     $scope.postId = undefined;
     $scope.codes = [];
 
     $scope.$watch('postId', function(newVal, oldVal){
-        if(newVal == undefined || newVal.length == 0){
+        console.log(newVal);
+        if(newVal === undefined || newVal.length === 0){
             $scope.codes = [];
-            return;
+            $scope.post = {};
+        }else {
+            postsService.define(newVal).then(function (data) {
+                $scope.codes = data;
+                if ($scope.loading && $scope.codes.length > 0) {
+                    updatePost($scope.postId, $scope.codes[0]);
+                } else if ($scope.codes.length === 0) {
+                    $scope.post = {'status': '201', 'message': "It's not a valid id."}
+                }
+            },function(error){
+                $scope.post = error;
+                $scope.loading = false;
+            })
         }
-        postsService.define(newVal).then(function (data) {
-            $scope.codes = data;
-            if($scope.loading && $scope.codes.length > 0){
-                updatePost($scope.postId, $scope.codes[0]);
-            }
-        })
     })
 
-    var spans = ['default','danger','info','primary', 'success', 'warning'];
-    $scope.getRandomSpan = function(){
-        return spans[Math.floor(Math.random()*6)];
+    $scope.tagclasses = ['label-default','label-danger','label-info','label-primary', 'label-success', 'label-warning'];
+
+    //var spans = ['default','danger','info','primary', 'success', 'warning'];
+    /*$scope.getRandomSpan = function(){
+        return spans[angular.random()*6];
     }
-    $scope.loading = false;
+    $scope.loading = false;*/
 
     //查詢方法
     $scope.query = function (com) {
