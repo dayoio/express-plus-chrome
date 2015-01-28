@@ -22,7 +22,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 sp.com = this.com;
                 sp.text = this.data[0].context;
                 sp.time = this.data[0].time;
-                sp.check = (this.ischeck === '1');
+                sp.check = (this.state === '3');
                 return sp;
             },
             isOk: function () {
@@ -54,6 +54,11 @@ angular.module('explus', ['ngResource', 'ngStorage'])
         $rootScope.i18n = function (msg) {
             return chrome.i18n.getMessage(msg);
         };
+
+        var states = ['default', 'info', 'warning', 'success', 'danger', 'primary', 'warning']
+        $rootScope.getStateClass = function($first, $state){
+            return $first?states[$state]:states[0];
+        }
 
         var postsService;
         postsService = {
@@ -88,7 +93,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                         function (error) {
                             console.log(error);
                             return defer.reject({
-                                status: '503',
+                                status: '2',
                                 message: 'Data not found!! Please try again later.'
                             });
                         });
@@ -102,17 +107,17 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                     function (data) {
                         console.log('update complete');
                         var post = new Post(id, com);
-                        if (data.data === undefined || data.data.length === 0) {
+                        /*if (data.data === undefined || data.data.length === 0) {
                             post.message = 'Data not found!! Please try again later.';
                         } else {
                             delete post.message;
-                        }
+                        }*/
                         post.setData(data);
                         defer.resolve(post);
                     },
                     function () {
                         return defer.reject({
-                            status: '503',
+                            status: '2',
                             message: 'Data not found!! Please try again later.'
                         });
                     });

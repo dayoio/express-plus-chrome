@@ -73,7 +73,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="p in post.data"
-            ng-class="{danger: $first&&!(post.ischeck=='1'), success: $first&&(post.ischeck=='1')}">
+            ng-class="getStateClass($first, post.state)">
             <td class="post-time">{{p.time}}</td>
             <td><span class="glyphicon glyphicon-map-marker"></span></td>
             <td class="post-context">{{p.context}}</td>

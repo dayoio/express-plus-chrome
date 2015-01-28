@@ -1,6 +1,6 @@
 {
     "name": "__MSG_appName__",
-    "version": "0.0.6",
+    "version": "0.0.8",
     "manifest_version": 2,
     "description": "__MSG_appDescription__",
     "icons": {
@@ -9,7 +9,7 @@
         "64": "images/icon-64.png",
         "128": "images/icon-128.png"
     },
-    "default_locale": "en",
+    "default_locale": "zh_CN",
     "background": {
         "page": "background.html"
     },
@@ -18,7 +18,7 @@
             "16": "images/icon-16.png",
             "32": "images/icon-32.png"
         },
-        "default_title": "Express+",
+        "default_title": "__MSG_appName__",
         "default_popup": "popup.html"
     },
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",

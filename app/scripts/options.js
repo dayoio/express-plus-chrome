@@ -7,8 +7,7 @@
 */
 angular.module('optionApp', ['explus']).controller('optionController', function($scope, postsService){
 
-    $scope.delay_options = [10, 20, 30, 60];
-
+    $scope.delay_options = [20, 30, 60, 120];
 
     $scope.removeMark = function(id){
         postsService.removeMark(id);
