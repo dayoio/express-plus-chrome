@@ -4,6 +4,8 @@
 
 >Building my first Chrome extension to learn AngularJS.
 
+[WebStore](https://chrome.google.com/webstore/detail/express+/hghlokkgbicmblinhepcibacaiegldeg)
+
 ##UI
 + popup界面，直接輸入快遞單號直接查詢。
 + 獲取結果會顯示出類型、時間和更新列表。
