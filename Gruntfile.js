@@ -213,15 +213,18 @@ module.exports = function (grunt) {
         //         }
         //     }
         // },
-        // uglify: {
-        //     dist: {
-        //         files: {
-        //             '<%= config.dist %>/scripts/scripts.js': [
-        //                 '<%= config.dist %>/scripts/scripts.js'
-        //             ]
-        //         }
-        //     }
-        // },
+        uglify: {
+            options: {
+                mangle: false
+            }
+             //dist: {
+             //    files: {
+             //        '<%= config.dist %>/scripts/scripts.js': [
+             //            '<%= config.dist %>/scripts/scripts.js'
+             //        ]
+             //    }
+             //}
+        },
         // concat: {
         //     dist: {}
         // },
@@ -236,7 +239,7 @@ module.exports = function (grunt) {
                     dest: '<%= config.dist %>',
                     src: [
                         '*.{ico,png,txt}',
-                        'images/{,*/}*.{webp,gif}',
+                        'images/{,*/}*.{webp,gif,png}',
                         '{,*/}*.html',
                         'styles/{,*/}*.css',
                         'styles/fonts/{,*/}*.*',
@@ -312,7 +315,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'chromeManifest:dist',
         'useminPrepare',
-        'concurrent:dist',
+        //'concurrent:dist',
         'cssmin',
         'concat',
         'uglify',

@@ -18,10 +18,8 @@
 
 ##Roadmap
 
-+ 地區優先
-+ 多語言
-+ 標籤篩選
-+ 支持多接口查詢
++ 標籤管理
++ 多接口查詢
 
 ##Links
 -  *[kuaidi100](http://www.kuaidi100.com/)*

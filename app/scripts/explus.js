@@ -1,17 +1,18 @@
 'use strict';
 
+
 angular.module('explus', ['ngResource', 'ngStorage'])
-    .factory('Post', function ($q) {
+    .factory('Post', function () {
 
         var Post = function (id, com) {
             this.id = id;
             this.com = com;
-        }
+        };
         Post.prototype = {
             setData: function (d) {
                 angular.extend(this, d);
                 if (this.isOk()) {
-                    var a = new Date(d.data[d.data.length - 1].time)
+                    var a = new Date(d.data[d.data.length - 1].time);
                     var b = new Date(d.data[0].time);
                     this.totaltime = (b.getTime() - a.getTime());
                 }
@@ -30,7 +31,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 }
                 return false;
             }
-        }
+        };
 
         return Post;
     })
@@ -52,7 +53,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
 
         $rootScope.i18n = function (msg) {
             return chrome.i18n.getMessage(msg);
-        }
+        };
 
         var postsService;
         postsService = {
@@ -77,7 +78,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                     console.log('define: mark');
                     defer.resolve([mark.com]);
                 } else {
-                    console.log('define: auto')
+                    console.log('define: auto');
                     _Auto.query({postid: id}, function (data) {
                             var coms = data.length > 0 ? data.map(function (d) {
                                 return d.comCode;
@@ -102,14 +103,14 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                         console.log('update complete');
                         var post = new Post(id, com);
                         if (data.data === undefined || data.data.length === 0) {
-                            post.message = 'Data not found!! Please try again later.'
+                            post.message = 'Data not found!! Please try again later.';
                         } else {
                             delete post.message;
                         }
                         post.setData(data);
                         defer.resolve(post);
                     },
-                    function (error) {
+                    function () {
                         return defer.reject({
                             status: '503',
                             message: 'Data not found!! Please try again later.'
@@ -145,9 +146,9 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                         mark.check = (post.ischeck === '1');
                         defer.resolve(mark);
                     } catch (err) {
-                        defer.reject(mark)
+                        defer.reject(mark);
                     }
-                })
+                });
                 return defer.promise;
             },
             getAllMarkId: function (uncheck) {
@@ -162,7 +163,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 return ids;
             }
 
-        }
+        };
 
         return postsService;
-    })
+    });

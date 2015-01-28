@@ -1,37 +1,20 @@
 'use strict';
 
 
-var service, uncheck, notification=true, onlycheck=true, auto=true, delay=30, msgs;
 
-function onInit(){
-    service = angular.injector(['explus', 'ng']).get('postsService');
-    chrome.alarms.create('auto', {'delayInMinutes':delay});
-}
-
-function onAlarm(alarm){
-    //
-    if( alarm && alarm.name === 'auto')
-    {
-        if(service)
-        {
-            uncheck = service.getAllMarkId(true) || [];
-            msgs = [];
-            autoCheck();
-        }
-    }
-}
+var service, uncheck, notification=true, onlycheck=true, delay=30, msgs;
 
 function autoCheck(){
     if(!uncheck || uncheck.length === 0 ){
         if(notification && msgs.length > 0)
         {
             var opt = {
-                type: "list",
-                title: "A new update",
-                message: "A new update to display",
-                iconUrl: "images/icon-64.png",
+                type: 'list',
+                title: 'A new update',
+                message: 'A new update to display',
+                iconUrl: 'images/icon-64.png',
                 items: msgs
-            }
+            };
             chrome.notifications.create('update', opt, function(){
             });
         }
@@ -52,10 +35,30 @@ function autoCheck(){
     });
 }
 
+function onInit(){
+    service = angular.injector(['explus', 'ng']).get('postsService');
+    chrome.alarms.create('auto', {'periodInMinutes':delay});
+}
+
+function onAlarm(alarm){
+    if( alarm && alarm.name === 'auto')
+    {
+        if(service)
+        {
+            uncheck = service.getAllMarkId(true) || [];
+            msgs = [];
+            autoCheck();
+            console.log('start auto query');
+        }
+    }
+}
+
+
 function onMessage(res){
+    console.log(res);
     if(res.act === 'auto'){
         if(res.value === true){
-            chrome.alarms.create('auto', {'delayInMinutes':res.delay});
+            chrome.alarms.create('auto', {'periodInMinutes':res.delay});
         }else{
             chrome.alarms.clear('auto');
         }
