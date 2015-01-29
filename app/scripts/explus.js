@@ -93,7 +93,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                         function (error) {
                             console.log(error);
                             return defer.reject({
-                                status: '2',
+                                status: '400',
                                 message: 'Data not found!! Please try again later.'
                             });
                         });
@@ -117,7 +117,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                     },
                     function () {
                         return defer.reject({
-                            status: '2',
+                            status: '400',
                             message: 'Data not found!! Please try again later.'
                         });
                     });

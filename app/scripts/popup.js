@@ -34,22 +34,15 @@ angular.module('popupApp', ['ui.bootstrap', 'explus'])
                 if ($scope.loading && $scope.codes.length > 0) {
                     updatePost($scope.postId, $scope.codes[0]);
                 } else if ($scope.codes.length === 0) {
-                    $scope.post = {'status': '201', 'message': "It's not a valid id."}
+                    $scope.post = {'status': '400', 'message': "It's not a valid id."}
                 }
             },function(error){
                 $scope.post = error;
-                $scope.loading = false;
             })
         }
     })
 
     $scope.tagclasses = ['label-default','label-danger','label-info','label-primary', 'label-success', 'label-warning'];
-
-    //var spans = ['default','danger','info','primary', 'success', 'warning'];
-    /*$scope.getRandomSpan = function(){
-        return spans[angular.random()*6];
-    }
-    $scope.loading = false;*/
 
     //查詢方法
     $scope.query = function (com) {
