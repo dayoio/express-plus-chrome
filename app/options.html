@@ -80,8 +80,10 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="item-msg"><span class="msg-time">{{val.time}}</span> : <span title="{{val.text}}"
-                                                                                             class="msg-text">{{val.text}}</span>
+                    <div class="item-msg">
+                        <span class="msg-time">{{val.time}}</span>
+
+                        <p title="{{val.text}}" class="msg-text">{{val.text}}</p>
                     </div>
                     <div class="item-buttons">
                         <button title="update" ng-click="updateMark(key)" ng-disabled="val.check" class="btn btn-info">

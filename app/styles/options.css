@@ -97,6 +97,10 @@
 .list-group-item .item-msg .msg-text {
     color: #333;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 0px;
 }
 
 .list-group-item .item-buttons {
