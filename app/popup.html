@@ -20,6 +20,7 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
     <!-- endbower -->
     <script src="scripts/explus.js"></script>
@@ -31,66 +32,25 @@
 
 </head>
 <body class="container-fluid ng-scope">
-
 <form id="input-wrapper" name="postIdForm" role="form" ng-submit="query()">
     <div class="input-group">
+        <span id="defineIcon" ng-show="undefined||loading" class="glyphicon glyphicon-refresh rotate"></span>
         <input id="postId-input" ng-model="postId" type="text" placeholder="{{i18n('searchTip')}}" class="form-control"
-               required>
+               required ng-minlength="6" ng-pattern="/^[0-9a-zA-Z]*.$/">
                 <span class="input-group-btn">
                     <button ng-disabled="!postIdForm.$valid" type="submit" class="btn btn-info">{{i18n('queryName')}}
                     </button>
                 </span>
     </div>
     <div ng-if="codes.length>0">
-        <ul>
+        <ul class="list-inline">
             <li ng-repeat="code in codes | limitTo: 5 track by $index" ng-click="query(code)"><span class="label"
-                ng-random-class ng-classes="tagclasses">{{code}}</span></li>
+                                                                                                    ng-random-class
+                                                                                                    ng-classes="tagclasses">{{code}}</span>
+            </li>
         </ul>
     </div>
 </form>
-
-<div id="loading-wrapper" ng-show="loading" class="ng-hide">Loading...</div>
-<div id="result-wrapper" ng-show="post.status == '200'" class="ng-hide">
-    <div id="postid-wrapper">
-        <h2 class="post-id">{{post.id}}</h2>
-
-        <div class="info">{{i18n('company')}}：{{post.com}}</div>
-        <div class="info">{{i18n('totalTime')}}：{{post.totaltime | spendTime }}</div>
-        <div class="info" ng-if="post.destination">dest: {{post.destination}}</div>
-        <a class="mark-button" ng-click="mark()" title="mark">
-            <span ng-if="marked" class="glyphicon glyphicon-star"></span>
-            <span ng-if="!marked" class="glyphicon glyphicon-star-empty"></span>
-        </a>
-    </div>
-    <div id="result-nothing" ng-if="!post.isOk()">{{post.message}}</div>
-    <table id="result-table" ng-if="post.isOk()" class="table table-striped">
-        <thead>
-        <tr>
-            <th>{{i18n('updateTime')}}</th>
-            <th></th>
-            <th>{{i18n('updateContext')}}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="p in post.data"
-            ng-class="getStateClass($first, post.state)">
-            <td class="post-time">{{p.time}}</td>
-            <td><span class="glyphicon glyphicon-map-marker"></span></td>
-            <td class="post-context">{{p.context}}</td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="copyright">
-        &copy;2015 Powered by <a href="http://www.kuaidi100.com/" target="_blank">kuaidi100</a>
-    </div>
-</div>
-<div id="error-wrapper"
-     ng-show="post.status == '201' || post.status == '400' || post.status == '500' || post.status == '503'"
-     class="ng-hide">
-    <p>{{post.message}}</p>
-
-    <p ng-if="post.error">{{post.error}}</p>
-</div>
-
+<div ng-view></div>
 </body>
 </html>

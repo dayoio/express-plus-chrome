@@ -2,6 +2,18 @@
 
 
 angular.module('explus', ['ngResource', 'ngStorage'])
+    .directive('ngRandomClass', function () {
+        return {
+            restrict: 'EA',
+            replace: false,
+            scope: {
+                ngClasses: "="
+            },
+            link: function (scope, elem, attr) {
+                elem.addClass(scope.ngClasses[Math.floor(Math.random() * (scope.ngClasses.length))]);
+            }
+        }
+    })
     .factory('Post', function () {
 
         var Post = function (id, com) {
@@ -23,6 +35,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 sp.text = this.data[0].context;
                 sp.time = this.data[0].time;
                 sp.check = (this.state === '3');
+                sp.tags = this.tags || [];
                 return sp;
             },
             isOk: function () {
@@ -42,6 +55,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             postid: '@id'
         }, {timeout: 10000});
 
+        //初始配置
         $rootScope.$storage = $localStorage.$default(
             {
                 check: true,
@@ -55,27 +69,16 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             return chrome.i18n.getMessage(msg);
         };
 
+        //单号状态
         var states = ['default', 'info', 'warning', 'success', 'danger', 'primary', 'warning']
         $rootScope.getStateClass = function($first, $state){
             return $first?states[$state]:states[0];
         }
 
+        $rootScope.tagclasses = ['label-default', 'label-danger', 'label-info', 'label-primary', 'label-success', 'label-warning'];
+
         var postsService;
         postsService = {
-            /*_posts: {},
-             _retrieve: function (id, com) {
-             var post = this._posts[id];
-             if (post) {
-             post.com = com;
-             } else {
-             post = new Post(id, com);
-             this._posts[id] = post;
-             }
-             return post;
-             },
-             _search: function (id) {
-             return this._posts[id];
-             },*/
             define: function (id) {
                 var defer = $q.defer();
                 var mark = this.searchMark(id);
@@ -103,16 +106,16 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             update: function (id, com) {
                 console.log('update post');
                 var defer = $q.defer();
+                var scope = this;
                 _Query.get({type: com, postid: id},
                     function (data) {
                         console.log('update complete');
                         var post = new Post(id, com);
-                        /*if (data.data === undefined || data.data.length === 0) {
-                            post.message = 'Data not found!! Please try again later.';
-                        } else {
-                            delete post.message;
-                        }*/
                         post.setData(data);
+                        //add tags
+                        var mark = scope.searchMark(id);
+                        if(mark && mark.tags )
+                            post.tags = mark.tags;
                         defer.resolve(post);
                     },
                     function () {
@@ -123,17 +126,18 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                     });
                 return defer.promise;
             },
+            //mark setting handler
             searchMark: function (id) {
-                return $rootScope.$storage.marks[id] || undefined;
+                try{
+                    return $rootScope.$storage.marks[id];
+                }catch(err){}
+                return undefined;
             },
             saveMark: function (post) {
                 if (post) {
-                    if ($rootScope.$storage.marks[post.id] === undefined) {
-                        $rootScope.$storage.marks[post.id] = post.toSimple();
-                        return true;
-                    }
+                    //overwrite
+                    $rootScope.$storage.marks[post.id] = post.toSimple();
                 }
-                return false;
             },
             removeMark: function (id) {
                 delete $rootScope.$storage.marks[id];
