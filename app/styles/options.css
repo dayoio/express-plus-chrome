@@ -7,13 +7,18 @@
 #options-head {
     border-bottom: solid 1px #eee;
     margin-bottom: 10px;
+    padding-bottom: 5px;
 }
 
-/*#options-head span {
+#options-head h1 {
+    display: inline-block;
+}
+
+#options-head .desc {
     font-size: 12px;
     color: #999;
     padding-left: 5px;
-}*/
+}
 
 #options-wrapper {
     border:solid 1px #aaa;
@@ -34,7 +39,7 @@
 
 #marks-wrapper {
     border-left: solid 1px #eee;
-    height: 430px;
+    height: 445px;
 }
 
 #marks-wrapper #marks-list {
@@ -62,11 +67,26 @@
 }
 
 .list-group-item .item-heading h4 {
-    font-size: 14px;
+    font-size: 16px;
+    display: inline-block;
+}
+
+.list-group-item .item-heading ul {
+    display: inline-block;
+    margin-left: 2px;
+}
+
+.list-group-item .item-heading ul li {
+    padding: 0px 0px 0px 2px;
+}
+
+.list-group-item .item-heading span {
+    font-size: 12px;
+    padding: 0px 2px 0px 2px;
+    font-weight: normal;
 }
 
 .list-group-item .item-msg {
-    padding-left: 5px;
     font-size: 12px;
 }
 
@@ -75,32 +95,17 @@
 }
 
 .list-group-item .item-msg .msg-text {
-    color: #333
+    color: #333;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 0px;
 }
 
 .list-group-item .item-buttons {
     position: absolute;
     right: 10px;
-    top: 6px;
+    top: 10px;
 }
 
-.rotate {
-    -webkit-animation: loading 1s infinite linear;
-    animation: loading 1s infinite linear;
-}
-
-@-webkit-keyframes loading {
-    from {
-        transform: rotate(0deg);
-    } to {
-        transform: rotate(360deg);
-    }
- }
-
-@keyframes loading {
-    from {
-        transform: rotate(0deg);
-    } to {
-        transform: rotate(360deg);
-    }
-}

@@ -1,0 +1,40 @@
+<div id="save-wrapper">
+    <table class="table table-striped">
+        <tr>
+            <td>ID:</td>
+            <td>{{post.id}}</td>
+        </tr>
+        <tr>
+            <td>{{i18n('company')}}:</td>
+            <td>{{post.com}}</td>
+        </tr>
+        <tr ng-if="post.isOk()">
+            <td>{{i18n('updateTime')}}</td>
+            <td>{{post.data[0].time || ''}}</td>
+        </tr>
+        <tr ng-if="post.isOk()">
+            <td>{{i18n('updateContext')}}</td>
+            <td>{{post.data[0].context || ''}}</td>
+        </tr>
+        <tr>
+            <td>{{i18n('tags')}}:</td>
+            <td>
+                <input type="text" class="form-control" ng-model="post.tags" ng-list="," />
+                <span class="small">{{i18n('tagsTip')}}</span>
+
+                <div id="tags-list">
+                    <ul class="list-inline">
+                        <li ng-repeat="tag in post.tags track by $index"><span class="label"
+                                  ng-random-class
+                                  ng-classes="tagclasses">{{tag}}</span></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="form-group">
+        <a href="#/" ng-if="marked" ng-click="mark(false)" class="btn btn-danger" role="button">{{i18n('delete')}}</a>
+        <a ng-click="mark(true)" class="btn btn-success" role="button">{{i18n('save')}}</a>
+        <a href="#/" class="btn btn-default" role="button">{{i18n('cancel')}}</a>
+    </div>
+</div>

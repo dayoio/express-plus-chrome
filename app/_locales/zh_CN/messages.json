@@ -4,7 +4,7 @@
         "description": "应用名称"
     },
     "appDescription": {
-        "message": "轻松快捷的管理你的快递。",
+        "message": "轻松快捷的管理你的快递",
         "description": ""
     },
     "queryName": {
@@ -53,6 +53,26 @@
     },
     "updateContext": {
         "message": "内容",
+        "description": ""
+    },
+    "tags": {
+        "message": "标签",
+        "description": ""
+    },
+    "tagsTip": {
+        "message": "标签用半角 , 隔开",
+        "description": ""
+    },
+    "cancel": {
+        "message": "取消",
+        "description": ""
+    },
+    "save": {
+        "message": "保存",
+        "description": ""
+    },
+    "delete": {
+        "message": "删除",
         "description": ""
     }
 }

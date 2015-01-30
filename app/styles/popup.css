@@ -3,23 +3,21 @@ body {
     width: 400px;
 }
 
-#input-wrapper {
+/*#input-wrapper {
     margin-bottom: 10px;
-}
+}*/
 
-#input-wrapper ul{
-    list-style-type: none;
+#input-wrapper ul {
     margin: 0px;
     padding: 0px;
 }
 
 #input-wrapper ul li {
-    float: left;
     padding: 2px;
     cursor: pointer;
 }
 
-#input-wrapper ul li>span{
+#input-wrapper ul li > span {
     font-size: 12px;
 }
 
@@ -79,7 +77,7 @@ body {
     width: 100px;
 }
 
-#loading-wrapper, #error-wrapper{
+#loading-wrapper, #error-wrapper {
     color: #666;
     margin-top: 10px;
     margin-left: 10px;
@@ -94,4 +92,28 @@ body {
 
 .copyright {
     border-top: solid 1px #eee;
+}
+
+/* save view */
+
+#save-wrapper {
+    margin-top: 20px;
+}
+
+#save-wrapper tr > td:first-child {
+    text-align: right;
+    font-weight: bold;
+    width: 100px;
+}
+
+#tags-list ul li {
+    padding-bottom: 5px;
+}
+
+#defineIcon {
+    position: absolute;
+    right: 60px;
+    z-index: 1000;
+    top: 10px;
+    color: #CDCDCD;
 }
