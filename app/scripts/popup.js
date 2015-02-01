@@ -16,7 +16,7 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
             })
     })
 
-    .controller('MainController', function ($scope, $route, postsService) {
+    .controller('MainController', function ($scope, $location, postsService) {
 
         $scope.postId = undefined;
         $scope.undefined = false;
@@ -49,7 +49,7 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
         $scope.query = function (com) {
             $scope.loading = true;
             $scope.post = {}
-            $scope.marked = postsService.searchMark($scope.postId)
+            $scope.marked = (postsService.searchMark($scope.postId).index !== -1);
 
             if (!com && $scope.codes.length > 0)
                 com = $scope.codes[0];
@@ -76,7 +76,7 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
                 postsService.saveMark($scope.post);
             else
                 postsService.removeMark($scope.post.id);
-            $route.redirectTo('#/');
+            $location.path('#/');
         };
 
     }).filter('spendTime', function () {

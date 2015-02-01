@@ -94,6 +94,14 @@ body {
     border-top: solid 1px #eee;
 }
 
+#defineIcon {
+    position: absolute;
+    right: 60px;
+    z-index: 1000;
+    top: 10px;
+    color: #CDCDCD;
+}
+
 /* save view */
 
 #save-wrapper {
@@ -110,10 +118,12 @@ body {
     padding-bottom: 5px;
 }
 
-#defineIcon {
-    position: absolute;
-    right: 60px;
-    z-index: 1000;
-    top: 10px;
-    color: #CDCDCD;
+.save-buttons-group {
+    text-align: center;
 }
+
+.save-buttons-group a {
+    width: 80px;
+    margin: 0px 5px 0px 5px;
+}
+
