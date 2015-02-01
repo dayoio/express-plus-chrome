@@ -5,7 +5,7 @@
     },
     "appDescription": {
         "message": "轻松快捷的管理你的快递",
-        "description": ""
+        "description": "应用说明"
     },
     "queryName": {
         "message": "查询",
@@ -29,15 +29,15 @@
     },
     "optionDelay": {
         "message": "查询间隔",
-        "description": ""
+        "description": "自动查询的时间，已分钟计算"
     },
     "optionSettings": {
         "message": "设置",
-        "description": ""
+        "description": "设置功能列表"
     },
     "optionList": {
         "message": "订阅列表",
-        "description": ""
+        "description": "已订阅的订单列表"
     },
     "company": {
         "message": "公司",
@@ -61,18 +61,18 @@
     },
     "tagsTip": {
         "message": "标签用半角 , 隔开",
-        "description": ""
+        "description": "保存页面标签提示"
     },
     "cancel": {
         "message": "取消",
-        "description": ""
+        "description": "保存页面按钮"
     },
     "save": {
         "message": "保存",
-        "description": ""
+        "description": "保存页面按钮"
     },
     "delete": {
         "message": "删除",
-        "description": ""
+        "description": "保存页面按钮"
     }
 }

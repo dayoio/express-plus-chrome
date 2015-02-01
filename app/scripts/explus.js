@@ -31,6 +31,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             },
             toSimple: function () {
                 var sp = {};
+                sp.id = this.id;
                 sp.com = this.com;
                 sp.text = this.data[0].context;
                 sp.time = this.data[0].time;
@@ -62,7 +63,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 notification: true,
                 auto: true,
                 delay: 30,
-                marks: {}
+                marks: []
             });
 
         $rootScope.i18n = function (msg) {
@@ -82,9 +83,9 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             define: function (id) {
                 var defer = $q.defer();
                 var mark = this.searchMark(id);
-                if (mark) {
+                if (mark.index !== -1) {
                     console.log('define: mark');
-                    defer.resolve([mark.com]);
+                    defer.resolve([mark.value.com]);
                 } else {
                     console.log('define: auto');
                     _Auto.query({postid: id}, function (data) {
@@ -94,7 +95,6 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                             return defer.resolve(coms);
                         },
                         function (error) {
-                            console.log(error);
                             return defer.reject({
                                 status: '400',
                                 message: 'Data not found!! Please try again later.'
@@ -114,8 +114,8 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                         post.setData(data);
                         //add tags
                         var mark = scope.searchMark(id);
-                        if(mark && mark.tags )
-                            post.tags = mark.tags;
+                        if( mark.index !== -1 )
+                            post.tags = mark.value.tags || [];
                         defer.resolve(post);
                     },
                     function () {
@@ -129,25 +129,35 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             //mark setting handler
             searchMark: function (id) {
                 try{
-                    return $rootScope.$storage.marks[id];
+                    for(var i=0;i<$rootScope.$storage.marks.length;i++)
+                    {
+                        if($rootScope.$storage.marks[i].id === id)
+                            return {index:i, value: $rootScope.$storage.marks[i]};
+                    }
                 }catch(err){}
-                return undefined;
+                return {index:-1};
             },
             saveMark: function (post) {
                 if (post) {
                     //overwrite
-                    $rootScope.$storage.marks[post.id] = post.toSimple();
+                    var res = this.searchMark(post.id);
+                    if(res.index !== -1) {
+                        $rootScope.$storage.marks.splice(res.index, 1, post.toSimple());
+                    }
+                    else
+                        $rootScope.$storage.marks.push(post.toSimple());
                 }
             },
             removeMark: function (id) {
-                delete $rootScope.$storage.marks[id];
+                var res = this.searchMark(id);
+                if(res.index !== -1)
+                    $rootScope.$storage.marks.splice(res.index,1);
             },
             updateMark: function (id) {
-                var mark = this.searchMark(id);
+                var mark = this.searchMark(id).value;
                 mark.loading = true;
-                var post = this._retrieve(id, mark.com);
                 var defer = $q.defer();
-                this.update(post).then(function (post) {
+                this.update(id, mark.com).then(function (post) {
                     delete mark.loading;
                     try {
                         mark.text = post.data[0].context;
@@ -162,11 +172,11 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             },
             getAllMarkId: function (uncheck) {
                 var ids = [];
-                angular.forEach($rootScope.$storage.marks, function (key, val) {
+                angular.forEach($rootScope.$storage.marks, function (val) {
                     if (uncheck && val.check) {
-                        ids.push(key);
+                        ids.push(val.id);
                     } else {
-                        ids.push(key);
+                        ids.push(val.id);
                     }
                 });
                 return ids;
