@@ -67,14 +67,36 @@
 .list-group-item {
     padding-top: 5px;
     padding-bottom: 5px;
+    cursor: default;
 }
 
+.list-group-item:hover {
+    background-color: #f0f0f0;
+}
+
+/*列表条纹效果*/
+.item-type-even {
+}
+
+.item-type-odd {
+    background-color: #f6f6f6;
+}
+
+/*订单状态*/
+.list-mark--success {
+    border: 0px;
+    border-left: #3c763d 3px solid;
+}
+
+/*取消圆角*/
 .list-group-item:first-child, .list-group-item:last-child {
     border-radius: 0px;
 }
 
+/*单号*/
 .list-group-item .item-heading {
     margin-left: -8px;
+    margin-bottom: 4px;
     color: #333;
 }
 
@@ -82,7 +104,7 @@
     font-size: 16px;
     display: inline-block;
 }
-
+/*标签*/
 .list-group-item .item-heading ul {
     display: inline-block;
     margin-left: 2px;
@@ -96,8 +118,10 @@
     font-size: 12px;
     padding: 0px 2px 0px 2px;
     font-weight: normal;
+    cursor: pointer;
 }
 
+/*内容*/
 .list-group-item .item-msg {
     font-size: 12px;
 }
@@ -111,13 +135,14 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    width: 100%;
+    width: 85%;
     margin-bottom: 0px;
 }
 
+/*工具按钮*/
 .list-group-item .item-buttons {
     position: absolute;
     right: 6px;
-    top: 6px;
+    top: 10px;
 }
 

@@ -76,7 +76,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             return $first?states[$state]:states[0];
         }
 
-        $rootScope.tagclasses = ['label-default', 'label-danger', 'label-info', 'label-primary', 'label-success', 'label-warning'];
+        $rootScope.tagclasses = ['label-danger', 'label-info', 'label-primary', 'label-success', 'label-warning'];
 
         var postsService;
         postsService = {

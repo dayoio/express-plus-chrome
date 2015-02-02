@@ -18,6 +18,10 @@ angular.module('optionApp', ['explus']).controller('optionController', function(
         })
     }
 
+    $scope.setFilter = function(f){
+        $scope.markFilter = f;
+    }
+
     $scope.onChange = function(t){
         var cmd;
         if(t === 'auto')
