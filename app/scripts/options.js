@@ -7,6 +7,7 @@
 */
 angular.module('optionApp', ['explus']).controller('optionController', function($scope, postsService){
 
+
     $scope.delay_options = [20, 30, 60, 120];
 
     $scope.removeMark = function(id){
@@ -16,6 +17,10 @@ angular.module('optionApp', ['explus']).controller('optionController', function(
     $scope.updateMark = function(id){
         postsService.updateMark(id).then(function (mark) {
         })
+    }
+
+    $scope.setFilter = function(f){
+        $scope.markFilter = f;
     }
 
     $scope.onChange = function(t){

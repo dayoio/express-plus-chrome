@@ -18,6 +18,7 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
 
     .controller('MainController', function ($scope, $location, postsService) {
 
+
         $scope.postId = undefined;
         $scope.undefined = false;
         $scope.codes = [];
