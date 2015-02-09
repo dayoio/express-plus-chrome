@@ -4,7 +4,8 @@
 
 >Building my first Chrome extension to learn AngularJS.
 
-[WebStore](https://chrome.google.com/webstore/detail/express+/hghlokkgbicmblinhepcibacaiegldeg)
+##Install
+[Chrome Web Store](https://chrome.google.com/webstore/detail/express+/hghlokkgbicmblinhepcibacaiegldeg)
 
 ##UI
 + popup界面，直接輸入快遞單號直接查詢。
@@ -21,7 +22,6 @@
 
 ##Roadmap
 
-+ 標籤管理
 + 多接口查詢
 
 ##Links
