@@ -72,8 +72,8 @@ angular.module('explus', ['ngResource', 'ngStorage'])
 
         //单号状态
         var states = ['default', 'info', 'warning', 'success', 'danger', 'primary', 'warning']
-        $rootScope.getStateClass = function($first, $state){
-            return $first?states[$state]:states[0];
+        $rootScope.getStateClass = function ($first, $state) {
+            return $first ? states[$state] : states[0];
         }
 
         $rootScope.tagclasses = ['label-danger', 'label-info', 'label-primary', 'label-success', 'label-warning'];
@@ -104,17 +104,16 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 return defer.promise;
             },
             update: function (id, com) {
-                console.log('update post');
+                console.log('update ' + id +"@" + com);
                 var defer = $q.defer();
                 var scope = this;
                 _Query.get({type: com, postid: id},
                     function (data) {
-                        console.log('update complete');
                         var post = new Post(id, com);
                         post.setData(data);
                         //add tags
                         var mark = scope.searchMark(id);
-                        if( mark.index !== -1 )
+                        if (mark.index !== -1)
                             post.tags = mark.value.tags || [];
                         defer.resolve(post);
                     },
@@ -128,20 +127,20 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             },
             //mark setting handler
             searchMark: function (id) {
-                try{
-                    for(var i=0;i<$rootScope.$storage.marks.length;i++)
-                    {
-                        if($rootScope.$storage.marks[i].id === id)
-                            return {index:i, value: $rootScope.$storage.marks[i]};
+                try {
+                    for (var i = 0; i < $rootScope.$storage.marks.length; i++) {
+                        if ($rootScope.$storage.marks[i].id === id)
+                            return {index: i, value: $rootScope.$storage.marks[i]};
                     }
-                }catch(err){}
-                return {index:-1};
+                } catch (err) {
+                }
+                return {index: -1};
             },
             saveMark: function (post) {
                 if (post) {
                     //overwrite
                     var res = this.searchMark(post.id);
-                    if(res.index !== -1) {
+                    if (res.index !== -1) {
                         $rootScope.$storage.marks.splice(res.index, 1, post.toSimple());
                     }
                     else
@@ -150,13 +149,13 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             },
             removeMark: function (id) {
                 var res = this.searchMark(id);
-                if(res.index !== -1)
-                    $rootScope.$storage.marks.splice(res.index,1);
+                if (res.index !== -1)
+                    $rootScope.$storage.marks.splice(res.index, 1);
             },
             updateMark: function (id) {
+                var defer = $q.defer();
                 var mark = this.searchMark(id).value;
                 mark.loading = true;
-                var defer = $q.defer();
                 this.update(id, mark.com).then(function (post) {
                     delete mark.loading;
                     try {
