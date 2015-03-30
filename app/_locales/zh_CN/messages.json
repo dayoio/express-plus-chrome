@@ -15,9 +15,9 @@
         "message": "输入你的快递单号...",
         "description": "单号输入框提示"
     },
-    "optionNotification": {
-        "message": "开启桌面通知",
-        "description": ""
+    "notificationTitle": {
+        "message": "快递已更新",
+        "description": "信息提示框标题"
     },
     "optionCheck": {
         "message": "只提示已收货单号",

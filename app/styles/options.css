@@ -53,6 +53,15 @@
     position: initial;
 }
 
+/* 過濾清楚圖標 */
+#marks-wrapper .marks-filter span.filter-clean {
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    z-index: 10000;
+    cursor: pointer;
+}
+
 #marks-wrapper #marks-list {
     overflow: auto;
     max-height: 382px;

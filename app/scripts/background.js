@@ -1,79 +1,73 @@
 'use strict';
 
 
-var service, uncheck, notification = true, onlycheck = true, autocheck = true, delay = 30, msgs;
+var service, uncheck = [], msgs = [];
 
 function autoCheck() {
-    if (!uncheck || uncheck.length === 0) {
-        if (notification && msgs.length > 0) {
-            console.log("push notification");
-            var opt = {
-                type: 'list',
-                title: '快递已经更新',
-                message: 'new message',
-                iconUrl: 'images/icon-64.png',
-                items: msgs
-            };
-            chrome.notifications.create('update', opt, function () {
-            });
+    if (uncheck.length == 0) {
+        console.log("auto finish");
+        if (msgs.length > 0) {
+            console.log("show notification");
+            chrome.storage.sync.get({'check': true}, function (items) {
+                for (var i = msgs.length - 1; i >= 0; i--) {
+                    var m = msgs[i];
+                    if (items.check && !m.check) {
+                        msgs.splice(i, 1);
+                        continue;
+                    }
+                    msgs[i] = {'title': m.id, 'message': m.text};
+                }
+                chrome.notifications.create('update', {
+                    type: 'list',
+                    title: chrome.i18n.getMessage('notificationTitle'),
+                    message: 'update',
+                    iconUrl: 'images/icon-64.png',
+                    items: msgs
+                }, function () {
+                });
+                msgs.length = 0;
+            })
         }
         return;
     }
     var id = uncheck.shift();
     var tmp_time = service.searchMark(id).value.time || undefined;
     service.updateMark(id).then(function (mark) {
-        if (onlycheck && mark.check) {
-            msgs.push({'id': mark.id, 'text': mark.text});
-        } else if (!onlycheck) {
-            if (tmp_time !== undefined && tmp_time !== mark.time) {
-                msgs.push({'title': mark.id, 'message': mark.text});
-            }
+        if (tmp_time !== undefined && tmp_time !== mark.time) {
+            msgs.push(mark);
         }
+        autoCheck();
+    }, function () {
         autoCheck();
     });
 }
 
 function onInit() {
-    try {
-        delay = Number(window.localStorage["ngStorage-delay"]);
-        notification = window.localStorage["ngStorage-notification"] === "true";
-        onlycheck = window.localStorage["ngStorage-check"] === "true";
-        autocheck = window.localStorage["ngStorage-auto"] === "true";
-    } catch (err) {
-    }
-    service = angular.injector(['explus', 'ng']).get('postsService');
-    if (autocheck)
-        chrome.alarms.create('auto', {'periodInMinutes': delay});
+    onMessage();
 }
 
 function onAlarm(alarm) {
     if (alarm && alarm.name === 'auto') {
-        if (service) {
-            uncheck = service.getAllMarkId(true) || [];
+        if (!service)
+            service = angular.injector(['explus', 'ng']).get('postsService');
+        uncheck = service.getAllMarkId(true) || [];
+        if (uncheck.length > 0) {
             msgs = [];
             autoCheck();
-        } else {
-            console.log('service error.')
-            service = angular.injector(['explus', 'ng']).get('postsService');
-            onAlarm(alarm);
         }
     }
 }
 
-
-function onMessage(res) {
-    console.log(res);
-    if (res.act === 'auto') {
-        if (res.value === true) {
-            chrome.alarms.create('auto', {'periodInMinutes': res.delay});
+function onMessage() {
+    chrome.storage.sync.get({'check': true, 'auto': true, 'delay': 30}, function (items) {
+        if (items.auto) {
+            console.log("check express after %s min", items.delay);
+            chrome.alarms.create('auto', {'periodInMinutes': items.delay});
         } else {
+            console.log("clear alarm");
             chrome.alarms.clear('auto');
         }
-    } else if (res.act === 'notification') {
-        notification = res.value;
-    } else if (res.act === 'check') {
-        onlycheck = res.value;
-    }
+    })
 }
 
 /* listeners */

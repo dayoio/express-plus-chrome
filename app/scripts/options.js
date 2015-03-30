@@ -7,8 +7,13 @@
  */
 angular.module('optionApp', ['explus']).controller('optionController', function ($scope, postsService) {
 
+    chrome.storage.sync.get({'check': true, 'auto': true, 'delay': 30}, function (conf) {
+        $scope.conf = conf;
+        $scope.$apply();
+    })
 
-    $scope.delay_options = [20, 30, 60, 120];
+    $scope.delay_options = [10, 20, 30, 60, 120];
+    $scope.markFilter = '';
 
     $scope.removeMark = function (id) {
         postsService.removeMark(id);
@@ -24,13 +29,15 @@ angular.module('optionApp', ['explus']).controller('optionController', function 
     }
 
     $scope.onChange = function (t) {
-        var cmd;
         if (t === 'auto')
-            cmd = {'act': 'auto', 'value': $scope.$storage.auto, 'delay': $scope.$storage.delay};
-        else if (t === 'check' || t === 'notification')
-            cmd = {'act': t, 'value': $scope.$storage[t]};
-        if (cmd)
-            chrome.runtime.sendMessage(cmd);
+            chrome.storage.sync.set({'auto': $scope.conf.auto, 'delay': $scope.conf.delay}, function () {
+                console.log("settings saved!");
+                chrome.runtime.sendMessage({});
+            });
+        else if (t === 'check')
+            chrome.storage.sync.set({'check': $scope.conf.check}, function () {
+                console.log("settings saved!");
+            });
     }
 
 }).filter('cut', function () {
