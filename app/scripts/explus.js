@@ -104,7 +104,7 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                 return defer.promise;
             },
             update: function (id, com) {
-                console.log('update ' + id +"@" + com);
+                console.log('update ' + id + "@" + com);
                 var defer = $q.defer();
                 var scope = this;
                 _Query.get({type: com, postid: id},
@@ -172,9 +172,9 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             getAllMarkId: function (uncheck) {
                 var ids = [];
                 angular.forEach($rootScope.$storage.marks, function (val) {
-                    if (uncheck && val.check) {
+                    if (uncheck && !val.check) {
                         ids.push(val.id);
-                    } else {
+                    } else if (!uncheck) {
                         ids.push(val.id);
                     }
                 });
