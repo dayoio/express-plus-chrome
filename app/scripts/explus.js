@@ -49,7 +49,24 @@ angular.module('explus', ['ngResource', 'ngStorage'])
 
         return Post;
     })
-    .factory('postsService', function ($q, $resource, $window, $rootScope, $localStorage, Post) {
+    .factory('localService', function () {
+        var regs = {
+            "ecmsglobal": /^APELAX[0-9]{7,12}/
+        };
+        return {
+            check: function (id) {
+                var res = null;
+                for (var key in regs) {
+                    if (id.match(regs[key])) {
+                        res = [key];
+                        break;
+                    }
+                }
+                return res;
+            }
+        }
+    })
+    .factory('postsService', function ($q, $resource, $window, $rootScope, $localStorage, Post, localService) {
         var _Auto = $resource('http://www.kuaidi100.com/autonumber/auto?num=:postid', {postid: '@id'}, {timeout: 10000});
         var _Query = $resource('http://www.kuaidi100.com/query?type=:type&postid=:postid', {
             type: '@type',
@@ -88,18 +105,23 @@ angular.module('explus', ['ngResource', 'ngStorage'])
                     defer.resolve([mark.value.com]);
                 } else {
                     console.log('define: auto');
-                    _Auto.query({postid: id}, function (data) {
-                            var coms = data.length > 0 ? data.map(function (d) {
-                                return d.comCode;
-                            }) : [];
-                            return defer.resolve(coms);
-                        },
-                        function (error) {
-                            return defer.reject({
-                                status: '400',
-                                message: 'Data not found!! Please try again later.'
+                    var coms = localService.check(id);
+                    if (coms) {
+                        defer.resolve(coms);
+                    } else {
+                        _Auto.query({postid: id}, function (data) {
+                                coms = data.length > 0 ? data.map(function (d) {
+                                    return d.comCode;
+                                }) : [];
+                                return defer.resolve(coms);
+                            },
+                            function (error) {
+                                return defer.reject({
+                                    status: '400',
+                                    message: 'Data not found!! Please try again later.'
+                                });
                             });
-                        });
+                    }
                 }
                 return defer.promise;
             },
