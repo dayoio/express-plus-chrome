@@ -23,6 +23,10 @@
 ##Roadmap
 
 + 多接口查詢
++ 導出數據 or 同步?
++ 快速添加訂閱
++ 優化訂閱列表排列順序
+
 
 ##Links
 -  *[kuaidi100](http://www.kuaidi100.com/)*
