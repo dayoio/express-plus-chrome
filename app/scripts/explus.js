@@ -1,6 +1,8 @@
 'use strict';
 
-
+/**
+ *
+ */
 angular.module('explus', ['ngResource', 'ngStorage'])
     .directive('ngRandomClass', function () {
         return {
@@ -73,13 +75,8 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             postid: '@id'
         }, {timeout: 10000});
 
-        //初始配置
         $rootScope.$storage = $localStorage.$default(
             {
-                check: true,
-                notification: true,
-                auto: true,
-                delay: 30,
                 marks: []
             });
 
@@ -87,7 +84,6 @@ angular.module('explus', ['ngResource', 'ngStorage'])
             return chrome.i18n.getMessage(msg);
         };
 
-        //单号状态
         var states = ['default', 'info', 'warning', 'success', 'danger', 'primary', 'warning']
         $rootScope.getStateClass = function ($first, $state) {
             return $first ? states[$state] : states[0];

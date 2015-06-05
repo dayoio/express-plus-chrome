@@ -4,10 +4,10 @@
 
 >Building my first Chrome extension to learn AngularJS.
 
-##Install
-[Chrome Web Store](https://chrome.google.com/webstore/detail/express+/hghlokkgbicmblinhepcibacaiegldeg)
+## 安装
+[Chrome应用商店](https://chrome.google.com/webstore/detail/hghlokkgbicmblinhepcibacaiegldeg)
 
-##UI
+## 界面
 + popup界面，直接輸入快遞單號直接查詢。
 + 输入框下会出现识别出的类型
 + 獲取結果會顯示出類型、時間和更新列表。
@@ -20,13 +20,14 @@
 
 ![options](images/options.png)
 
-##Roadmap
+## 更新和错误
 
 + 多接口查詢
 + 導出數據 or 同步?
 + 快速添加訂閱
-+ 優化訂閱列表排列順序
++ 中文乱码
++ ~~優化訂閱列表排列順序~~
++ ~~快递类型显示中文~~
 
-
-##Links
+## 链接
 -  *[kuaidi100](http://www.kuaidi100.com/)*

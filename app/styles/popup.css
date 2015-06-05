@@ -25,7 +25,7 @@ body {
     position: relative;
     border: solid 1px #bfbfbf;
     border-radius: 2px;
-    max-height: 500px;
+    max-height: 480px;
     overflow: auto;
     float: left;
     margin-top: 3px;
@@ -79,10 +79,13 @@ body {
 
 #loading-wrapper, #error-wrapper {
     color: #666;
-    margin-top: 10px;
-    margin-left: 10px;
     float: left;
     width: 100%;
+}
+
+#loading-wrapper, #error-wrapper, #result-wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #result-nothing {
@@ -105,7 +108,9 @@ body {
 /* save view */
 
 #save-wrapper {
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: solid 1px #bfbfbf;
 }
 
 #save-wrapper tr > td:first-child {
@@ -127,3 +132,9 @@ body {
     margin: 0px 5px 0px 5px;
 }
 
+.footer {
+    color: #666;
+    font-size: 12px;
+    margin-top: 12px;
+    text-align: center;
+}

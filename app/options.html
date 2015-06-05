@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app="optionApp" ng-controller="optionController" ng-csp>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- build:css styles/lib.css -->
     <!-- bower:css -->
@@ -68,14 +68,14 @@
         </div>
         <div id="marks-list">
             <ul class="list-group">
-                <li ng-repeat="mark in $storage.marks | filter: markFilter" multiple="true"
+                <li ng-repeat="mark in $storage.marks | filter: markFilter | orderBy: 'time':true" multiple="true"
                     ng-class="{'list-mark--success': mark.check}" class="list-group-item"
                     ng-class-even="'item-type-even'"
                     ng-class-odd="'item-type-odd'">
                     <div class="item-heading">
                         <h4>{{mark.id}}</h4>
                         <ul class="list-inline">
-                            <li><span ng-click="setFilter(mark.com)" class="label label-default">{{mark.com}}</span>
+                            <li><span ng-click="setFilter(mark.com)" class="label label-default">{{mark.com|code2zh}}</span>
                             </li>
                             <li ng-repeat="tag in mark.tags">
                                             <span class="label" ng-click="setFilter(tag)" ng-random-class
@@ -100,7 +100,7 @@
         </div>
     </div>
     <div class="col-md-12 copyright">
-        &copy;2015 Minos Powered by <a href="http://www.kuaidi100.com/" target="_blank">kuaidi100</a>
+        &copy;2015 快递助手 - 由 <a href="http://www.kuaidi100.com/" target="_blank">kuaidi100</a> 强力驱动
     </div>
 </div>
 

@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app="popupApp" ng-controller="MainController" ng-csp>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- build:css styles/lib.css -->
     <!-- bower:css -->
@@ -46,11 +46,14 @@
         <ul class="list-inline">
             <li ng-repeat="code in codes | limitTo: 5 track by $index" ng-click="query(code)"><span class="label"
                                                                                                     ng-random-class
-                                                                                                    ng-classes="tagclasses">{{code}}</span>
+                                                                                                    ng-classes="tagclasses">{{code|code2zh}}</span>
             </li>
         </ul>
     </div>
 </form>
 <div ng-view></div>
+<div class="footer">
+    &copy;2015 快递助手 - <a href="options.html" target="_blank">订阅管理</a>
+</div>
 </body>
 </html>

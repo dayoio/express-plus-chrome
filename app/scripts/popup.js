@@ -35,9 +35,10 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
                     $scope.codes = data;
                     $scope.undefined = false;
                     if ($scope.loading && $scope.codes.length > 0) {
+                        $scope.post = {};
                         updatePost($scope.postId, $scope.codes[0]);
                     } else if ($scope.codes.length === 0) {
-                        $scope.post = {'status': '400', 'message': "It's not a valid id."}
+                        $scope.post = {'status': '400', 'message': "请输入正确的快递单号..."}
                     }
                 }, function (error) {
                     $scope.post = error;
@@ -95,4 +96,35 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
             res += hh + ' hour(s)';
             return res;
         }
-    })
+    }).filter('code2zh', function () {
+        var coms = {
+            "shunfeng": "顺丰",
+            "zhaijisong": "宅急送",
+            "zhongtong": "中通",
+            "yuantong": "圆通",
+            "yunda": "韵达",
+            "shentong": "申通",
+            "tiantian": "天天",
+            "quanfengkuaidi": "全峰",
+            "youshuwuliu": "优速",
+            "jd": "京东",
+            "neweggozzo": "新蛋",
+            "xinbangwuliu": "新邦物流",
+            "debangwuliu": "德邦物流",
+            "huitongkuaidi": "百世汇通",
+            "youzhengguonei": "国内邮政",
+            "youzhengguoji": "邮政国际",
+            "dhl": "DHL(中国)",
+            "dhlen": "DHL(国际)",
+            "dhlde": "DHL(德国)",
+            "ems": "EMS",
+            "emsguoji": "EMS(国际)",
+            "japanposten": "EMS(日本)",
+            "ecmsglobal": "ECMS",
+            "ups": "UPS",
+            "usps": "USPS"
+        }
+        return function (value) {
+            return coms[value.toLowerCase()]||value;
+        }
+    });
