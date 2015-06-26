@@ -83,7 +83,7 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
 
     }).filter('spendTime', function () {
         return function (value) {
-            if (!value) "0 hour(s)";
+            if (!value) "0 小时";
             value = Math.abs(value);
 
             var res = "";
@@ -91,9 +91,9 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
             if (hh >= 24) {
                 var dd = Math.floor(hh / 24);
                 hh -= dd * 24;
-                res = dd + ' day(s) ';
+                res = dd + ' 天 ';
             }
-            res += hh + ' hour(s)';
+            res += hh + ' 小时';
             return res;
         }
     }).filter('code2zh', function () {
