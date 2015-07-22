@@ -17,15 +17,20 @@ function autoCheck() {
                     }
                     msgs[i] = {'title': m.id, 'message': m.text};
                 }
-                chrome.notifications.create('update', {
-                    type: 'list',
-                    title: chrome.i18n.getMessage('notificationTitle'),
-                    message: 'update',
-                    iconUrl: 'images/icon-64.png',
-                    items: msgs
-                }, function () {
-                });
-                msgs.length = 0;
+                if(msgs.length == 0)
+                {
+                    console.log('not checked express.');
+                }else {
+                    chrome.notifications.create('update', {
+                        type: 'list',
+                        title: chrome.i18n.getMessage('notificationTitle'),
+                        message: 'update',
+                        iconUrl: 'images/icon-64.png',
+                        items: msgs
+                    }, function () {
+                    });
+                    msgs.length = 0;
+                }
             })
         }
         return;
