@@ -5,7 +5,7 @@
 >Building my first Chrome extension to learn AngularJS.
 
 ## 安装
-[Chrome应用商店](https://chrome.google.com/webstore/detail/hghlokkgbicmblinhepcibacaiegldeg)
+[![webstore](https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_206x58.png)](https://chrome.google.com/webstore/detail/hghlokkgbicmblinhepcibacaiegldeg)
 
 ## 界面
 + popup界面，直接輸入快遞單號直接查詢。
@@ -13,7 +13,7 @@
 + 獲取結果會顯示出類型、時間和更新列表。
 + 右上角可訂閱，會在定時在後臺更新，如果發現新信息的話會彈出桌面窗口提示。
 
-![sammple](images/sample.png) 
+![sammple](images/sample.png)
 
 + options界面，設置提醒信息。(查詢間隔等)
 + 訂閱列表管理
@@ -26,6 +26,7 @@
 + 導出數據 or 同步?
 + 快速添加訂閱
 + 中文乱码
++ 文件夾分類
 + ~~優化訂閱列表排列順序~~
 + ~~快递类型显示中文~~
 
