@@ -7,12 +7,12 @@
  */
 angular.module('optionApp', ['explus']).controller('optionController', function ($scope, postsService) {
 
-    chrome.storage.sync.get({'check': true, 'auto': true, 'delay': 30, sync: false }, function (conf) {
+    chrome.storage.sync.get({'check': true, 'auto': true, 'delay': 30}, function (conf) {
         $scope.conf = conf;
         $scope.$apply();
     })
 
-    $scope.delay_options = [10, 30, 60, 120];
+    $scope.delay_options = [10, 20, 30, 60, 120];
     $scope.markFilter = '';
 
     $scope.removeMark = function (id) {
