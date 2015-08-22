@@ -4,7 +4,7 @@
         "description": "应用名称"
     },
     "appDescription": {
-        "message": "轻松快捷的管理你的快递",
+        "message": "轻松快捷的管理你的快递~ 支持大部分国内外快递公司查询，并提供自动识别、自动查询、桌面提示等功能~~",
         "description": "应用说明"
     },
     "queryName": {
@@ -19,45 +19,43 @@
         "message": "快递已更新",
         "description": "信息提示框标题"
     },
-    "optionCheck": {
-        "message": "只提示已收货单号",
-        "description": ""
+
+    "optionsSync": {
+        "message": "开启同步(beta)",
+        "description": "on/off"
     },
-    "optionAuto": {
+    "optionsCheck": {
+        "message": "只提示已收货的单号",
+        "description": "on/off"
+    },
+    "optionsAuto": {
         "message": "开启自动查询",
-        "description": ""
+        "description": "on/off"
     },
-    "optionDelay": {
-        "message": "查询间隔",
-        "description": "自动查询的时间，已分钟计算"
+    "optionsDelay": {
+        "message": "查询间隔(分)",
+        "description": "自动查询的时间，以分钟计算"
     },
-    "optionSettings": {
-        "message": "设置",
-        "description": "设置功能列表"
-    },
-    "optionList": {
-        "message": "订阅列表",
-        "description": "已订阅的订单列表"
-    },
+
     "company": {
         "message": "公司",
-        "description": ""
+        "description": "快递公司名字"
     },
     "totalTime": {
         "message": "历时",
-        "description": ""
+        "description": "快递运送总共时间"
     },
     "updateTime": {
         "message": "更新时间",
-        "description": ""
+        "description": "当前消息的时间"
     },
     "updateContext": {
         "message": "内容",
-        "description": ""
+        "description": "当前消息的内容"
     },
     "tags": {
         "message": "标签",
-        "description": ""
+        "description": "标注某个快递单"
     },
     "tagsTip": {
         "message": "标签用半角 , 隔开",
@@ -74,5 +72,11 @@
     "delete": {
         "message": "删除",
         "description": "保存页面按钮"
+    },
+    "mark": {
+        "message": "订阅"
+    },
+    "cancelMark": {
+        "message": "取消订阅"
     }
 }

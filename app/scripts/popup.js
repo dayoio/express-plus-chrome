@@ -2,22 +2,23 @@
 
 /**
  * PopupApp Module
- * 彈出窗口模塊
  */
 
-angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
+angular.module('popupApp', ['explus', 'ngRoute'])
     .config(function ($routeProvider) {
         $routeProvider
             .when('/save', {
-                templateUrl: 'mark.html'
+                templateUrl: 'views/save.html'
+            })
+            .when('/result', {
+                templateUrl: 'view/result.html'
             })
             .otherwise({
-                templateUrl: 'result.html'
+                templateUrl: 'views/marks.html'
             })
     })
-
+    //
     .controller('MainController', function ($scope, $location, postsService) {
-
 
         $scope.postId = undefined;
         $scope.undefined = false;
@@ -25,7 +26,7 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
         $scope.testTag = [];
 
         $scope.$watch('postId', function (newVal, oldVal) {
-            console.log(newVal);
+            //console.log(newVal);
             if (newVal === undefined || newVal.length === 0) {
                 $scope.codes = [];
                 $scope.post = {};
@@ -81,7 +82,9 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
             $location.path('#/');
         };
 
-    }).filter('spendTime', function () {
+    })
+    //
+    .filter('spendTime', function () {
         return function (value) {
             if (!value) "0 小时";
             value = Math.abs(value);
@@ -96,7 +99,9 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
             res += hh + ' 小时';
             return res;
         }
-    }).filter('code2zh', function () {
+    })
+    //
+    .filter('code2zh', function () {
         var coms = {
             "shunfeng": "顺丰",
             "zhaijisong": "宅急送",

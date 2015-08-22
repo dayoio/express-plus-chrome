@@ -1,28 +1,26 @@
 <!doctype html>
-<html ng-app="popupApp" ng-controller="MainController" ng-csp>
+<html ng-app="popupApp" ng-csp>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- build:css styles/lib.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-    <!-- bower:css -->
+    <!-- endbower -->
     <link rel="stylesheet" href="styles/angular-csp.css">
-    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/main.css"/>
     <!-- endbuild -->
 
     <!-- build:css styles/popup.css -->
-    <link rel="stylesheet" href="styles/popup.css" />
+    <link rel="stylesheet" href="styles/popup.css"/>
     <!-- endbuild -->
 
     <!-- build:js scripts/lib.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
     <!-- endbower -->
     <script src="scripts/explus.js"></script>
     <!-- endbuild -->
@@ -33,28 +31,38 @@
 
 </head>
 
-<body class="container-fluid ng-scope">
-    <form id="input-wrapper" name="postIdForm" role="form" ng-submit="query()">
-        <div class="input-group">
-            <span id="defineIcon" ng-show="undefined||loading" class="glyphicon glyphicon-refresh rotate"></span>
-            <input id="postId-input" ng-model="postId" type="text" placeholder="{{i18n('searchTip')}}" class="form-control" required ng-minlength="6" ng-pattern="/^[0-9a-zA-Z]*.$/">
-            <span class="input-group-btn">
-                <button ng-disabled="!postIdForm.$valid" type="submit" class="btn btn-info">{{i18n('queryName')}}
-                </button>
-            </span>
+<body>
+
+<div id="popup-wrapper" ng-controller="MainController">
+    <!---->
+    <div id="popup-header">
+        <div id="input-wrapper">
+            <span>Home</span>
+            <input type="text" placeholder="Input your express number ..." ng-model="postId">
+
+            <button type="button">
+                Query
+            </button>
+            <button type="button">
+                Mark
+            </button>
         </div>
-        <div ng-if="codes.length>0">
-            <ul class="list-inline">
-                <li ng-repeat="code in codes | limitTo: 5 track by $index" ng-click="query(code)">
-                    <span class="label" ng-random-class ng-classes="tagclasses">{{code|code2zh}}</span>
-                </li>
-            </ul>
+        <!-- -->
+        <div id="tags-wrapper">
+            <a href="#" class="tag">NULL</a>
         </div>
-    </form>
-    <div ng-view></div>
-    <div class="footer">
-        &copy;2015 快递助手 - <a href="options.html" target="_blank">订阅管理</a>
     </div>
+    <!---->
+    <div id="popup-body">
+        <p>not marked express</p>
+    </div>
+    <!---->
+    <div id="popup-footer" class="copyright">
+        &copy;2015 <a href="http://siuzuk.com/" target="_blank">Siuzuk</a> - 由 <a
+        href="http://www.kuaidi100.com/" target="_blank">kuaidi100</a> 强力驱动
+    </div>
+</div>
+
 </body>
 
 </html>

@@ -1,157 +1,28 @@
+/*  */
 
-.container {
-    width: 800px;
-    background-color: #eee;
+#options-wrapper{
+    width: 480px;
+    margin: 0 auto;
+
+    box-shadow: 0px 0px 10px #aaa;
 }
 
-#options-head {
-    border-bottom: solid 1px #eee;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-}
+#options-header {
+    background-color: #1ca6da;
 
-#options-head h1 {
-    display: inline-block;
-}
-
-#options-head .desc {
-    font-size: 12px;
-    color: #999;
-    padding-left: 5px;
-}
-
-#options-wrapper {
-    border:solid 1px #aaa;
-    background-color: #fff;
-    padding: 10px;
-    height: 520px;
-    border-radius: 0 0 4px 4px;
-}
-
-/*#settings-wrapper #button-wrapper {
-    margin-top: 40px;
+    line-height: 80px;
     text-align: center;
 }
 
-#button-wrapper button {
-    width: 100px;
-}*/
-
-#marks-wrapper {
-    border-left: solid 1px #eee;
-    height: 445px;
+#options-header a{
+    color: #fff;
+    text-decoration: none;
 }
 
-#marks-wrapper .marks-filter {
-    position: absolute;
-    top: 0px;
-    right: 15px;
-    width: 200px;
+#options-body {
+    padding: 50px;
 }
 
-#marks-wrapper .marks-filter span{
-    position: initial;
+#options-body div{
+    margin: 5px 0px;
 }
-
-/* 過濾清楚圖標 */
-#marks-wrapper .marks-filter span.filter-clean {
-    position: absolute;
-    top: 8px;
-    right: 6px;
-    z-index: 10000;
-    cursor: pointer;
-}
-
-#marks-wrapper #marks-list {
-    overflow: auto;
-    max-height: 382px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.list-group {
-    margin-bottom: 0px;
-}
-
-.list-group-item {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    cursor: default;
-}
-
-.list-group-item:hover {
-    background-color: #f0f0f0;
-}
-
-/*列表条纹效果*/
-.item-type-even {
-}
-
-.item-type-odd {
-    background-color: #f6f6f6;
-}
-
-/*订单状态*/
-.list-mark--success {
-    border: 0px;
-    border-left: #3c763d 3px solid;
-}
-
-/*取消圆角*/
-.list-group-item:first-child, .list-group-item:last-child {
-    border-radius: 0px;
-}
-
-/*单号*/
-.list-group-item .item-heading {
-    margin-left: -8px;
-    margin-bottom: 4px;
-    color: #333;
-}
-
-.list-group-item .item-heading h4 {
-    font-size: 16px;
-    display: inline-block;
-}
-/*标签*/
-.list-group-item .item-heading ul {
-    display: inline-block;
-    margin-left: 2px;
-}
-
-.list-group-item .item-heading ul li {
-    padding: 0px 0px 0px 2px;
-}
-
-.list-group-item .item-heading span {
-    font-size: 12px;
-    padding: 0px 2px 0px 2px;
-    font-weight: normal;
-    cursor: pointer;
-}
-
-/*内容*/
-.list-group-item .item-msg {
-    font-size: 12px;
-}
-
-.list-group-item .item-msg .msg-time {
-    color: #999;
-}
-
-.list-group-item .item-msg .msg-text {
-    color: #333;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 85%;
-    margin-bottom: 0px;
-}
-
-/*工具按钮*/
-.list-group-item .item-buttons {
-    position: absolute;
-    right: 6px;
-    top: 10px;
-}
-

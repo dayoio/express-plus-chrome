@@ -1,6 +1,19 @@
-h1, h2, h3, h4 {
+
+h1 {
     padding: 0;
     margin: 0;
+}
+
+body {
+    font-size: 14px;
+    margin: 0;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #ecf0f0;
+    border-bottom: 1px solid #fff;
+    margin: 20px 0;
 }
 
 .copyright {
@@ -16,7 +29,7 @@ h1, h2, h3, h4 {
 }
 
 .copyright a:hover{
-    color: #333;
+    color: #1ca6da;
 }
 
 .rotate {
