@@ -1,10 +1,9 @@
-
 <div id="loading-wrapper" ng-show="loading" class="ng-hide">正在查询...请稍后...</div>
 <div id="result-wrapper" ng-show="post.status == '200'" class="ng-hide">
     <div id="postid-wrapper">
         <h2 class="post-id">{{post.id}}</h2>
 
-        <div class="info">{{i18n('company')}}：{{post.com|code2zh}}</div>
+        <div class="info">{{i18n('company')}}：{{post.com|type2zh}}</div>
         <div class="info">{{i18n('totalTime')}}：{{post.totaltime | spendTime }}</div>
         <div class="info" ng-if="post.destination">dest: {{post.destination}}</div>
         <a class="mark-button" href="#/save" title="订阅">
@@ -30,9 +29,6 @@
         </tr>
         </tbody>
     </table>
-    <div class="copyright">
-        由 <a href="http://www.kuaidi100.com/" target="_blank">kuaidi100</a> 强力驱动
-    </div>
 </div>
 <div id="error-wrapper"
      ng-show="post.status == '201' || post.status == '400' || post.status == '500' || post.status == '503'"

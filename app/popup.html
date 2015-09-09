@@ -1,19 +1,19 @@
 <!doctype html>
-<html ng-app="popupApp" ng-controller="MainController" ng-csp>
+<html ng-app="epApp" ng-csp>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- build:css styles/lib.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
     <!-- bower:css -->
     <link rel="stylesheet" href="styles/angular-csp.css">
-    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/main.css"/>
     <!-- endbuild -->
 
     <!-- build:css styles/popup.css -->
-    <link rel="stylesheet" href="styles/popup.css" />
+    <link rel="stylesheet" href="styles/popup.css"/>
     <!-- endbuild -->
 
     <!-- build:js scripts/lib.js -->
@@ -24,7 +24,7 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
     <!-- endbower -->
-    <script src="scripts/explus.js"></script>
+    <script src="scripts/epCore.js"></script>
     <!-- endbuild -->
 
     <!-- build:js scripts/popup.js -->
@@ -33,28 +33,38 @@
 
 </head>
 
-<body class="container-fluid ng-scope">
-    <form id="input-wrapper" name="postIdForm" role="form" ng-submit="query()">
+<body class="container-fluid">
+<!-- 输入框 -->
+<div ng-controller="MainController">
+    <form id="input-wrapper" name="postIdForm" role="form" ng-submit="showDetail()">
         <div class="input-group">
-            <span id="defineIcon" ng-show="undefined||loading" class="glyphicon glyphicon-refresh rotate"></span>
-            <input id="postId-input" ng-model="postId" type="text" placeholder="{{i18n('searchTip')}}" class="form-control" required ng-minlength="6" ng-pattern="/^[0-9a-zA-Z]*.$/">
+            <span id="defineIcon" ng-show="loading" class="glyphicon glyphicon-refresh rotate"></span>
+            <input ng-focus id="postId-input" ng-model="postId" type="text" placeholder="{{i18n('searchTip')}}"
+                   class="form-control" required ng-minlength="6" ng-pattern="/^[0-9a-zA-Z]*.$/">
             <span class="input-group-btn">
-                <button ng-disabled="!postIdForm.$valid" type="submit" class="btn btn-info">{{i18n('queryName')}}
+                <button ng-disabled="!postIdForm.$valid" type="submit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+                <button ng-disabled="types.length == 0" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-bookmark"></span>
                 </button>
             </span>
         </div>
-        <div ng-if="codes.length>0">
+        <div ng-if="types.length>0">
             <ul class="list-inline">
-                <li ng-repeat="code in codes | limitTo: 5 track by $index" ng-click="query(code)">
-                    <span class="label" ng-random-class ng-classes="tagclasses">{{code|code2zh}}</span>
+                <li ng-repeat="t in types | limitTo: 5 track by $index" ng-click="showDetail(t)">
+                    <span class="label" ng-random-class ng-classes="tagClasses">{{t|type2zh}}</span>
                 </li>
             </ul>
         </div>
     </form>
-    <div ng-view></div>
-    <div class="footer">
-        &copy;2015 快递助手 - <a href="options.html" target="_blank">订阅管理</a>
-    </div>
+</div>
+<!-- 主要内容 -->
+<div ng-view></div>
+<!-- 页脚&版本信息-->
+<footer class="copyright">
+    &copy;2015 <a href="https://github.com/minoscc/express-plus-chrome" target="_blank">快递助手</a> - <a href="options.html" target="_blank">设置</a>
+</footer>
 </body>
 
 </html>
