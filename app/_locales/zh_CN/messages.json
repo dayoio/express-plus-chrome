@@ -4,7 +4,7 @@
         "description": "应用名称"
     },
     "appDescription": {
-        "message": "轻松快捷的管理你的快递",
+        "message": "轻松快捷的管理你的快递，支持大部分快递公司、后台查询、桌面提示等功能。",
         "description": "应用说明"
     },
     "queryName": {
@@ -74,5 +74,11 @@
     "delete": {
         "message": "删除",
         "description": "保存页面按钮"
+    },
+    "share": {
+        "message": "分享"
+    },
+    "update": {
+        "message": "更新"
     }
 }
