@@ -32,11 +32,14 @@
 
 </head>
 <body class="container" ng-controller="OptionsController">
-<div id="options-wrapper" class="row">
-    <div id="options-head" class="col-md-12">
-        <h1>{{i18n('appName')}}</h1><span class="desc">{{i18n('appDescription')}}</span>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>{{i18n('appName')}}</h3>
     </div>
-    <div id='settings-wrapper' class="col-md-4">
+
+    <div class="panel-body">
+        <p class="description">{{i18n('appDescription')}}</p>
         <div class="option-head"><h3>{{i18n('optionSettings')}}</h3></div>
         <div class="checkbox">
             <label>
@@ -54,14 +57,15 @@
         <div class="form-group">
             <label for="auto-query">{{i18n('optionDelay')}}</label>
             <select ng-disabled="!conf.auto" id="auto-query" ng-change="onChange('auto')" ng-model="conf.delay"
-                    class="form-control" ng-options="op +' Min' for op in delay_options">
+                    class="form-control" ng-options="op +' 分钟' for op in delay_options">
             </select>
         </div>
     </div>
+
+    <div class="panel-footer copyright">
+        &copy;2015 <a href="https://github.com/minoscc/express-plus-chrome">快递助手</a> - 由<a href="#">快递100</a>强力驱动
+    </div>
 </div>
-<footer class="copyright">
-    &copy;2015 <a href="https://github.com/minoscc/express-plus-chrome" target="_blank">快递助手</a>
-</footer>
 
 </body>
 </html>

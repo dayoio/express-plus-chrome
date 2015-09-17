@@ -100,7 +100,7 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
         this.save = function(post){
             if (post) {
                 //overwrite
-                var res = this.searchMark(post.id);
+                var res = this.indexOf(post.id);
                 if (res.index !== -1) {
                     $rootScope.$storage.marks.splice(res.index, 1, post.toSimple());
                 }

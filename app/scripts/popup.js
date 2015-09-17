@@ -1,11 +1,13 @@
 'use strict';
 
 /**
- * PopupApp Module
- * 彈出窗口模塊
+ * 彈出窗口
  */
 
-angular.module('epApp', ['ui.bootstrap', 'ngRoute', 'epCore'])
+angular.module('epApp', ['ui.bootstrap', 'ngRoute', 'angularMoment', 'epCore'])
+    .run(function(amMoment){
+        amMoment.changeLocale('zh-cn');
+    })
     //
     .config(function ($routeProvider) {
         $routeProvider
@@ -17,11 +19,15 @@ angular.module('epApp', ['ui.bootstrap', 'ngRoute', 'epCore'])
                 controller: 'ExpressDetailController',
                 templateUrl: 'templates/detail.html'
             })
+            .when('/save', {
+                controller: 'ExpressSaveController',
+                templateUrl: 'templates/save.html'
+            })
             .otherwise({
                 redirectTo: '/'
             })
     })
-
+    // 标签随机样式
     .directive('ngRandomClass', function () {
         return {
             restrict: 'EA',
@@ -34,31 +40,56 @@ angular.module('epApp', ['ui.bootstrap', 'ngRoute', 'epCore'])
             }
         }
     })
-    //
+    // 订阅列表
     .controller('ExpressListController', function ($scope) {
-        console.log('list');
+
+        $scope.removeMark = function(){
+            //移除订阅
+        }
+
+        $scope.updateMark = function(){
+            //更新当前快递
+        }
+
+        $scope.shareMark = function(){
+            //拷贝信息到剪贴板
+        }
     })
-    //
-    .controller('ExpressDetailController', function ($scope, $location, epService) {
+    // 结果
+    .controller('ExpressDetailController', function ($scope, $rootScope, $location, epService) {
         var params = $location.search();
 
         $scope.loading = true;
         epService.detail(params.postId, params.type).then(function(res){
             $scope.loading = false;
-            $scope.post = res;
+            $rootScope.post = res;
         });
 
     })
-    //
-    .controller('MainController', function ($scope, $location, epService) {
+    // 订阅
+    .controller('ExpressSaveController', function ($scope, $location, epService){
+        // b: yes or no
+        $scope.mark = function(b){
+            $scope.marked = b;
+            if(b){
+                epService.save($scope.post);
+            }else{
+                epService.remove($scope.post.id)
+            }
+            $location.path('/');
+        }
+    })
+    // 搜索
+    .controller('MainController', function ($scope, $rootScope, $location, epService) {
         //auto
-        $scope.tagClasses = ['label-danger', 'label-info', 'label-primary', 'label-success', 'label-warning'];
+        $rootScope.tagClasses = ['label-danger', 'label-info', 'label-primary', 'label-success', 'label-warning'];
 
         $scope.types = [];
         $scope.postId = '';
+        $rootScope.post = null;
 
         $scope.$watch('postId', function (newVal, oldVal) {
-            if (newVal.length == 0) {
+            if (newVal == undefined || newVal.length == 0) {
                 $scope.types = [];
             } else {
                 //
@@ -70,10 +101,10 @@ angular.module('epApp', ['ui.bootstrap', 'ngRoute', 'epCore'])
 
         $scope.showDetail = function (type) {
             if (!type) type = $scope.types[0];
-            $location.path('/detail').search({postId: $scope.postId, type: type});
+            $location.path('/detail').search( {postId: $scope.postId, type: type});
         }
     })
-
+    //
     .filter('cut', function () {
         return function (value, max, tail) {
             if (!value) return ''
@@ -87,7 +118,7 @@ angular.module('epApp', ['ui.bootstrap', 'ngRoute', 'epCore'])
             return value + (tail || ' ...' );
         }
     })
-    //
+    /*// 耗时格式
     .filter('spendTime', function () {
         return function (value) {
             if (!value) "0 小时";
@@ -103,8 +134,8 @@ angular.module('epApp', ['ui.bootstrap', 'ngRoute', 'epCore'])
             res += hh + ' 小时';
             return res;
         }
-    })
-    //
+    })*/
+    // 快递类型转换
     .filter('type2zh', function () {
         var coms = {
             "shunfeng": "顺丰",

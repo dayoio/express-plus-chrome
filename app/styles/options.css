@@ -1,0 +1,28 @@
+body {
+    font-size: 14px;
+}
+
+div.panel {
+    margin: 5px auto;
+    width: 480px;
+}
+
+.panel-heading {
+    text-align: center;
+}
+
+.panel-heading h3 {
+    font-weight: 600;
+}
+
+.description {
+    color: #666;
+}
+
+.panel-body div {
+    margin-left: 70px;
+}
+
+#auto-query {
+    width: 140px;
+}

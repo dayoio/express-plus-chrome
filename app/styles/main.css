@@ -1,3 +1,4 @@
+/* 旋转动画 */
 
 .rotate {
     -webkit-animation: loading 1s infinite linear;
@@ -18,4 +19,22 @@
     } to {
           transform: rotate(360deg);
       }
+}
+
+/* 信息 */
+
+.copyright {
+    font-size: 12px;
+    text-align: center;
+    color: #999;
+}
+
+.copyright a {
+    color: #999;
+    text-decoration: none;
+}
+
+.copyright a:hover
+{
+    color: #3bbfe6;
 }

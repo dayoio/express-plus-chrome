@@ -6,7 +6,7 @@
         </tr>
         <tr>
             <td>{{i18n('company')}}:</td>
-            <td>{{post.com|code2zh}}</td>
+            <td>{{post.com|type2zh}}</td>
         </tr>
         <tr ng-if="post.isOk()">
             <td>{{i18n('updateTime')}}</td>
@@ -26,14 +26,14 @@
                     <ul class="list-inline">
                         <li ng-repeat="tag in post.tags track by $index"><span class="label"
                                   ng-random-class
-                                  ng-classes="tagclasses">{{tag}}</span></li>
+                                  ng-classes="tagClasses">{{tag}}</span></li>
                     </ul>
                 </div>
             </td>
         </tr>
     </table>
     <div class="form-group save-buttons-group">
-        <a href="#/" ng-if="marked" ng-click="mark(false)" class="btn btn-danger" role="button">{{i18n('delete')}}</a>
+        <a ng-if="marked" ng-click="mark(false)" class="btn btn-danger" role="button">{{i18n('delete')}}</a>
         <a ng-click="mark(true)" class="btn btn-success" role="button">{{i18n('save')}}</a>
         <a href="#/" class="btn btn-default" role="button">{{i18n('cancel')}}</a>
     </div>

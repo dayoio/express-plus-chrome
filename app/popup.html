@@ -23,6 +23,9 @@
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/moment/locale/zh-cn.js"></script>
     <!-- endbower -->
     <script src="scripts/epCore.js"></script>
     <!-- endbuild -->
@@ -60,7 +63,7 @@
     </form>
 </div>
 <!-- 主要内容 -->
-<div ng-view></div>
+<div id="main-content" ng-view></div>
 <!-- 页脚&版本信息-->
 <footer class="copyright">
     &copy;2015 <a href="https://github.com/minoscc/express-plus-chrome" target="_blank">快递助手</a> - <a href="options.html" target="_blank">设置</a>
