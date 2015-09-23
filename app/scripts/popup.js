@@ -1,102 +1,129 @@
 'use strict';
 
 /**
- * PopupApp Module
- * 彈出窗口模塊
+ * 彈出窗口
  */
 
-angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
+angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
+    .run(function (amMoment) {
+        amMoment.changeLocale('zh-cn');
+    })
+    //
     .config(function ($routeProvider) {
         $routeProvider
-            .when('/save', {
-                templateUrl: 'mark.html'
+            .when('/', {
+                controller: 'ExpressListController',
+                templateUrl: 'templates/marks.html'
+            })
+            .when('/detail', {
+                controller: 'ExpressDetailController',
+                templateUrl: 'templates/detail.html'
             })
             .otherwise({
-                templateUrl: 'result.html'
+                redirectTo: '/'
             })
     })
-
-    .controller('MainController', function ($scope, $location, postsService) {
-
-
-        $scope.postId = undefined;
-        $scope.undefined = false;
-        $scope.codes = [];
-        $scope.testTag = [];
-
-        $scope.$watch('postId', function (newVal, oldVal) {
-            console.log(newVal);
-            if (newVal === undefined || newVal.length === 0) {
-                $scope.codes = [];
-                $scope.post = {};
-            } else {
-                $scope.undefined = true;
-                postsService.define(newVal).then(function (data) {
-                    $scope.codes = data;
-                    $scope.undefined = false;
-                    if ($scope.loading && $scope.codes.length > 0) {
-                        $scope.post = {};
-                        updatePost($scope.postId, $scope.codes[0]);
-                    } else if ($scope.codes.length === 0) {
-                        $scope.post = {'status': '400', 'message': "请输入正确的快递单号..."}
-                    }
-                }, function (error) {
-                    $scope.post = error;
-                })
+    // 标签随机样式
+    .directive('ngRandomClass', function () {
+        return {
+            restrict: 'EA',
+            replace: false,
+            scope: {
+                ngClasses: "="
+            },
+            link: function (scope, elem, attr) {
+                elem.addClass(scope.ngClasses[Math.floor(Math.random() * (scope.ngClasses.length))]);
             }
-        })
-
-
-        //查詢方法
-        $scope.query = function (com) {
-            $scope.loading = true;
-            $scope.post = {}
-            $scope.marked = (postsService.searchMark($scope.postId).index !== -1);
-
-            if (!com && $scope.codes.length > 0)
-                com = $scope.codes[0];
-            if (com) {
-                updatePost($scope.postId, com);
-            }
-        };
-
-        var updatePost = function (id, com) {
-            postsService.update(id, com).then(function (post) {
-                console.log(post);
-                $scope.post = post;
-                $scope.loading = false;
-            }, function (error) {
-                console.log(error);
-                $scope.post = error;
-                $scope.loading = false;
-            });
         }
+    })
+    // 订阅列表
+    .controller('ExpressListController', function ($scope, $rootScope, $location, $filter, epService) {
+
+        $rootScope.post = null;
+
+        $scope.setFilter = function (f) {
+            $scope.markFilter = f;
+        }
+
+        $scope.removeMark = function (id) {
+            //移除订阅
+            epService.remove(id)
+        }
+
+        $scope.searchMark = function (id, type) {
+            //更新当前快递
+            $location.path('/detail').search({postId: id, type: type});
+        }
+
+        $scope.shareMark = function (id, type) {
+            //拷贝信息到剪贴板
+            chrome.runtime.sendMessage({
+                type: 'copy',
+                text: '单号: ' + id + '\n公司: ' + $filter('type2zh')(type)
+            })
+        }
+    })
+    // 结果
+    .controller('ExpressDetailController', function ($scope, $rootScope, $location, epService) {
+        var params = $location.search();
+
+        $rootScope.post = null;
+
+        $scope.loading = true;
+        epService.detail(params.postId, params.type).then(function (res) {
+            $scope.loading = false;
+            $rootScope.post = res;
+        });
 
         $scope.mark = function (b) {
-            $scope.marked = b;
-            if(b)
-                postsService.saveMark($scope.post);
-            else
-                postsService.removeMark($scope.post.id);
-            $location.path('#/');
+            $scope.post.marked = b;
+            if ($scope.post.marked) {
+                epService.save($scope.post);
+            } else {
+                epService.remove($scope.post.id)
+            }
+        }
+
+        $scope.tryAgain = function () {
+            $location.path('/detail').search({postId: params.postId, type: params.type, r: Math.random()});
+        }
+    })
+    // 搜索
+    .controller('MainController', function ($scope, $rootScope, $location, epService) {
+        //
+        chrome.browserAction.setBadgeText({text: ''});
+        //auto
+        $rootScope.tagClasses = ['label-danger', 'label-info', 'label-primary', 'label-success', 'label-warning'];
+
+        $scope.types = [];
+        $scope.postId = '';
+
+        $scope.$watch('postId', function (newVal, oldVal) {
+            if (newVal == undefined || newVal.length == 0) {
+                $scope.types = [];
+            } else {
+                //
+                epService.auto(newVal).then(function (res) {
+                    $scope.types = res;
+                })
+            }
+        });
+
+        $scope.showDetail = function (type) {
+            if (!type) type = $scope.types[0];
+            $location.path('/detail').search({postId: $scope.postId, type: type, r: Math.random()});
         };
 
-    }).filter('spendTime', function () {
-        return function (value) {
-            if (!value) "0 小时";
-            value = Math.abs(value);
+        $scope.goHome = function () {
+            $location.path('/');
+        };
 
-            var res = "";
-            var hh = Math.floor(value / 1000 / 60 / 60);
-            if (hh >= 24) {
-                var dd = Math.floor(hh / 24);
-                hh -= dd * 24;
-                res = dd + ' 天 ';
-            }
-            res += hh + ' 小时';
-            return res;
-        }
-    }).filter('code2zh', function () {
+        $scope.goOptions = function () {
+            chrome.tabs.create({url: "./options.html"});
+        };
+    })
+    // 快递类型转换
+    .filter('type2zh', function () {
         var coms = {
             "shunfeng": "顺丰",
             "zhaijisong": "宅急送",
@@ -125,6 +152,7 @@ angular.module('popupApp', ['ui.bootstrap', 'explus', 'ngRoute'])
             "usps": "USPS"
         }
         return function (value) {
-            return coms[value.toLowerCase()]||value;
+            if (value === undefined) value = "";
+            return coms[value.toLowerCase()] || value;
         }
     });

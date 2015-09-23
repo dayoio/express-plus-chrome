@@ -1,86 +1,38 @@
 'use strict';
 
 /**
- * optionApp Module
- *
- * setting page
+ * ...
  */
-angular.module('optionApp', ['explus']).controller('optionController', function ($scope, postsService) {
+angular.module('epOptionsApp', []).controller('OptionsController', function ($scope) {
 
-    chrome.storage.sync.get({'check': true, 'auto': true, 'delay': 30}, function (conf) {
+    chrome.storage.sync.get({'sync': false, 'check': true, 'auto': true, 'delay': 30}, function (conf) {
         $scope.conf = conf;
         $scope.$apply();
     })
 
-    $scope.delay_options = [10, 20, 30, 60, 120];
-    $scope.markFilter = '';
+    $scope.i18n = function (msg) {
+        return chrome.i18n.getMessage(msg);
+    };
 
-    $scope.removeMark = function (id) {
-        postsService.removeMark(id);
-    }
-
-    $scope.updateMark = function (id) {
-        postsService.updateMark(id).then(function (mark) {
-        })
-    }
-
-    $scope.setFilter = function (f) {
-        $scope.markFilter = f;
-    }
+    $scope.delay_options = [1, 10, 20, 30, 60, 120];
 
     $scope.onChange = function (t) {
-        if (t === 'auto')
+        if (t === 'auto') {
             chrome.storage.sync.set({'auto': $scope.conf.auto, 'delay': $scope.conf.delay}, function () {
                 console.log("settings saved!");
-                chrome.runtime.sendMessage({});
+                chrome.runtime.sendMessage({type: 'auto'});
             });
-        else if (t === 'check')
+        }
+        else if (t === 'check') {
             chrome.storage.sync.set({'check': $scope.conf.check}, function () {
                 console.log("settings saved!");
             });
+        }
+        else if (t === 'sync') {
+            chrome.storage.sync.set({'sync': $scope.conf.sync}, function () {
+                chrome.runtime.sendMessage({type: 'sync'});
+            });
+        }
     }
 
-}).filter('cut', function () {
-    return function (value, max, tail) {
-        if (!value) return ''
-
-        if (value.length > max) {
-            value = value.substr(0, max);
-        }
-        else {
-            return value
-        }
-        return value + (tail || ' ...' );
-    }
-}).filter('code2zh', function () {
-    var coms = {
-        "shunfeng": "顺丰",
-        "zhaijisong": "宅急送",
-        "zhongtong": "中通",
-        "yuantong": "圆通",
-        "yunda": "韵达",
-        "shentong": "申通",
-        "tiantian": "天天",
-        "quanfengkuaidi": "全峰",
-        "youshuwuliu": "优速",
-        "jd": "京东",
-        "neweggozzo": "新蛋",
-        "xinbangwuliu": "新邦物流",
-        "debangwuliu": "德邦物流",
-        "huitongkuaidi": "百世汇通",
-        "youzhengguonei": "国内邮政",
-        "youzhengguoji": "邮政国际",
-        "dhl": "DHL(中国)",
-        "dhlen": "DHL(国际)",
-        "dhlde": "DHL(德国)",
-        "ems": "EMS",
-        "emsguoji": "EMS(国际)",
-        "japanposten": "EMS(日本)",
-        "ecmsglobal": "ECMS",
-        "ups": "UPS",
-        "usps": "USPS"
-    }
-    return function (value) {
-        return coms[value.toLowerCase()]||value;
-    }
 });

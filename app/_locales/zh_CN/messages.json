@@ -4,12 +4,8 @@
         "description": "应用名称"
     },
     "appDescription": {
-        "message": "轻松快捷的管理你的快递",
+        "message": "轻松快捷的管理你的快递，支持大部分快递公司、后台查询、桌面提示等功能。",
         "description": "应用说明"
-    },
-    "queryName": {
-        "message": "查询",
-        "description": "查询按钮名字"
     },
     "searchTip": {
         "message": "输入你的快递单号...",
@@ -18,6 +14,12 @@
     "notificationTitle": {
         "message": "快递已更新",
         "description": "信息提示框标题"
+    },
+    "options": {
+        "message": "设置"
+    },
+    "optionSync": {
+        "message": "开启浏览器同步(beta)"
     },
     "optionCheck": {
         "message": "只提示已收货单号",
@@ -35,7 +37,10 @@
         "message": "设置",
         "description": "设置功能列表"
     },
-    "optionList": {
+    "noMarks": {
+        "message": "你还没有订阅任何快递..."
+    },
+    "marks": {
         "message": "订阅列表",
         "description": "已订阅的订单列表"
     },
@@ -44,7 +49,7 @@
         "description": ""
     },
     "totalTime": {
-        "message": "历时",
+        "message": "耗时",
         "description": ""
     },
     "updateTime": {
@@ -55,9 +60,15 @@
         "message": "内容",
         "description": ""
     },
+    "tryAgain": {
+        "message": "重新尝试"
+    },
     "tags": {
         "message": "标签",
         "description": ""
+    },
+    "filterTip": {
+        "message": "过滤订阅列表"
     },
     "tagsTip": {
         "message": "标签用半角 , 隔开",
@@ -74,5 +85,13 @@
     "delete": {
         "message": "删除",
         "description": "保存页面按钮"
+    },
+    "share": {
+        "message": "分享",
+        "description": "列表功能提示"
+    },
+    "search": {
+        "message": "查询",
+        "description": "列表功能提示"
     }
 }

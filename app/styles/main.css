@@ -1,23 +1,4 @@
-h1, h2, h3, h4 {
-    padding: 0;
-    margin: 0;
-}
-
-.copyright {
-    text-align: center;
-    padding: 10px;
-    font-size: 12px;
-    color: #999;
-}
-
-.copyright a {
-    color: #999;
-    text-decoration: none;
-}
-
-.copyright a:hover{
-    color: #333;
-}
+/* 旋转动画 */
 
 .rotate {
     -webkit-animation: loading 1s infinite linear;
@@ -38,4 +19,28 @@ h1, h2, h3, h4 {
     } to {
           transform: rotate(360deg);
       }
+}
+
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+    padding: 0;
+}
+
+/* 信息 */
+
+.copyright {
+    font-size: 12px;
+    text-align: center;
+    color: #999;
+}
+
+.copyright a {
+    color: #999;
+    text-decoration: none;
+}
+
+.copyright a:hover
+{
+    color: #3bbfe6;
 }

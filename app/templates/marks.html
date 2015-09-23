@@ -1,0 +1,54 @@
+<!-- 无订阅提示 -->
+<div id="no-marks" ng-if="$storage.marks.length == 0">
+    <p>{{i18n('noMarks')}}</p>
+</div>
+<!-- 订阅列表 -->
+<div id="marks-list" ng-if="$storage.marks.length > 0">
+    <ul class="list-group">
+        <li ng-repeat="mark in $storage.marks | filter: markFilter | orderBy: 'time':true" multiple="true"
+            class="list-group-item"
+            ng-class-even="'item-type-even'"
+            ng-class-odd="'item-type-odd'">
+            <!-- 单号 -->
+            <div class="list-group-item-heading">
+                <h3>{{mark.id}}</h3>
+
+                <div class="list-group-item-actions">
+                    <i title="{{i18n('share')}}" ng-click="shareMark(mark.id, mark.com)" class="fa fa-clipboard"></i>
+                </div>
+                <div class="list-group-item-actions right">
+                    <i title="{{i18n('search')}}" ng-click="searchMark(mark.id, mark.com)"
+                       class="fa fa-search info"></i>
+                    <i title="{{i18n('delete')}}" ng-click="removeMark(mark.id)" class="fa fa-trash danger"></i>
+                </div>
+            </div>
+
+            <!-- 最新消息 -->
+            <p title="{{mark.time + ' ' + mark.text}}" class="list-group-item-text">
+                <span class="msg-time" am-time-ago="mark.time"></span>&ensp;&ensp;<i class="fa fa-map-marker"></i>&ensp;&ensp;{{mark.text}}
+            </p>
+            <!-- 标签 -->
+            <ul class="list-inline">
+                <li>
+                    <a ng-click="setFilter(mark.com)">
+                        <span class="label label-default"><i class="fa fa-tag"></i> {{mark.com|type2zh}}</span>
+                    </a>
+                </li>
+                <li ng-repeat="tag in mark.tags">
+                    <a ng-click="setFilter(tag)">
+                        <span class="label" ng-random-class ng-classes="tagClasses"><i
+                            class="fa fa-tag"></i> {{tag}}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!-- 过滤功能 -->
+<div class="footer-actions" ng-if="$storage.marks.length > 0">
+    <div class="input-group">
+        <span class="input-group-addon"><i class="fa fa-filter"></i></span>
+        <input placeholder="{{i18n('filterTip')}}" type="text" ng-model="markFilter"/>
+    </div>
+</div>
+

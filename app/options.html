@@ -1,29 +1,31 @@
 <!doctype html>
-<html ng-app="optionApp" ng-controller="optionController" ng-csp>
+<html ng-app="epOptionsApp" ng-csp>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- build:css styles/lib.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
-    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
+    <!-- endbower -->
     <link rel="stylesheet" href="styles/angular-csp.css">
     <link rel="stylesheet" href="styles/main.css"/>
     <!-- endbuild -->
 
     <!-- build:css styles/options.css -->
-    <link href="styles/options.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/options.css"/>
     <!-- endbuild -->
 
     <!-- build:js scripts/lib.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
     <!-- endbower -->
-    <script src="scripts/explus.js"></script>
+    <script src="bower_components/moment/locale/zh-cn.js"></script>
+    <script src="scripts/epCore.js"></script>
     <!-- endbuild -->
 
     <!-- build:js scripts/options.js -->
@@ -31,18 +33,29 @@
     <!-- endbuild -->
 
 </head>
-<body class="container">
-<div id="options-wrapper" class="row">
-    <div id="options-head" class="col-md-12">
-        <h1>{{i18n('appName')}}</h1><span class="desc">{{i18n('appDescription')}}</span>
+<body ng-controller="OptionsController">
+
+<div class="panel">
+    <div class="panel-heading">
+        <h3><i class="fa fa-search"></i>{{i18n('appName')}}</h3>
     </div>
-    <div id='settings-wrapper' class="col-md-4">
-        <div class="option-head"><h3>{{i18n('optionSettings')}}</h3></div>
+
+    <div class="panel-body">
+        <p class="description"><i class="fa fa-info"></i>&ensp;&ensp;{{i18n('appDescription')}}</p>
+
+        <div class="option-head"><h3><i class="fa fa-cog"></i>&ensp;&ensp;{{i18n('optionSettings')}}</h3></div>
+        <!--<div class="checkbox">-->
+            <!--<label>-->
+                <!--<input type="checkbox" ng-model="conf.sync"-->
+                       <!--ng-change="onChange('sync')">-->
+                <!--<span>{{i18n('optionSync')}}<i class="fa fa-chrome"></i></span>-->
+            <!--</label>-->
+        <!--</div>-->
         <div class="checkbox">
             <label>
                 <input type="checkbox" ng-model="conf.check"
                        ng-change="onChange('check')">
-                <span> {{i18n('optionCheck')}}</span>
+                <span>{{i18n('optionCheck')}}</span>
             </label>
         </div>
         <div class="checkbox">
@@ -54,56 +67,16 @@
         <div class="form-group">
             <label for="auto-query">{{i18n('optionDelay')}}</label>
             <select ng-disabled="!conf.auto" id="auto-query" ng-change="onChange('auto')" ng-model="conf.delay"
-                    class="form-control" ng-options="op +' Min' for op in delay_options">
+                    class="form-control" ng-options="op +' 分钟' for op in delay_options">
             </select>
         </div>
     </div>
-    <div id='marks-wrapper' class="col-md-8">
-        <div class="option-head"><h3>{{i18n('optionList')}}</h3></div>
-        <div class="input-group input-group-sm marks-filter">
-            <span class="glyphicon glyphicon-search input-group-addon"></span>
-            <input type="text" class="form-control" ng-model="markFilter"/>
-            <span class="glyphicon glyphicon-remove-circle filter-clean" ng-show="markFilter!=''"
-                  ng-click="setFilter('')"></span>
-        </div>
-        <div id="marks-list">
-            <ul class="list-group">
-                <li ng-repeat="mark in $storage.marks | filter: markFilter | orderBy: 'time':true" multiple="true"
-                    ng-class="{'list-mark--success': mark.check}" class="list-group-item"
-                    ng-class-even="'item-type-even'"
-                    ng-class-odd="'item-type-odd'">
-                    <div class="item-heading">
-                        <h4>{{mark.id}}</h4>
-                        <ul class="list-inline">
-                            <li><span ng-click="setFilter(mark.com)" class="label label-default">{{mark.com|code2zh}}</span>
-                            </li>
-                            <li ng-repeat="tag in mark.tags">
-                                            <span class="label" ng-click="setFilter(tag)" ng-random-class
-                                                  ng-classes="tagclasses">{{tag}}
-                                            </span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item-msg">
-                        <p title="{{mark.text}}" class="msg-text"><span class="msg-time">{{mark.time}}</span>
-                            {{mark.text}}</p>
-                    </div>
-                    <div class="item-buttons">
-                        <button title="update" ng-click="updateMark(mark.id)" ng-disabled="mark.check"
-                                class="btn btn-info btn-sm">
-                            <span ng-class="{rotate: mark.loading}" class="glyphicon glyphicon-refresh"></span></button>
-                        <button title="remove" ng-click="removeMark(mark.id)" class="btn btn-danger btn-sm"><span
-                            class="glyphicon glyphicon-trash"></span></button>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="col-md-12 copyright">
-        &copy;2015 快递助手 - 由 <a href="http://www.kuaidi100.com/" target="_blank">kuaidi100</a> 强力驱动
+
+    <div class="panel-footer copyright">
+        &copy;2015 <a href="https://github.com/minoscc/express-plus-chrome">快递助手</a> - 由<a
+        href="http://www.kuaidi100.com">快递100</a>强力驱动
     </div>
 </div>
-
 
 </body>
 </html>
