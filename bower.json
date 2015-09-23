@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "dependencies": {
     "angular": "~1.4.3",
-    "angular-bootstrap": "~0.13.3",
+    "angular-moment": "~0.10.3",
     "angular-resource": "~1.4.3",
-    "ngstorage": "~0.3.8",
     "angular-route": "~1.4.3",
-    "bootstrap": "3.1.1",
-    "angular-moment": "~0.10.3"
+    "font-awesome": "fontawesome#~4.4.0",
+    "ngstorage": "~0.3.8"
   },
   "devDependencies": {}
 }

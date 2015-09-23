@@ -1,39 +1,64 @@
-<div id="loading-wrapper" ng-show="loading" class="ng-hide">正在查询...请稍后...</div>
-<div id="result-wrapper" ng-show="post.status == '200'" class="ng-hide">
+<!-- 查询提示 -->
+<div id="loading-wrapper" ng-if="loading">正在查询...</div>
+<!-- 查询结果 -->
+<div id="result-wrapper" ng-if="post.status == '200'">
+    <!-- 单号信息 -->
     <div id="postid-wrapper">
-        <h2 class="post-id">{{post.id}}</h2>
+        <h3 class="post-id">{{post.id}}<a class="right" ng-click="mark(!post.marked)" title="订阅">
+            <i ng-if="post.marked" class="fa fa-star"></i>
+            <i ng-if="!post.marked" class="fa fa-star-o"></i>
+        </a></h3>
 
-        <div class="info">{{i18n('company')}}：{{post.com|type2zh}}</div>
-        <div class="info">{{i18n('totalTime')}}：{{ post.totaltime | amDurationFormat: 'milliseconds':true }}</div>
-        <!--<div class="info" ng-if="post.destination">dest: {{post.destination}}</div>-->
-        <a class="mark-button" href="#/save" title="订阅">
-            <span ng-if="marked" class="glyphicon glyphicon-star"></span>
-            <span ng-if="!marked" class="glyphicon glyphicon-star-empty"></span>
-        </a>
+        <div>{{i18n('company')}}：{{post.com|type2zh}}</div>
+        <div>{{i18n('totalTime')}}：{{ post.totaltime | amDurationFormat: 'milliseconds':true }}</div>
+
     </div>
-    <div id="result-nothing" ng-if="!post.isOk()">{{post.message}}</div>
-    <table id="result-table" ng-if="post.isOk()" class="table table-striped">
-        <thead>
-        <tr>
-            <th>{{i18n('updateTime')}}</th>
-            <th></th>
-            <th>{{i18n('updateContext')}}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="p in post.data"
-            ng-class="getStateClass($first, post.state)">
-            <td class="post-time">{{p.time}}</td>
-            <td><span class="glyphicon glyphicon-map-marker"></span></td>
-            <td class="post-context">{{p.context}}</td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- -->
+    <div id="result-nothing" ng-if="!post.hasData()">{{post.message}}</div>
+    <!-- 结果表格 -->
+    <div id="result-container" ng-if="post.hasData()">
+        <div id="result-head">
+            <div><span>{{i18n('updateTime')}}</span></div>
+            <div><span>{{i18n('updateContext')}}</span></div>
+        </div>
+        <div id="result-table">
+            <table>
+                <tbody>
+                <tr ng-repeat="p in post.data"
+                    ng-class="getStateClass($first, post.state)"
+                    ng-class-even="'tr-even'"
+                    ng-class-odd="'tr-odd'">
+                    <td class="post-time">{{p.time}}</td>
+                    <td><i class="fa fa-map-marker"></i></td>
+                    <td class="post-context">{{p.context}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- 标签功能 -->
+    <div class="footer-actions">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+            <input placeholder="{{i18n('tagsTip')}}" type="text" class="tags-input" ng-model="post.tags" ng-list=","/>
+            <button ng-click="mark(true)" class="input-group-btn btn btn-primary"><i class="fa fa-save"></i>&ensp;{{i18n('save')}}
+            </button>
+        </div>
+        <ul class="list-inline">
+            <li ng-repeat="tag in post.tags track by $index">
+                <span class="label" ng-random-class ng-classes="tagClasses"><i class="fa fa-tag"></i> {{tag}}</span>
+            </li>
+        </ul>
+    </div>
 </div>
+<!-- 查询错误 -->
 <div id="error-wrapper"
-     ng-show="post.status == '201' || post.status == '400' || post.status == '500' || post.status == '503'"
-     class="ng-hide">
+     ng-if="post.status == '201' || post.status == '400' || post.status == '500' || post.status == '503'">
     <p>{{post.message}}</p>
 
     <p ng-if="post.error">{{post.error}}</p>
+
+    <a class="again-tip primary" ng-click="tryAgain()" href=""><i
+        class="fa fa-refresh"></i>&ensp;{{i18n('tryAgain')}}</a>
 </div>
+<!---->

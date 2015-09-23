@@ -14,10 +14,12 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
         Post.prototype = {
             setData: function (d) {
                 angular.extend(this, d);
-                if (this.isOk()) {
-                    var a = new Date(d.data[d.data.length - 1].time);
-                    var b = new Date(d.data[0].time);
+                if (this.data && this.data.length > 0) {
+                    var a = new Date(this.data[this.data.length - 1].time);
+                    var b = new Date(this.data[0].time);
                     this.totaltime = (b.getTime() - a.getTime());
+                } else {
+                    this.totaltime = 0;
                 }
             },
             toSimple: function () {
@@ -26,11 +28,11 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                 sp.com = this.com;
                 sp.text = this.data[0].context;
                 sp.time = this.data[0].time;
-                sp.check = (this.state === '3');
+                sp.check = this.ischeck == '1';
                 sp.tags = this.tags || [];
                 return sp;
             },
-            isOk: function () {
+            hasData: function () {
                 if (this.data && this.data.length > 0) {
                     return true;
                 }
@@ -80,10 +82,9 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
 
     .service('epService', function ($q, $resource, $rootScope, $localStorage, localAuto, epAuto, epQuery, Post) {
 
-        $rootScope.$storage = $localStorage.$default(
-            {
-                marks: []
-            });
+        $rootScope.$storage = $localStorage.$default({
+            marks: []
+        });
 
         $rootScope.i18n = function (msg) {
             return chrome.i18n.getMessage(msg);
@@ -91,13 +92,8 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
 
         var self = this;
 
-        //// 获取保存的列表
-        //this.fetch = function () {
-        //    return $rootScope.$storage.marks;
-        //}
-
         // 保存
-        this.save = function(post){
+        this.save = function (post) {
             if (post) {
                 //overwrite
                 var res = this.indexOf(post.id);
@@ -110,7 +106,7 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
         }
 
         // 删除
-        this.remove = function(postId){
+        this.remove = function (postId) {
             var mark = self.indexOf(postId);
             if (mark.index !== -1)
                 $rootScope.$storage.marks.splice(mark.index, 1);
@@ -136,7 +132,9 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                 defer.resolve(types);
             } else {
                 epAuto.query({postid: postId}, function (res) {
-                    types = res.length > 0 ? res.map(function(d){ return d.comCode; }) : [];
+                    types = res.length > 0 ? res.map(function (d) {
+                        return d.comCode;
+                    }) : [];
                     defer.resolve(types);
                 }, function (err) {
                     defer.reject({
@@ -151,19 +149,39 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
         this.detail = function (postId, type) {
             var defer = $q.defer();
 
-            epQuery.get({type: type, postid: postId}, function(res){
-               var post = new Post(postId, type);
+            epQuery.get({type: type, postid: postId}, function (res) {
+                var post = new Post(postId, type);
                 post.setData(res);
-                //
-
+                // check local storage
+                var res = self.indexOf(post.id);
+                if (res.index !== -1) {
+                    post.marked = true;
+                    post.tags = angular.copy(res.value.tags);
+                } else {
+                    post.marked = false;
+                }
                 defer.resolve(post);
-            }, function(err){
+            }, function (err) {
                 defer.reject({
                     error: ''
                 })
             });
 
             return defer.promise;
+        }
+
+        //
+        this.getAll = function () {
+            try {
+                var all = [];
+                for (var i = 0; i < $rootScope.$storage.marks.length; i++) {
+                    if ($rootScope.$storage.marks[i].check == false)
+                        all.push($rootScope.$storage.marks[i].id);
+                }
+                return all;
+            } catch (err) {
+                return [];
+            }
         }
 
     });

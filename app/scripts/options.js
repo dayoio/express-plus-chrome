@@ -5,7 +5,7 @@
  */
 angular.module('epOptionsApp', []).controller('OptionsController', function ($scope) {
 
-    chrome.storage.sync.get({'check': true, 'auto': true, 'delay': 30}, function (conf) {
+    chrome.storage.sync.get({'sync': false, 'check': true, 'auto': true, 'delay': 30}, function (conf) {
         $scope.conf = conf;
         $scope.$apply();
     })
@@ -14,22 +14,25 @@ angular.module('epOptionsApp', []).controller('OptionsController', function ($sc
         return chrome.i18n.getMessage(msg);
     };
 
-    $scope.delay_options = [10, 20, 30, 60, 120];
-
-    $scope.setFilter = function (f) {
-        $scope.markFilter = f;
-    }
+    $scope.delay_options = [1, 10, 20, 30, 60, 120];
 
     $scope.onChange = function (t) {
-        if (t === 'auto')
+        if (t === 'auto') {
             chrome.storage.sync.set({'auto': $scope.conf.auto, 'delay': $scope.conf.delay}, function () {
                 console.log("settings saved!");
-                chrome.runtime.sendMessage({});
+                chrome.runtime.sendMessage({type: 'auto'});
             });
-        else if (t === 'check')
+        }
+        else if (t === 'check') {
             chrome.storage.sync.set({'check': $scope.conf.check}, function () {
                 console.log("settings saved!");
             });
+        }
+        else if (t === 'sync') {
+            chrome.storage.sync.set({'sync': $scope.conf.sync}, function () {
+                chrome.runtime.sendMessage({type: 'sync'});
+            });
+        }
     }
 
 });

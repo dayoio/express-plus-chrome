@@ -5,24 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- build:css styles/lib.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
-    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
+    <!-- endbower -->
     <link rel="stylesheet" href="styles/angular-csp.css">
     <link rel="stylesheet" href="styles/main.css"/>
     <!-- endbuild -->
 
     <!-- build:css styles/options.css -->
-    <link href="styles/options.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/options.css"/>
     <!-- endbuild -->
 
     <!-- build:js scripts/lib.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
     <!-- endbower -->
+    <script src="bower_components/moment/locale/zh-cn.js"></script>
     <script src="scripts/epCore.js"></script>
     <!-- endbuild -->
 
@@ -31,21 +33,29 @@
     <!-- endbuild -->
 
 </head>
-<body class="container" ng-controller="OptionsController">
+<body ng-controller="OptionsController">
 
-<div class="panel panel-default">
+<div class="panel">
     <div class="panel-heading">
-        <h3>{{i18n('appName')}}</h3>
+        <h3><i class="fa fa-search"></i>{{i18n('appName')}}</h3>
     </div>
 
     <div class="panel-body">
-        <p class="description">{{i18n('appDescription')}}</p>
-        <div class="option-head"><h3>{{i18n('optionSettings')}}</h3></div>
+        <p class="description"><i class="fa fa-info"></i>&ensp;&ensp;{{i18n('appDescription')}}</p>
+
+        <div class="option-head"><h3><i class="fa fa-cog"></i>&ensp;&ensp;{{i18n('optionSettings')}}</h3></div>
+        <!--<div class="checkbox">-->
+            <!--<label>-->
+                <!--<input type="checkbox" ng-model="conf.sync"-->
+                       <!--ng-change="onChange('sync')">-->
+                <!--<span>{{i18n('optionSync')}}<i class="fa fa-chrome"></i></span>-->
+            <!--</label>-->
+        <!--</div>-->
         <div class="checkbox">
             <label>
                 <input type="checkbox" ng-model="conf.check"
                        ng-change="onChange('check')">
-                <span> {{i18n('optionCheck')}}</span>
+                <span>{{i18n('optionCheck')}}</span>
             </label>
         </div>
         <div class="checkbox">
@@ -63,7 +73,8 @@
     </div>
 
     <div class="panel-footer copyright">
-        &copy;2015 <a href="https://github.com/minoscc/express-plus-chrome">快递助手</a> - 由<a href="#">快递100</a>强力驱动
+        &copy;2015 <a href="https://github.com/minoscc/express-plus-chrome">快递助手</a> - 由<a
+        href="http://www.kuaidi100.com">快递100</a>强力驱动
     </div>
 </div>
 
