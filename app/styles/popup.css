@@ -212,7 +212,7 @@ tr td:first-child {
 }
 
 .list-group-item-heading .list-group-item-actions i {
-    margin-left: 5px;
+    margin-right: 5px;
     cursor: pointer;
 }
 
