@@ -33,10 +33,6 @@
         "message": "查询间隔",
         "description": "自动查询的时间，已分钟计算"
     },
-    "optionSettings": {
-        "message": "设置",
-        "description": "设置功能列表"
-    },
     "noMarks": {
         "message": "你还没有订阅任何快递..."
     },
@@ -68,10 +64,10 @@
         "description": ""
     },
     "filterTip": {
-        "message": "过滤订阅列表"
+        "message": "过滤订阅列表..."
     },
     "tagsTip": {
-        "message": "标签用半角 , 隔开",
+        "message": "标签用半角 , 隔开 eg: a,b,c",
         "description": "保存页面标签提示"
     },
     "cancel": {

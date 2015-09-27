@@ -45,7 +45,8 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
 
     .factory('localAuto', function ($rootScope) {
         var regs = {
-            "ecmsglobal": /^APELAX[0-9]{7,12}/
+            "ecmsglobal": /^APELAX[0-9]{7,12}/,
+            "ecmscn": /^APELAX[0-9]{7,12}/
         };
         return {
             query: function (id) {
@@ -57,13 +58,13 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                     }
                 } catch (err) {
                 }
-                //
+                var types = [];
                 for (var key in regs) {
                     if (id.match(regs[key])) {
-                        return [key];
+                        return types.push(key);
                     }
                 }
-                return [];
+                return types;
             }
         }
     })

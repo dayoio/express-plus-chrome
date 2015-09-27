@@ -15,20 +15,18 @@ input {
 }
 
 .input-group .input-group-addon {
-    position: absolute;
-    top: 5px;
-    left: 5px;
 }
 
 .input-group .input-group-btn {
-    line-height: 20px;
+    line-height: 24px;
+    padding: 0 8px;
     outline: none;
 }
 
 .input-group input {
     width: 300px;
-    height: 20px;
-    padding-left: 24px;
+    height: 24px;
+    font-size: 12px;
 }
 
 #main-content {
@@ -158,7 +156,7 @@ tr td:first-child {
 /* 订阅列表容器 */
 
 #marks-list {
-    /*min-height: 465px;*/
+    min-height: 465px;
     max-height: 465px;
     overflow-y: auto;
 }

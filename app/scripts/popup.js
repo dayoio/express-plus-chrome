@@ -41,19 +41,21 @@ angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
 
         $rootScope.post = null;
 
+        // filter输入框不能放在ng-if内
+        $scope.markFilter = '';
         $scope.setFilter = function (f) {
             $scope.markFilter = f;
-        }
+        };
 
         $scope.removeMark = function (id) {
             //移除订阅
             epService.remove(id)
-        }
+        };
 
         $scope.searchMark = function (id, type) {
             //更新当前快递
             $location.path('/detail').search({postId: id, type: type});
-        }
+        };
 
         $scope.shareMark = function (id, type) {
             //拷贝信息到剪贴板
@@ -61,20 +63,24 @@ angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
                 type: 'copy',
                 text: '单号: ' + id + '\n公司: ' + $filter('type2zh')(type)
             })
-        }
+        };
     })
-    // 结果
+    // 查询结果
     .controller('ExpressDetailController', function ($scope, $rootScope, $location, epService) {
         var params = $location.search();
 
+        // 查询页面清除当前post
         $rootScope.post = null;
 
+        // 加载状态
         $scope.loading = true;
+        // 查询
         epService.detail(params.postId, params.type).then(function (res) {
             $scope.loading = false;
             $rootScope.post = res;
         });
 
+        // 设置订阅
         $scope.mark = function (b) {
             $scope.post.marked = b;
             if ($scope.post.marked) {
@@ -84,15 +90,16 @@ angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
             }
         }
 
+        // 刷新
         $scope.tryAgain = function () {
             $location.path('/detail').search({postId: params.postId, type: params.type, r: Math.random()});
         }
     })
     // 搜索
     .controller('MainController', function ($scope, $rootScope, $location, epService) {
-        //
+        //点击图标时清除图标的数字
         chrome.browserAction.setBadgeText({text: ''});
-        //auto
+        // label效果
         $rootScope.tagClasses = ['label-danger', 'label-info', 'label-primary', 'label-success', 'label-warning'];
 
         $scope.types = [];
@@ -121,6 +128,8 @@ angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
         $scope.goOptions = function () {
             chrome.tabs.create({url: "./options.html"});
         };
+
+
     })
     // 快递类型转换
     .filter('type2zh', function () {
@@ -148,6 +157,7 @@ angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
             "emsguoji": "EMS(国际)",
             "japanposten": "EMS(日本)",
             "ecmsglobal": "ECMS",
+            "ecmscn": "易客满",
             "ups": "UPS",
             "usps": "USPS"
         }

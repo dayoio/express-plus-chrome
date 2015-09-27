@@ -1,5 +1,5 @@
 <!-- 查询提示 -->
-<div id="loading-wrapper" ng-if="loading">正在查询...</div>
+<div id="loading-wrapper" ng-if="loading"><i class="fa fa-refresh fa-spin"></i> 正在查询...</div>
 <!-- 查询结果 -->
 <div id="result-wrapper" ng-if="post.status == '200'">
     <!-- 单号信息 -->
@@ -39,12 +39,12 @@
     <!-- 标签功能 -->
     <div class="footer-actions">
         <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-tags"></i></span>
-            <input placeholder="{{i18n('tagsTip')}}" type="text" class="tags-input" ng-model="post.tags" ng-list=","/>
+            <span class="input-group-addon"><i class="fa fa-tags fa-fw"></i></span>
+            <input placeholder="{{i18n('tagsTip')}}" type="search" class="tags-input" ng-model="post.tags" ng-list=","/>
             <button ng-click="mark(true)" class="input-group-btn btn btn-primary"><i class="fa fa-save"></i>&ensp;{{i18n('save')}}
             </button>
         </div>
-        <ul class="list-inline">
+        <ul class="list-inline" ng-if="post.tags.length > 0">
             <li ng-repeat="tag in post.tags track by $index">
                 <span class="label" ng-random-class ng-classes="tagClasses"><i class="fa fa-tag"></i> {{tag}}</span>
             </li>
