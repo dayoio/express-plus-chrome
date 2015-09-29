@@ -1,5 +1,7 @@
 #Welcome!!!
 
+[![angular-img](http://img.shields.io/badge/Angular-1.4.6-2BAF2B.svg?style=flat-square)](https://angularjs.org/)
+
 ## 說明
 
 >想要一個有快遞提醒功能的工具，自動識別，可以訂閱，並且定時更新後發出通知。
