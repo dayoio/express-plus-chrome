@@ -44,6 +44,7 @@
 
 + 多接口查詢
 + 瀏覽器同步
++ 優化列表
 
 ## 链接
 - *[generator-chrome-extension](https://github.com/yeoman/generator-chrome-extension)*

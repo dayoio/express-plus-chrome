@@ -5,7 +5,7 @@ var service, marks = [], msgs = [];
 
 function autoCheck() {
     if (marks.length == 0) {
-        console.log("auto finish");
+        //console.log("auto finish");
         if (msgs.length > 0) {
             chrome.storage.sync.get({'check': true}, function (items) {
                 for (var i = msgs.length - 1; i >= 0; i--) {
@@ -25,7 +25,6 @@ function autoCheck() {
                         iconUrl: 'images/icon-64.png',
                         items: msgs
                     }, function () {
-                        chrome.browserAction.setBadgeText({text: ''});
                     });
                     chrome.browserAction.setBadgeText({text: '' + msgs.length});
                     msgs.length = 0;

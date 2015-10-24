@@ -150,16 +150,20 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
         this.detail = function (postId, type) {
             var defer = $q.defer();
 
+            console.log(postId + '@' + type);
             epQuery.get({type: type, postid: postId}, function (res) {
                 var post = new Post(postId, type);
                 post.setData(res);
-                // check local storage
-                var res = self.indexOf(post.id);
-                if (res.index !== -1) {
-                    post.marked = true;
-                    post.tags = angular.copy(res.value.tags);
-                } else {
-                    post.marked = false;
+                //
+                if (res.status === '200') {
+                    var res = self.indexOf(post.id);
+                    if (res.index !== -1) {
+                        post.marked = true;
+                        post.tags = angular.copy(res.value.tags);
+                        self.save(post);
+                    } else {
+                        post.marked = false;
+                    }
                 }
                 defer.resolve(post);
             }, function (err) {

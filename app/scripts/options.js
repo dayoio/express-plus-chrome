@@ -14,7 +14,7 @@ angular.module('epOptionsApp', []).controller('OptionsController', function ($sc
         return chrome.i18n.getMessage(msg);
     };
 
-    $scope.delay_options = [1, 10, 20, 30, 60, 120];
+    $scope.delay_options = [10, 20, 30, 60, 120];
 
     $scope.onChange = function (t) {
         if (t === 'auto') {
