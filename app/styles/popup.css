@@ -64,14 +64,9 @@ input {
     margin-left: 90px;
 }
 
-/* 替换区域 */
-#main-content {
-
-}
-
 /* 详细信息 start */
 
-#loading-wrapper, #error-wrapper, #no-marks {
+#loading-wrapper, #result-nothing, #no-marks {
     margin: 10px;
     font-size: 14px;
     font-style: italic;
@@ -102,7 +97,6 @@ input {
 }
 
 #result-container {
-
 }
 
 #result-head {
@@ -127,6 +121,7 @@ input {
 table {
     border-collapse: collapse;
     border-spacing: 0px;
+    width: 100%;
 }
 
 table td {

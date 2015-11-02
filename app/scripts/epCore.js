@@ -19,6 +19,8 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                     var b = new Date(this.data[0].time);
                     this.totaltime = (b.getTime() - a.getTime());
                 } else {
+                    this.data = [];
+                    this.data.push({ context:this.message, time: moment().format('YYYY-MM-DD HH:mm:ss') });
                     this.totaltime = 0;
                 }
             },
@@ -155,15 +157,13 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                 var post = new Post(postId, type);
                 post.setData(res);
                 //
-                if (res.status === '200') {
-                    var res = self.indexOf(post.id);
-                    if (res.index !== -1) {
-                        post.marked = true;
-                        post.tags = angular.copy(res.value.tags);
-                        self.save(post);
-                    } else {
-                        post.marked = false;
-                    }
+                var res = self.indexOf(post.id);
+                if (res.index !== -1) {
+                    post.marked = true;
+                    post.tags = angular.copy(res.value.tags);
+                    self.save(post);
+                } else {
+                    post.marked = false;
                 }
                 defer.resolve(post);
             }, function (err) {
