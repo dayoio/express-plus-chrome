@@ -3,6 +3,8 @@
 // Reload client for Chrome Apps & Extensions.
 // The reload client has a compatibility with livereload.
 // WARNING: only supports reload command.
+/*global chrome*/
+/*eslint no-console:0*/
 
 var LIVERELOAD_HOST = 'localhost:';
 var LIVERELOAD_PORT = 35729;

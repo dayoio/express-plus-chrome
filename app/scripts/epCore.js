@@ -1,5 +1,8 @@
 'use strict';
 
+/*global angular chrome moment*/
+/*eslint no-unused-vars: 1 no-console: 0*/
+
 /**
  *
  */
@@ -47,8 +50,8 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
 
     .factory('localAuto', function ($rootScope) {
         var regs = {
-            "ecmsglobal": /^APELAX[0-9]{7,12}/,
-            "ecmscn": /^APELAX[0-9]{7,12}/
+            'ecmsglobal': /^APELAX[0-9]{7,12}/,
+            'ecmscn': /^APELAX[0-9]{7,12}/
         };
         return {
             query: function (id) {
@@ -59,7 +62,9 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                             return [$rootScope.$storage.marks[i].com];
                     }
                 } catch (err) {
+                  console.error(err);
                 }
+
                 var types = [];
                 for (var key in regs) {
                     if (id.match(regs[key])) {
@@ -68,13 +73,13 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                 }
                 return types;
             }
-        }
+        };
     })
 
     .service('epAuto', function ($resource) {
         return $resource('http://www.kuaidi100.com/autonumber/auto?num=:postid', {}, {
             timeout: 10000
-        })
+        });
     })
 
     .service('epQuery', function ($resource) {
@@ -106,14 +111,14 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                 else
                     $rootScope.$storage.marks.push(post.toSimple());
             }
-        }
+        };
 
         // 删除
         this.remove = function (postId) {
             var mark = self.indexOf(postId);
             if (mark.index !== -1)
                 $rootScope.$storage.marks.splice(mark.index, 1);
-        }
+        };
 
         // 查找
         this.indexOf = function (postId) {
@@ -123,9 +128,10 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                         return {index: i, value: $rootScope.$storage.marks[i]};
                 }
             } catch (err) {
+              console.error(err);
             }
             return {index: -1};
-        }
+        };
 
         // 识别
         this.auto = function (postId) {
@@ -141,12 +147,12 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                     defer.resolve(types);
                 }, function (err) {
                     defer.reject({
-                        error: ''
-                    })
+                        error: err
+                    });
                 });
             }
             return defer.promise;
-        }
+        };
 
         // 查询详细信息
         this.detail = function (postId, type) {
@@ -157,7 +163,7 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                 var post = new Post(postId, type);
                 post.setData(res);
                 //
-                var res = self.indexOf(post.id);
+                res = self.indexOf(post.id);
                 if (res.index !== -1) {
                     post.marked = true;
                     post.tags = angular.copy(res.value.tags);
@@ -168,12 +174,12 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                 defer.resolve(post);
             }, function (err) {
                 defer.reject({
-                    error: ''
-                })
+                    error: err
+                });
             });
 
             return defer.promise;
-        }
+        };
 
         //
         this.getAll = function () {
@@ -187,6 +193,6 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
             } catch (err) {
                 return [];
             }
-        }
+        };
 
     });

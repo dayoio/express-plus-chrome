@@ -1,5 +1,7 @@
 'use strict';
 
+/*global angular chrome */
+/*eslint no-unused-vars:1 no-console: 0*/
 
 var service, marks = [], msgs = [];
 
@@ -16,8 +18,7 @@ function autoCheck() {
                     }
                     msgs[i] = {'title': m.id, 'message': m.text};
                 }
-                if (msgs.length == 0) {
-                } else {
+                if (msgs.length != 0) {
                     chrome.notifications.create('update', {
                         type: 'list',
                         title: chrome.i18n.getMessage('notificationTitle'),
@@ -29,14 +30,14 @@ function autoCheck() {
                     chrome.browserAction.setBadgeText({text: '' + msgs.length});
                     msgs.length = 0;
                 }
-            })
+            });
         }
         return;
     }
     var id = marks.shift();
     var tmp = service.indexOf(id).value;
     var tmp_time = tmp.time || undefined;
-    service.detail(id, tmp.com).then(function (post) {
+    service.detail(id, tmp.com).then(function () {
         var mark = service.indexOf(id).value;
         if (mark && tmp_time !== undefined && tmp_time !== mark.time) {
             msgs.push(mark);
@@ -77,13 +78,13 @@ function onMessage(message) {
         // alarm manage
         chrome.storage.sync.get({'sync': false, 'check': true, 'auto': true, 'delay': 30}, function (items) {
             if (items.auto) {
-                console.log("check after %s min", items.delay);
+                console.log('check after %s min', items.delay);
                 chrome.alarms.create('auto', {'periodInMinutes': items.delay});
             } else {
-                console.log("clear alarm");
+                console.log('clear alarm');
                 chrome.alarms.clear('auto');
             }
-        })
+        });
     }
 }
 
