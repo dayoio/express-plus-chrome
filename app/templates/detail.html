@@ -1,13 +1,22 @@
 <!-- 查询提示 -->
-<div id="loading-wrapper" ng-if="loading"><i class="fa fa-refresh fa-spin"></i> 正在查询...</div>
+<div id="loading-wrapper" ng-if="loading">
+    <i class="fa fa-refresh fa-spin"></i>{{i18n('loading')}}
+</div>
 <!-- 查询结果 -->
 <div id="result-wrapper" ng-if="!loading">
     <!-- 单号信息 -->
     <div id="postid-wrapper">
-        <h3 class="post-id">{{post.id}}<a class="right" ng-click="mark(!post.marked)" title="订阅">
-            <i ng-if="post.marked" class="fa fa-star"></i>
-            <i ng-if="!post.marked" class="fa fa-star-o"></i>
-        </a></h3>
+        <h3 class="post-id">{{post.id}}
+            <a class="btn info" ng-click="refresh()">
+                <i class="fa fa-refresh"></i>
+            </a>
+            <div class="right">
+                <a class="btn warning" ng-click="mark(!post.marked)" title="订阅">
+                    <i ng-if="post.marked" class="fa fa-star"></i>
+                    <i ng-if="!post.marked" class="fa fa-star-o"></i>
+                </a>
+            </div>
+        </h3>
 
         <div>{{i18n('company')}}：{{post.com|type2zh}}</div>
         <div>{{i18n('totalTime')}}：{{ post.totaltime | amDurationFormat: 'milliseconds':true }}</div>
@@ -16,7 +25,7 @@
     <div id="result-nothing" ng-if="!post.hasData()">
         <p>{{post.message}}</p>
         <p ng-if="post.error">{{post.error}}</p>
-        <a class="again-tip primary" ng-click="tryAgain()" href=""><i
+        <a class="again-tip primary" ng-click="refresh()" href=""><i
             class="fa fa-refresh"></i>&ensp;{{i18n('tryAgain')}}</a>
     </div>
     <!-- 结果表格 -->

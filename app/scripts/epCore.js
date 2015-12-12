@@ -50,8 +50,8 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
 
     .factory('localAuto', function ($rootScope) {
         var regs = {
-            'ecmsglobal': /^APELAX[0-9]{7,12}/,
-            'ecmscn': /^APELAX[0-9]{7,12}/
+            //'ecmsglobal': /^APELAX[0-9]{7,12}/,
+            //'ecmscn': /^APELAX[0-9]{7,12}/
         };
         return {
             query: function (id) {
@@ -83,7 +83,7 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
     })
 
     .service('epQuery', function ($resource) {
-        return $resource('http://www.kuaidi100.com/query?type=:type&postid=:postid', {}, {
+        return $resource('http://www.kuaidi100.com/query?type=:type&postid=:postid&id=1&valicode=&temp=:temp', {}, {
             timeout: 10000
         });
     })
@@ -106,7 +106,8 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
                 //overwrite
                 var res = this.indexOf(post.id);
                 if (res.index !== -1) {
-                    $rootScope.$storage.marks.splice(res.index, 1, post.toSimple());
+                    if(post.status === '200')
+                        $rootScope.$storage.marks.splice(res.index, 1, post.toSimple());
                 }
                 else
                     $rootScope.$storage.marks.push(post.toSimple());
@@ -159,7 +160,7 @@ angular.module('epCore', ['ngResource', 'ngStorage'])
             var defer = $q.defer();
 
             console.log(postId + '@' + type);
-            epQuery.get({type: type, postid: postId}, function (res) {
+            epQuery.get({type: type.toLowerCase(), postid: postId.toLowerCase(), temp: Math.random()}, function (res) {
                 var post = new Post(postId, type);
                 post.setData(res);
                 //

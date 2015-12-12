@@ -10,3 +10,4 @@ test/
 .idea/
 app/fonts
 data.txt
+.babelrc

@@ -1,0 +1,42 @@
+<div class="panel">
+    <div class="panel-header">
+        <h1>{{i18n('options')}}</h1>
+        <div class="tip">{{i18n('optionTip')}} <a
+            href="https://chrome.google.com/webstore/detail/hghlokkgbicmblinhepcibacaiegldeg/reviews" target="_blank">Web Store</a></div>
+    </div>
+    <div class="panel-body">
+        <!--<div class="checkbox">-->
+            <!--<label>-->
+                <!--<input type="checkbox" ng-model="conf.sync"-->
+                       <!--ng-change="onChange('sync')">-->
+                <!--<span>{{i18n('optionSync')}}<i class="fa fa-chrome"></i></span>-->
+            <!--</label>-->
+        <!--</div>-->
+        <div>
+            <label>
+                <input type="checkbox" ng-model="conf.check" ng-change="onChange('check')">
+                <span>{{i18n('optionCheck')}}</span>
+            </label>
+            <div class="tip">{{i18n('optionCheckTip')}}</div>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" ng-model="conf.auto" ng-change="onChange('auto')">
+                <span>{{i18n('optionAuto')}}</span>
+            </label>
+            <div class="tip">{{i18n('optionAutoTip')}}</div>
+        </div>
+        <div>
+            <select ng-disabled="!conf.auto" id="auto-query" ng-change="onChange('auto')" ng-model="conf.delay"
+                    class="form-control" ng-options="op +' 分钟' for op in delay_options">
+            </select>
+            <label for="auto-query">{{i18n('optionDelay')}}</label>
+            <div class="tip">{{i18n('optionDelayTip')}}</div>
+        </div>
+    </div>
+
+    <div class="panel-footer copyright">
+        &copy;2015 <a href="https://github.com/minoscc/express-plus-chrome" target="_blank">快递助手</a> - 由<a
+        href="http://www.kuaidi100.com" target="_blank">快递100</a>强力驱动
+    </div>
+</div>

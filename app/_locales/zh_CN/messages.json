@@ -18,23 +18,35 @@
     "options": {
         "message": "设置"
     },
+    "optionTip": {
+      "message": "如果觉得这个插件还蛮好用的，请到商店评价~"
+    },
     "optionSync": {
         "message": "开启浏览器同步(beta)"
     },
     "optionCheck": {
-        "message": "只提示已收货单号",
+        "message": "只提示已签收快递",
         "description": ""
     },
+    "optionCheckTip": {
+        "message": "默认开启，勾选后只有在快递状态为签收后才提示信息。"
+    },
     "optionAuto": {
-        "message": "开启自动查询",
+        "message": "自动查询",
         "description": ""
+    },
+    "optionAutoTip": {
+        "message": "默认开启，勾选后会间隔一段时间后台查询未签收的快递。"
     },
     "optionDelay": {
         "message": "查询间隔",
         "description": "自动查询的时间，已分钟计算"
     },
+    "optionDelayTip": {
+        "message": "默认30分钟，间隔尽量不要太快，避免接口请求太频繁。"
+    },
     "noMarks": {
-        "message": "你还没有订阅任何快递..."
+        "message": "还没有订阅任何快递..."
     },
     "marks": {
         "message": "订阅列表",
@@ -89,5 +101,8 @@
     "search": {
         "message": "查询",
         "description": "列表功能提示"
+    },
+    "loading": {
+        "message": "正在查询...请稍后"
     }
 }

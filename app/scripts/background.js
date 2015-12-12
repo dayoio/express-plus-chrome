@@ -88,8 +88,19 @@ function onMessage(message) {
     }
 }
 
+function onBeforeSendHeaders(details){
+    for(var i = 0; i<details.requestHeaders.length; i++){
+        if (details.requestHeaders[i].name == 'Referer') {
+            details.requestHeaders.splice(i, 1);
+        }
+    }
+    details.requestHeaders.push({name: 'Referer', value: 'http://www.kuaidi100.com/'});
+    return {requestHeaders: details.requestHeaders};
+}
+
 
 /* listeners */
 chrome.runtime.onInstalled.addListener(onInit);
 chrome.alarms.onAlarm.addListener(onAlarm);
 chrome.runtime.onMessage.addListener(onMessage);
+chrome.webRequest.onBeforeSendHeaders.addListener(onBeforeSendHeaders, { urls: ['http://www.kuaidi100.com/*']}, ['requestHeaders', 'blocking']);
