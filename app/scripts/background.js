@@ -65,7 +65,7 @@ function onAlarm(alarm) {
 }
 
 function onMessage(message) {
-    if (message && message.type == 'copy') {
+    if (message && message.type === 'copy') {
         // copy to clipboard
         var input = document.createElement('textarea');
         document.body.appendChild(input);
@@ -74,6 +74,12 @@ function onMessage(message) {
         input.select();
         document.execCommand('Copy');
         input.remove();
+    } else if(message && message.type === 'sync') {
+      chrome.storage.sync.get({'sync': false}, function(items) {
+        if(items.sync) {
+          // load 
+        }
+      });
     } else {
         // alarm manage
         chrome.storage.sync.get({'sync': false, 'check': true, 'auto': true, 'delay': 30}, function (items) {

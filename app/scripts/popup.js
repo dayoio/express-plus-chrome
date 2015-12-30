@@ -5,12 +5,39 @@
 /**
  * 彈出窗口
  */
+ var coms = {
+     'shunfeng': '顺丰',
+     'zhaijisong': '宅急送',
+     'zhongtong': '中通',
+     'yuantong': '圆通',
+     'yunda': '韵达',
+     'shentong': '申通',
+     'tiantian': '天天',
+     'quanfengkuaidi': '全峰',
+     'youshuwuliu': '优速',
+     'jd': '京东',
+     'neweggozzo': '新蛋',
+     'xinbangwuliu': '新邦物流',
+     'debangwuliu': '德邦物流',
+     'huitongkuaidi': '百世汇通',
+     'youzhengguonei': '国内邮政',
+     'youzhengguoji': '邮政国际',
+     'dhl': 'DHL(中国)',
+     'dhlen': 'DHL(国际)',
+     'dhlde': 'DHL(德国)',
+     'ems': 'EMS',
+     'emsguoji': 'EMS(国际)',
+     'japanposten': 'EMS(日本)',
+     'ecmsglobal': 'ECMS',
+     'ecmscn': '易客满',
+     'ups': 'UPS',
+     'usps': 'USPS'
+ };
 
 angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
     .run(function (amMoment) {
         amMoment.changeLocale('zh-cn');
     })
-    //
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {
@@ -115,7 +142,6 @@ angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
             if (newVal == undefined || newVal.length == 0) {
                 $scope.types = [];
             } else {
-                //
                 epService.auto(newVal).then(function (res) {
                     $scope.types = res;
                 });
@@ -132,11 +158,8 @@ angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
         };
 
         $scope.goOptions = function () {
-            //chrome.tabs.create({url: './options.html'});
             $location.path('/options');
         };
-
-
     })
     .controller('OptionsController', function ($scope) {
 
@@ -145,26 +168,19 @@ angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
             $scope.$apply();
         });
 
-        $scope.i18n = function (msg) {
-            return chrome.i18n.getMessage(msg);
-        };
-
         $scope.delay_options = [10, 20, 30, 60, 120];
 
         $scope.onChange = function (t) {
             if (t === 'auto') {
                 chrome.storage.sync.set({'auto': $scope.conf.auto, 'delay': $scope.conf.delay}, function () {
-                    console.log('settings saved!');
                     chrome.runtime.sendMessage({type: 'auto'});
                 });
             }
             else if (t === 'check') {
-                chrome.storage.sync.set({'check': $scope.conf.check}, function () {
-                    console.log('settings saved!');
-                });
+                chrome.storage.sync.set({'check': $scope.conf.check});
             }
             else if (t === 'sync') {
-                chrome.storage.sync.set({'sync': $scope.conf.sync}, function () {
+                chrome.storage.sync.set({'sync': $scope.conf.sync}, function (conf) {
                     chrome.runtime.sendMessage({type: 'sync'});
                 });
             }
@@ -173,34 +189,6 @@ angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])
     })
     // 快递类型转换
     .filter('type2zh', function () {
-        var coms = {
-            'shunfeng': '顺丰',
-            'zhaijisong': '宅急送',
-            'zhongtong': '中通',
-            'yuantong': '圆通',
-            'yunda': '韵达',
-            'shentong': '申通',
-            'tiantian': '天天',
-            'quanfengkuaidi': '全峰',
-            'youshuwuliu': '优速',
-            'jd': '京东',
-            'neweggozzo': '新蛋',
-            'xinbangwuliu': '新邦物流',
-            'debangwuliu': '德邦物流',
-            'huitongkuaidi': '百世汇通',
-            'youzhengguonei': '国内邮政',
-            'youzhengguoji': '邮政国际',
-            'dhl': 'DHL(中国)',
-            'dhlen': 'DHL(国际)',
-            'dhlde': 'DHL(德国)',
-            'ems': 'EMS',
-            'emsguoji': 'EMS(国际)',
-            'japanposten': 'EMS(日本)',
-            'ecmsglobal': 'ECMS',
-            'ecmscn': '易客满',
-            'ups': 'UPS',
-            'usps': 'USPS'
-        };
         return function (value) {
             if (value === undefined) value = '';
             return coms[value.toLowerCase()] || value;
