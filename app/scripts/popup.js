@@ -31,7 +31,8 @@
      'ecmsglobal': 'ECMS',
      'ecmscn': '易客满',
      'ups': 'UPS',
-     'usps': 'USPS'
+     'usps': 'USPS',
+     'shunjiefengda': '顺捷丰达'
  };
 
 angular.module('epApp', ['ngRoute', 'angularMoment', 'epCore'])

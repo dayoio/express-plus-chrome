@@ -13,26 +13,17 @@
 [![webstore](https://developer.chrome.com/webstore/images/ChromeWebStore_BadgeWBorder_v2_206x58.png)](https://chrome.google.com/webstore/detail/hghlokkgbicmblinhepcibacaiegldeg)
 
 ## 功能
+
 + 輸入快遞單號直接查詢。
 + 支持國內外多種快遞。
 + 標籤功能。
 + 訂閱。
 + 桌面提示。
++ 分享按鈕可以複製單號和快遞類型到剪貼板
 
 ## 界面
 
-訂閱管理移到彈出窗口，並重新設計
-
-- 分享按鈕可以複製單號和快遞類型到剪貼板
-- 查詢按鈕可以重新查詢當前單號
-- 刪除則是從訂閱列表中刪除
-
 ![01](images/01.png)
-
-新的結果頁面，整合標記功能
-
-- 訂閱按鈕，訂閱或者取消
-- 標籤使用半角的逗號`,`分開
 
 ![02](images/02.png)
 
@@ -40,6 +31,7 @@
 
 + 多接口查詢
 + 瀏覽器同步
++ api错误shunjiefengda（顺捷丰达）返回错误shunjieda
 
 ## 链接
 - *[generator-chrome-extension](https://github.com/yeoman/generator-chrome-extension)*
