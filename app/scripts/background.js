@@ -16,7 +16,12 @@ function autoCheck() {
                         msgs.splice(i, 1);
                         continue;
                     }
-                    msgs[i] = {'title': m.id, 'message': m.text};
+                    var title;
+                    if(m.tags.length > 0)
+                      title = '(' + m.tags[0] + ') ' + m.id;
+                    else
+                      title = m.id;
+                    msgs[i] = {'title': title, 'message': m.text};
                 }
                 if (msgs.length != 0) {
                     chrome.notifications.create('update', {
@@ -77,7 +82,7 @@ function onMessage(message) {
     } else if(message && message.type === 'sync') {
       chrome.storage.sync.get({'sync': false}, function(items) {
         if(items.sync) {
-          // load 
+          // load
         }
       });
     } else {
