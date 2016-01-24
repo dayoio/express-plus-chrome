@@ -4,55 +4,57 @@
 
 /**
  */
+angular.module('epCore', ['ngResource', 'ngStorage'])
+  .service('Post', function() {
 
-angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function () {
-
-  var Post = function Post(id, com) {
-    this.id = id;
-    this.com = com;
-  };
-  Post.prototype = {
-    setData: function setData(d) {
-      angular.extend(this, d);
-      if (this.data && this.data.length > 0) {
-        var a = new Date(this.data[this.data.length - 1].time);
-        var b = new Date(this.data[0].time);
-        this.totaltime = b.getTime() - a.getTime();
-      } else {
-        this.data = [];
-        this.data.push({
-          context: this.message,
-          time: moment().format('YYYY-MM-DD HH:mm:ss')
-        });
-        this.totaltime = 0;
+    var Post = function(id, com) {
+      this.id = id;
+      this.com = com;
+    };
+    Post.prototype = {
+      setData: function(d) {
+        angular.extend(this, d);
+        if (this.data && this.data.length > 0) {
+          var a = new Date(this.data[this.data.length - 1].time);
+          var b = new Date(this.data[0].time);
+          this.totaltime = (b.getTime() - a.getTime());
+        } else {
+          this.data = [];
+          this.data.push({
+            context: this.message,
+            time: moment().format('YYYY-MM-DD HH:mm:ss')
+          });
+          this.totaltime = 0;
+        }
+      },
+      toSimple: function() {
+        var sp = {};
+        sp.id = this.id;
+        sp.com = this.com;
+        sp.text = this.data[0].context;
+        sp.time = this.data[0].time;
+        sp.check = this.ischeck === '1';
+        sp.tags = this.tags || [];
+        return sp;
+      },
+      hasData: function() {
+        if (this.data && this.data.length > 0) {
+          return true;
+        }
+        return false;
       }
-    },
-    toSimple: function toSimple() {
-      var sp = {};
-      sp.id = this.id;
-      sp.com = this.com;
-      sp.text = this.data[0].context;
-      sp.time = this.data[0].time;
-      sp.check = this.ischeck === '1';
-      sp.tags = this.tags || [];
-      return sp;
-    },
-    hasData: function hasData() {
-      if (this.data && this.data.length > 0) {
-        return true;
-      }
-      return false;
-    }
-  };
+    };
 
-  return Post;
-}).factory('localAuto', function ($rootScope) {
+    return Post;
+  })
+
+.factory('localAuto', function($rootScope) {
   var regs = {
     //'ecmsglobal': /^APELAX[0-9]{7,12}/,
     //'ecmscn': /^APELAX[0-9]{7,12}/
   };
   return {
-    query: function query(id) {
+    query: function(id) {
       //
       try {
         for (var i = 0; i < $rootScope.$storage.marks.length; i++) {
@@ -73,28 +75,34 @@ angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function (
       return types;
     }
   };
-}).service('epAuto', function ($resource) {
+})
+
+.service('epAuto', function($resource) {
   return $resource('http://www.kuaidi100.com/autonumber/auto?num=:postid', {}, {
     timeout: 10000
   });
-}).service('epQuery', function ($resource) {
+})
+
+.service('epQuery', function($resource) {
   return $resource('http://www.kuaidi100.com/query?type=:type&postid=:postid&id=1&valicode=&temp=:temp', {}, {
     timeout: 10000
   });
-}).service('epService', function ($q, $resource, $rootScope, $localStorage, localAuto, epAuto, epQuery, Post) {
+})
+
+.service('epService', function($q, $resource, $rootScope, $localStorage, localAuto, epAuto, epQuery, Post) {
 
   $rootScope.$storage = $localStorage.$default({
     marks: []
   });
 
-  $rootScope.i18n = function (msg) {
+  $rootScope.i18n = function(msg) {
     return chrome.i18n.getMessage(msg);
   };
 
   var self = this;
 
   // 保存
-  this.save = function (post) {
+  this.save = function(post) {
     if (post) {
       //overwrite
       var res = this.indexOf(post.id);
@@ -109,18 +117,19 @@ angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function (
   };
 
   // 删除
-  this.remove = function (postId) {
+  this.remove = function(postId) {
     var mark = self.indexOf(postId);
-    if (mark.index !== -1) {
+    if (mark.index !== -1){
       $rootScope.$storage.marks.splice(mark.index, 1);
     }
   };
 
   // 查找
-  this.indexOf = function (postId) {
+  this.indexOf = function(postId) {
     try {
       for (var i = 0; i < $rootScope.$storage.marks.length; i++) {
-        if ($rootScope.$storage.marks[i].id === postId) {
+        if ($rootScope.$storage.marks[i].id === postId)
+        {
           return {
             index: i,
             value: $rootScope.$storage.marks[i]
@@ -136,7 +145,7 @@ angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function (
   };
 
   // 识别
-  this.auto = function (postId) {
+  this.auto = function(postId) {
     var defer = $q.defer();
     var types = localAuto.query(postId);
     if (types.length > 0) {
@@ -144,12 +153,12 @@ angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function (
     } else {
       epAuto.query({
         postid: postId
-      }, function (res) {
-        types = res.length > 0 ? res.map(function (d) {
+      }, function(res) {
+        types = res.length > 0 ? res.map(function(d) {
           return d.comCode;
         }) : [];
         defer.resolve(types);
-      }, function (err) {
+      }, function(err) {
         defer.reject({
           error: err
         });
@@ -159,7 +168,7 @@ angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function (
   };
 
   // 查询详细信息
-  this.detail = function (postId, type) {
+  this.detail = function(postId, type) {
     var defer = $q.defer();
 
     console.log(postId + '@' + type);
@@ -167,7 +176,7 @@ angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function (
       type: type.toLowerCase(),
       postid: postId.toLowerCase(),
       temp: Math.random()
-    }, function (res) {
+    }, function(res) {
       var post = new Post(postId, type);
       post.setData(res);
       //
@@ -180,7 +189,7 @@ angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function (
         post.marked = false;
       }
       defer.resolve(post);
-    }, function (err) {
+    }, function(err) {
       defer.reject({
         error: err
       });
@@ -190,11 +199,12 @@ angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function (
   };
 
   //
-  this.getAll = function () {
+  this.getAll = function() {
     try {
       var all = [];
       for (var i = 0; i < $rootScope.$storage.marks.length; i++) {
-        if ($rootScope.$storage.marks[i].check === false) {
+        if ($rootScope.$storage.marks[i].check === false)
+        {
           all.push($rootScope.$storage.marks[i].id);
         }
       }
@@ -203,4 +213,5 @@ angular.module('epCore', ['ngResource', 'ngStorage']).service('Post', function (
       return [];
     }
   };
+
 });

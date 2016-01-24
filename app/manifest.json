@@ -1,34 +1,38 @@
 {
-    "name": "__MSG_appName__",
-    "version": "0.1.13",
-    "manifest_version": 2,
-    "description": "__MSG_appDescription__",
-    "icons": {
-        "16": "images/icon-16.png",
-        "32": "images/icon-32.png",
-        "64": "images/icon-64.png",
-        "128": "images/icon-128.png"
-    },
-    "default_locale": "zh_CN",
-    "background": {
-        "page": "background.html"
-    },
-    "browser_action": {
-        "default_icon": {
-            "16": "images/icon-16.png",
-            "32": "images/icon-32.png"
-        },
-        "default_title": "__MSG_appName__",
-        "default_popup": "popup.html"
-    },
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-    "permissions": [
-        "clipboardWrite",
-        "notifications",
-        "alarms",
-        "storage",
-        "webRequest",
-        "webRequestBlocking",
-        "http://www.kuaidi100.com/*"
+  "name": "__MSG_appName__",
+  "version": "0.2.0",
+  "manifest_version": 2,
+  "description": "__MSG_appDescription__",
+  "icons": {
+    "16": "images/icon-16.png",
+    "128": "images/icon-128.png"
+  },
+  "default_locale": "zh_CN",
+  "background": {
+    "scripts": [
+      "scripts/chromereload.js",
+      "scripts/background.js"
     ]
+  },
+  "permissions": [
+    "background",
+    "clipboardWrite",
+    "notifications",
+    "alarms",
+    "storage",
+    "webRequestBlocking",
+    "webRequest",
+    "http://www.kuaidi100.com/*"
+  ],
+  "browser_action": {
+    "default_icon": {
+      "19": "images/icon-19.png",
+      "38": "images/icon-38.png"
+    },
+    "default_title": "Express Plus",
+    "default_popup": "popup.html"
+  },
+  "web_accessible_resources": [
+    "images/icon-48.png"
+  ]
 }
