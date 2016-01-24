@@ -28,7 +28,7 @@
         </div>
         <div>
             <select ng-disabled="!conf.auto" id="auto-query" ng-change="onChange('auto')" ng-model="conf.delay"
-                    class="form-control" ng-options="op +' 分钟' for op in delay_options">
+                    class="form-control" ng-options="op +' 分钟' for op in delayOptions">
             </select>
             <label for="auto-query">{{i18n('optionDelay')}}</label>
             <div class="tip">{{i18n('optionDelayTip')}}</div>

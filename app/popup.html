@@ -1,27 +1,58 @@
 <!doctype html>
-<html ng-app="epApp" ng-csp>
-
-<head>
-    <meta charset="UTF-8">
+<html ng-app="app" ng-csp>
+  <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- build:css styles/lib.css -->
+
+    <!-- build:css styles/popup-vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
     <!-- endbower -->
-    <link rel="stylesheet" href="styles/angular-csp.css">
     <!-- endbuild -->
 
-    <!-- build:css styles/popup.css -->
-    <link rel="stylesheet" href="styles/popup.css"/>
-    <!-- endbuild -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-    <!-- build:js scripts/lib.js -->
+    <!-- build:css styles/main.css -->
+    <link href="styles/main.css" rel="stylesheet">
+    <!-- endbuild -->
+  </head>
+  <body>
+
+    <!-- 输入框 -->
+    <div id="main-wrapper" ng-controller="MainController">
+      <div id="input-wrapper">
+        <button title="{{i18n('marks')}}" ng-click="goHome()" class="btn btn-primary">
+          <i class="fa fa-list-ul"></i>
+        </button>
+        <button title="{{i18n('options')}}" ng-click="goOptions()" class="btn btn-info">
+          <i class="fa fa-cog"></i>
+        </button>
+        <input id="postId-input" ng-model="postId" type="text" placeholder="{{i18n('searchTip')}}"
+               class="" required ng-minlength="6" ng-pattern="/^[0-9a-zA-Z]*.$/">
+        <button ng-disabled="types.length==0" title="{{i18n('search')}}" ng-click="showDetail()"
+                class="btn btn-info">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+      <div id="type-wrapper" ng-if="types.length>0">
+        <ul class="list-inline">
+          <li ng-repeat="t in types | limitTo: 5 track by $index" ng-click="showDetail(t)">
+            <span class="label" ng-random-class ng-classes="tagClasses">{{t|type2zh}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 输入框结束 -->
+    <!-- 主要内容 -->
+    <div id="main-content" ng-view></div>
+    <!-- 主要内容结束 -->
+
+    <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/angular-moment/angular-moment.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
     <!-- endbower -->
     <script src="scripts/epCore.js"></script>
@@ -34,36 +65,5 @@
     <!-- build:js scripts/popup.js -->
     <script src="scripts/popup.js"></script>
     <!-- endbuild -->
-</head>
-
-<body>
-<!-- 输入框 -->
-<div id="main-wrapper" ng-controller="MainController">
-    <div id="input-wrapper">
-        <button title="{{i18n('marks')}}" ng-click="goHome()" class="btn btn-primary">
-            <i class="fa fa-list-ul"></i>
-        </button>
-        <button title="{{i18n('options')}}" ng-click="goOptions()" class="btn btn-info">
-            <i class="fa fa-cog"></i>
-        </button>
-        <input id="postId-input" ng-model="postId" type="text" placeholder="{{i18n('searchTip')}}"
-               class="" required ng-minlength="6" ng-pattern="/^[0-9a-zA-Z]*.$/">
-        <button ng-disabled="types.length==0" title="{{i18n('search')}}" ng-click="showDetail()"
-                class="btn btn-info">
-            <i class="fa fa-search"></i>
-        </button>
-    </div>
-    <div id="type-wrapper" ng-if="types.length>0">
-        <ul class="list-inline">
-            <li ng-repeat="t in types | limitTo: 5 track by $index" ng-click="showDetail(t)">
-                <span class="label" ng-random-class ng-classes="tagClasses">{{t|type2zh}}</span>
-            </li>
-        </ul>
-    </div>
-</div>
-<!-- 输入框结束 -->
-<!-- 主要内容 -->
-<div id="main-content" ng-view></div>
-<!-- 主要内容结束 -->
-</body>
+  </body>
 </html>
