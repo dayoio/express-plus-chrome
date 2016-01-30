@@ -19,7 +19,7 @@
         </h3>
 
         <div>{{i18n('company')}}：{{post.com|type2zh}}</div>
-        <div>{{i18n('totalTime')}}：{{ post.totaltime | amDurationFormat: 'milliseconds':true }}</div>
+        <div>{{i18n('totalTime')}}：{{ post.totaltime | amDurationFormat: 'milliseconds' }}</div>
     </div>
     <!-- -->
     <div id="result-nothing" ng-if="!post.hasData()">
@@ -64,4 +64,3 @@
         </ul>
     </div>
 </div>
-
