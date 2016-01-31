@@ -26,8 +26,8 @@
   ],
   "browser_action": {
     "default_icon": {
-      "19": "images/icon-19.png",
-      "38": "images/icon-38.png"
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png"
     },
     "default_title": "Express Plus",
     "default_popup": "popup.html"
