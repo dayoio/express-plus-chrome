@@ -1,13 +1,11 @@
 node_modules
 temp
 .tmp
+.idea
 dist
 .sass-cache
 app/bower_components
 test/bower_components
 package
-test/
-.idea/
-app/fonts
-data.txt
-.babelrc
+app/scripts
+test
