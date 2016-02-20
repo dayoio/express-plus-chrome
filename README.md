@@ -5,7 +5,6 @@
 ## 說明
 
 >想要一個有快遞提醒功能的工具，自動識別，可以訂閱，並且定時更新後發出通知。
-
 >Building my first Chrome extension to learn AngularJS.
 
 ## 安装
