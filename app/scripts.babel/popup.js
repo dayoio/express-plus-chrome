@@ -29,7 +29,8 @@ var coms = {
     'ecmscn': '易客满',
     'ups': 'UPS',
     'usps': 'USPS',
-    'shunjiefengda': '顺捷丰达'
+    'shunjiefengda': '顺捷丰达',
+    'guotongkuaidi': '国通快递'
 };
 
 angular.module('app', ['ngRoute', 'angularMoment', 'epCore'])
